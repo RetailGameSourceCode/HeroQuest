@@ -1,0 +1,255 @@
+qsl	dl qs1,qs2,qs3,qs4,qs5,qs6,qs7,qs8,qs9,qs10
+	dl qs11,qs12,qs13,qs14,qs15,qs16,qs17,qs18,qs19,qs20
+	dl qs21,qs22,qs23,qs24
+qsh	dh qs1,qs2,qs3,qs4,qs5,qs6,qs7,qs8,qs9,qs10
+	dh qs11,qs12,qs13,qs14,qs15,qs16,qs17,qs18,qs19,qs20
+	dh qs21,qs22,qs23,qs24
+	
+specials	ldx quest_num	;set player that found sir ragnar
+	lda qsl,x
+	sta t0
+	lda qsh,x
+	sta t1
+	jmp (t0)
+	
+
+qs1	rts
+	
+qs2	lda room_num		;rescue sir ragnar
+	cmp #6
+	bne !xx	
+	lda sir_ragnar
+	bne !xx
+	inc sir_ragnar
+	jsr stindex
+	stx plr_found		
+	lda player_n
+	sta plr_fnum
+	jsr amess1
+	lda #<txt80
+	ldx #>txt80
+	jsr prntff
+	jmp amess2
+!xx	rts
+
+qs3	lda room_num		;lair of orc warlord
+	cmp #$20
+	bne !x
+	lda ulag_dead
+	bne !x
+	lda ulag_found
+	bne !x
+	inc ulag_found
+	jsr amess1
+	lda #<txt84
+	ldx #>txt84
+	jsr prntff
+	jmp amess2
+!x	rts
+
+qs4	rts
+qs5	rts
+
+qs6	lda room_num
+	cmp #$e
+	bne !x
+	jsr stindex
+	lda equip_got,x
+	bne !x
+	inc equip_got,x
+	lda p_wpg,x
+	sta player_wpg,x	;restore equipment
+	lda p_qtg,x
+	sta player_qtg,x
+	lda p_amg,x
+	sta player_amg,x
+	lda p_pog,x
+	sta player_pog,x
+	txa
+	asl a
+	tay
+	lda p_spg,y
+	sta player_sp,y
+	lda p_spg+1,y
+	sta player_sp+1,y
+	jsr amess1
+	lda #<txtde
+	ldx #>txtde
+	jsr prntff
+	jmp amess2
+!x	rts
+	
+qs7	lda room_num		;stone hunter
+	cmp #9
+	bne !x
+	lda found_karl
+	bne !x
+	inc found_karl
+	jsr amess1
+	lda #<txtad
+	ldx #>txtad
+	jsr prntff
+	jmp amess2
+!x	rts
+
+qs8	rts
+qs9	rts
+
+qs10	lda fools_gold
+	bne !x
+	lda room_num		;castle
+	cmp #8
+	bne !x
+	jsr amess1
+	lda #<txtc8
+	ldx #>txtc8
+	jsr prntff
+	jmp amess2
+!x	rts
+
+qs11	rts			;bastion
+
+qs12	lda seal_broken		;barak tor
+	bne !x
+	lda room_num
+	cmp #$12
+	bne !x
+	inc seal_broken
+	jsr readyt
+	jsr dnldbxtx
+	box 5,8,20,8,1
+	lda #<txtd1
+	ldx #>txtd1
+	jsr prntff
+	jmp amess2
+!x	rts			
+
+qs13	rts		;spirit blade
+
+qs14	lda been_tomb	;barak tor
+	bne !x
+	lda room_num
+	cmp #$12
+	bne !x
+	inc been_tomb
+	jsr amess1
+	lda #<txtd3
+	ldx #>txtd3
+	jsr prntff
+	jmp amess2
+!x	rts
+
+qs15	lda room_num	;gate of doom
+	cmp #$21
+	beq !ok1
+	cmp #$24
+	bne !x
+!ok	lda ambush24
+	bne !x
+	inc ambush24
+!ok2	jsr compt
+	jsr amess1
+	lda #<txtdf
+	ldx #>txtdf
+	jsr prntff
+	jmp amess2
+!ok1	lda ambush21
+	bne !x
+	inc ambush21
+	bne !ok2
+!x	rts
+
+qs16	lda room_num	;cold halls
+	cmp #$12
+	bne !x
+	jsr amess1	;revolving room
+	lda #<txte0
+	ldx #>txte0
+	jsr prntff
+	jmp amess2
+!x	rts
+
+qs17	lda room_num	;silent passages
+	cmp #2
+	bne !x
+	lda mist_warn
+	bne !x
+	inc mist_warn
+	jsr amess1	;death mist
+	lda #<txte2
+	ldx #>txte2
+	jsr prntff
+	jmp amess2
+!x	rts
+
+qs18	rts		;halls of vision
+
+qs19	lda blthr_dead	;gate of bellthor
+	beq !x
+	lda table_move
+	bne !x
+	inc table_move
+	lda #$c
+	sta table_x
+	jsr amess1	;table moves
+	lda #<txte4
+	ldx #>txte4
+	jsr prntff
+	jmp amess2
+!x	rts
+
+qs20	lda room_num	;halls of dead
+	cmp #$12
+	bne !x
+	lda wl_gone
+	bne !x
+	inc wl_gone
+	jsr compt	;computers turn
+	jsr amess1	;witch lord disappears
+	lda #<txte5
+	ldx #>txte5
+	jsr prntff
+	jmp amess2
+!x	rts
+
+qs21	lda room_num	;forgotten legion
+	cmp #$12
+	bne !x
+	lda fl_found
+	bne !x
+	inc fl_found
+	jsr amess1	;found
+	lda #<txtec
+	ldx #>txtec
+	jsr prntff
+	jmp amess2
+!x	rts
+
+qs22	rts		;forbidden city
+
+qs23	lda room_num	;last gate
+	cmp #$22
+	bne !x
+	lda kess_found
+	bne !x
+	inc kess_found
+	jsr amess1	;found
+	lda #<txted
+	ldx #>txted
+	jsr prntff
+	jmp amess2
+!x	rts
+
+qs24	lda room_num	;court witch lord
+	cmp #$12
+	bne !x
+	lda wl_found
+	bne !x
+	inc wl_found
+	jsr amess1	;found
+	lda #<txtef
+	ldx #>txtef
+	jsr prntff
+	jmp amess2
+!x	rts
+

@@ -1,0 +1,326 @@
+the trial
+the rescue of sir ragnar
+lair of the orc warlord
+prince magnus' gold
+melar's maze
+legacy of the orc warlord
+the stone hunter
+the fire mage
+race against time
+castle of mystery
+bastion of chaos
+barak tor, barrow of the witch lord
+quest for the spirit blade
+return to barak tor
+the gate of doom
+the cold halls
+the silent passages
+halls of vision
+the gate of bellthor
+halls of the dead
+the forgotten legion
+the forbidden city
+the last gate
+the court of the witch lord
+blah
+blah
+water of healing
+tempest
+genie
+swift wind
+veil of mist
+ball of flame
+fire of wrath
+courage
+sleep
+rock skin
+pass through rock
+heal body
+the shield
+the helmet
+plate armour
+staff
+short sword
+spear
+broadsword
+battle axe
+cloak of protection
+crossbow
+bracers
+tool kit
+chain mail
+hand axe
+wand of recall
+talisman of lore
+orcs bane
+borins armour
+spirit blade
+choose your opponent
+your search reveals nothing.
+you search and a secret door creaks open in one wall.
+blah blah blah
+that is beyond the range of your weapon.
+select a spell
+cancel
+ok
+you have escaped the quest intact.
+all the players are out of the dungeon.
+choose your spells
+hero choose your quest
+exit to main menu
+more quests
+you find a small purple potion of strength.
+foolishly left unhidden lies a small box containing {cf{ gold coins.
+as you are busy searching, a monster stalks up on you and attacks.
+despite a thorough search you find nothing.
+the stone beneath your foot gives way and you fall into a pit trap. you lose {b{ body point.
+luck is with you. a small treasure chest you find, hidden under an old fur, contains {baa{ gold coins.
+you search and find small amounts of gold hidden in several places. it amounts to {da{ gold coins. but you lose track of time and miss your next go.
+a rummage through some clothing reveals {ca{ gold coins.
+as you search you unwittingly set off a trap. an arrow shoots out from the wall. you lose {b{ body point.
+wrapped in a bundle of rags you find a healing potion.
+you feel the gentle pressure of a trip wire against your leg. to late. a crossbow bolt shoots from the wall. you lose {b{ body point.
+half hidden on a shelf you find a potion of speed.
+amidst the clutter of rags, greasy fur robes and soiled blankets you find {cf{ gold coins.
+a meagre haul of just {ba{ gold coins is found in the pocket of a smelly, worn jerkin.
+discarded and forgotten in a corner you find a vial of holy water.
+a leather bag hanging on the wall contains a heroic brew potion.
+tucked into the toe of an old boot you find a valuable gem worth {fa{ gold coins.
+you find a plain, wooden box. inside you find {fa{ gold coins.
+amidst a collection of old bottles you find a potion of resilience.
+you find a loose stone behind which is hidden an small leather pouch containing {fa{ gold coins.
+the monster succumbs to your attack.
+the monster survives your attack.
+you have survived the monsters attack.
+the character is renewed.
+a b c d e f g h i j k l m n o p q r s t u v w x y z del end
+you search the treasure chest but recoil when you discover it is trapped. too late you are caught and lose {b{ body point.
+you discover the chest was trapped. you safely disarm it.
+the treasure chest contains ...
+a potion of healing and {fa{ gold coins.
+{baa{ gold coins.
+{cfa{ of prince magnus' gold coins. the weight slows you down.
+{bfa{ gold coins and the wand of recall.
+{caa{ of karlen's gold coins.
+you search the entrance to the mine and discover {faaa{ gold pieces. however you can no longer attack or defend yourself.
+the chest was trapped. the gargoyle springs to life and attacks you.
+beware. the chest is trapped.
+the magical sword orcs bane, a quest treasure.
+{caa{ gold coins.
+the spirit blade, a quest treasure. it is bathed in a cool blue light.
+a potion of healing and {caa{ gold coins.
+{daa{ gold coins.
+{dfa{ gold coins.
+{baa{ gold coins and a potion of healing.
+the chest is trapped. a dart shoots from the wall and you lose {b{ body point.
+{bfa{ gold coins.
+a powerful wind blows you twice as far on your next turn.
+command the genie to ...
+'a' reveal a room.
+'b' attack someone.
+you cannot cast that spell on yourself.
+your skin hardens. next defend have two extra dice.
+the spell revives you.
+nothing.
+you must decide what you will do with the chest that you have rescued. use the buttons on your control pad to choose.
+'a' keep it or 'b' return it
+you become richer but may never become a champion.
+in this room you find sir ragnar, the emporer's most powerful knight. you must lead him to safety.
+the emperor bestows {caa{ gold coins on the saviour of sir ragnar.
+the emperor rewards the slayer of ulag with {baa{ gold coins.
+a reward of {caa{ gold coins is given to the saviour of the emporer's gold.
+the orc warlord ulag awaits you.
+you have slain the orc warlord ulag.
+you have failed to complete your quest.
+you have learnt well, my friends. now has come the time of your first trial. you are to travel east and enter the catacombs of verag, a foul gargoyle. the catacombs guard the tomb of fellmarg. the trial is not easy and some of you will not return. those who do survive will continue their training. this is your first step on the road to becoming a hero ... tread carefully, my friends.
+sir ragnar, one of the emperor's most powerful knights, has been kidnapped. he is being held prisoner by ulag, the orc warlord. you are to find sir ragnar and bring him back to safety. prince magnus will pay {caa{ gold coins to the character who rescues sir ragnar. no reward will be paid if sir ragnar is killed whilst escaping.
+prince magnus has ordered that the orc warlord ulag, who was responsible for the kidnapping of sir ragnar, should be sought out and killed. whoever kills ulag will be rewarded with {baa{ gold coins. any treasure found in ulag's stronghold may also be kept.
+a treasure chest has been stolen whilst being taken to the emperor. a reward of {caa{ gold coins has been offered to anyone who can return the chest and all the gold. the thieves are known to be a band of orcs hiding in the black mountains. they are led by gulthor, a chaos warrior.
+long ago, a powerful sorcerer by the name of melar created a talisman which would enhance the wearer's understanding of magic. he kept the talisman with him at all times, fearing it might be stolen and used by the allies of morcar. it is said that he left the talisman in his laboratory at the heart of his maze. melar's maze is guarded by many traps and magical guardians. it is also rumoured to be haunted by those who have sought the talisman and perished in the attempt ...
+ulag's foul offspring, grak, has sworn revenge on those who killed his father. although it has taken him several months, he has finally tracked you down and captured you in an ambush. now you are held prisoner in his dungeons while he racks his brains to devise a terrible punishment for you. while the guard sleeps, however, you manage to pick the lock of your cell with an old rat bone. you must find your equipment and escape.
+the emporer's personal wizard, karlen, has disappeared. the emperor fears that either he has been murdered or has succumbed to the lures of chaos magic. you are to find out what has happened to karlen and, if he is alive, bring him to safety. you will be paid {baa{ gold coins upon returning.
+the orcs of the black mountains have been using fire magic in their raids. balur, the fire mage, is thought to be responsible for helping them. no fire magic can harm him and the emporer's wizards are unable to counter his spells. you have therefore been chosen to enter his lair, deep beneath black fire crag. the emperor will reward you with {bfa{ gold coins for balur's destruction.
+a guide has led you into a dungeon that is rumoured to hold a great secret. he has led you down many dark corridors and finally you find yourself in a room with three doors. suddenly the guide puts out his torch and in the darkness you hear him laugh. 'farewell my heroes', he sneers as he makes his escape. you realise to your horror that it is a trap. you must escape or perish in this dark, forgotten hole.
+long ago a crazy wizard, ollar, discovered the entrance to a gold mine. using his great powers he built a magic castle above the mine to protect it. the castle had many magic portals and was guarded by a host of monsters who were trapped in time. can you find the entrance. others have tried, but the castle has thwarted them every time.
+the lands to the east have been plagued by marauding orcs and goblins. the emperor has ordered that a band of worthy heroes should be sent forth to destroy them. the orcs are well protected in a strong underground fortress known as the bastion of chaos. they are led by a small group of chaos warriors. you must fight your way in and kill all the monsters you find. you will be paid a bounty of .. {ba{ gold coins for each goblin killed, {ca{ gold coins for each orc killed and {da{ gold coins for each fimir or chaos warrior killed.
+war with the eastern orcs is brewing and the emperor needs to unite the lesser kingdoms for the conflict to come. to do this, he must find the ancient star of the west as worn by the kings of legend and by rogar when he battled with morcar in ages past. anyone who finds the gem will be given {caa{ gold coins. the gem lies in barak tor, the resting place of the witch lord, he was also known as the king of the dead, a powerful servant of morcar, and was destroyed by the spirit blade long ago. the spirit blade is the only weapon that can harm him.
+you have awoken the witch lord. he will pose a most serious threat to the emperor in the coming war. the witch lord must be destroyed before he can bring his army of undead to attack the emporer's forces. you must first find the spirit blade, for only this ancient weapon can harm him. the spirit blade was forged by the dwarves of the world edge mountains and cooled in the elven fountain of lebin. the sword now lies in an ancient, ruined temple and you must recover it.
+now that you have found the spirit blade, you must return to barak tor and defeat the witch lord. the emperor has ridden forth to meet the eastern orcs at black fire pass. if you fail, the witch lord will lead his army of undead and attack the emporer's forces from the rear. then nothing will remain to prevent the forces of chaos overrunning the land ...
+THE ENTRANCE TO THE STRONGHOLD iS NOT HARD TO FIND, FOR NO ATTEMPT HAS BEEN MADE TO DISGUISE IT. THE OUTER GATE LIES OPEN AND YOU SEE EVIDENCE THAT MANY CREATURES HAVE PASSED THROUGH IN THE LAST FEW DAYS. yOU MUST WORK YOUR WAY THROUGH THE FEARFUL TUNNELS TO FIND THE GATE OF DOOM, YOUR DESTINY LIES BEYOND. TREAD CAREFULLY MY FRIENDS, THE ENEMY HAVE HAD MANY DAYS TO PREPARE YOUR WELCOME.
+THESE ICY PASSAGES ARE THE rESTING PLACE OF THE DREAD SPIRIT RIDERS WHO ONCE LED THE WITCH LORD'S SKELETAL CALVALRY INTO BATTLE. THEY NOW LIE DREAMING OF PAST GLORIES, WAITING TO BE SUMMONED TO THE BLACK BANNER ONCE MORE.
+THESE PASSAGES HAVE BEEN SILENT FOR OVER A THOUSAND YEARS. THE LAST VOICES THAT ECHOED THESE HALLOWED HALLS WERE THOSE OF kING AGRAIN AND HIS PEOPLE AS THEY RUSHED TO DEFEND THE CITY. IT IS SAID THAT ANCIENT AND TERRIBLE MAGIC IS AT WORK HERE. TREAD WARILY MY FRIENDS.
+KING AGRAIN WAS ONE OF THE GREAT KINGS WHO RULED IN A TIME BEFORE CHAOS. HE WAS A FEARED WARRIOR AND HIS LAWS WERE KNOWN FOR THEIR FAIRNESS. AGRAIN ALSO DABBLED IN MAGIC AND THROUGH THIS CREATED THE HALLS OF vISION, A MAZE OF MAGICAL ROOMS, THE SECRET OF WHICH LIES IN THE KEYS OF AGRAIN.
+HERE BEGINS THE TRUE DOMAIN OF tHE WITCH LORD. IN THESE DEEPEST CAVERNS HE HAS CREATED HIS OWN SUBTERANEAN FORTRESS FROM WHICH HE PLANS THE DESTRUCTION OF THE EMPIRE. LORETOME HAS TOLD ME OF A TERRIBLE GARDIAN, BELLTHOR WHO WATCHES OVER THE GATE. YOU MUST CONFRONT BELLTHOR TOGETHER IF YOU ARE TO BE VICTORIOUS.
+YOU ARE ENTERING THE HALLS OF THE DEAD, WHERE THE WITCH LORD AMASSES HIS FOUL ARMY. AT THIS MOMENT HIS PRESENCE CAN BE FELT, YOU MUST STRIKE AT HIM NOW BEFORE HE CAN ESCAPE. GOOD LUCK, YOUR SKILL AND CUNNING ARE YOUR oNLY HOPE.
+THE WITCH LORD HAS ESCAPED BUT IT WILL NOT BE LONG BEFORE HE FOLLOWS YOU. THE HALLS THROUGH WHICH YOU NOW PASS HOLD THE FORGOTTEN LEGION, THE ELITE OF tHE WItch LORDS ARMY. THEY ARE LED BY SKULMAR. IN COMBAT THEY ARE TO BE FEARED, FOR THEY BEAR THE SCARS OF A THOUSAND BATTLES, eACH ONE A VICTORY FOR CHAOS.
+NO MAN HAS EVER ENTERED THE FORBIDDEN CITY BEFORE. EVEN lORETOME CAN TELL LITTLE OF WHAT LIES BEFORE YOU. IT IS SAID THAT THE PASSAGES ARE FILLED WITH THE WALKING DEAD, THE MINDLESS SERVANTS OF MORCAR WHO ARE DOOMED TO WALK THE PASSAGES OF tHE FORBIDDEN CITY FOREVER. YOU MUST ALSO BE WARY OF THE CITY ITSELF, FOR IT IS CRUMBLING AND rEADY TO COLLAPSE AT ANY TIME.
+THIS, MY FRIENDS, IS THE LAST GATE BEFORE YOU REACH THE COURT OF THE WITCH LORD. THE PASSAGES BEYOND THE GATE ARE GUARDED BY tHE CHAOS WARRIORS FROM THE DOOMGUARD. HEED WELL, FOR THEY ARE MORE POWERFUL THAN OTHER CHAOS WARRIORS YOU HAVE BATTLED WITH.
+THE WITCH LORD HAS WATCHED YOUR PROGRESS. HE HAS TRIED TO DESTROY YOU BUT YOU HAVE THWARTED HIM EVERY TIME. NOW HE HAS FLED TO HIS THRONE ROOM, THERE YOU MUST DO BATTLE WITH HIM. THIS TIME THERE MUST BE NO ESCAPE FOR HIM. HEED ME WELL, ONLY THE SPIRIT BLADE CAN HARM THE WITCH LORD.
+you find {da{ gold coins hidden in the cupboard.
+your search reveals a spear.
+you have inadvertently set off a spear trap but luck is with you and it misses.
+you inadvertently set off a spear trap. you are hit and lose {b{ body point.
+you find and safely disarm a hidden spear trap.
+the mechanism of the pit trap creaks under your weight yet it holds.
+the floor below your feet falls away. you land heavily and lose {b{ body point.
+you discover the opening of a pit trap.
+a rock trap falls into the corridor blocking the way.
+masonry falls from the dangerous roof. you lose {b{ body point.
+masonry falls from the dangerous roof. it just misses you.
+you find and disarm a falling block trap.
+hidden behind a book you find the talisman of lore.
+you find melar's key lieing on the floor. as you pick it up, the key disappears and the throne slides sideways.
+this is karlen. while working on a chaos spell he was consumed by the magic he created and was turned into a mindless zombie.
+amongst the battered weapons you find borin's armour.
+the emperor is disappointed to hear of kerlens fate. he rewards your bravery with {baa{ gold coins.
+potions taken
+weapon in use
+armour worn
+tool kit
+quest treasure
+none.
+potion of healing
+potion of resilience
+potion of speed
+potion of strength
+heroic brew
+trap dismantle.
+there are no traps to use the tools on.
+you fix a pit trap.
+you fix a spear trap.
+select a potion.
+select a weapon.
+select armour.
+your courage rallies. you can attack twice.
+the liquid revives you.
+your blood surges. you can travel twice as far on your next turn.
+your muscles bulge. you have {c{ extra attack dice.
+your skin hardens. next defend you have {c{ extra dice.
+you find a trap and attempt to make it safe but it goes off and you lose {b{ body point.
+this is the entrance to the mine.
+the gold found in the mine is fools gold, worth nothing.
+the ghost of ollar appears, chuckles madly and disappears.
+you find a shield.
+the chaos warrior drops the magic sword orcs bane. it is a quest treasure.
+you receive a bounty of {ba{ gold coins.
+you receive a bounty of {ca{ gold coins.
+you receive a bounty of {da{ gold coins.
+the zombie drops the star of the west. you receive {caa{ gold coins.
+you have broken the magic seal that kept the witch lord imprisoned. now he is has awoken and you must run. only the spirit blade can harm him.
+your weapons and spells are useless against the witch lord.
+the tomb of the witch lord is now empty.
+only the spirit blade can defeat the witch lord.
+the witch lord is defeated. barak tor begins to crumble. you must leave immediately.
+'you have done well. and yet it seems your task is hardly begun. dark clouds gather at the empire's borders ... the emperor rode with his army towards black fire pass, that perilous mountain route linking the empire and the borderlands. no such army has ever been raised in living memory.
+'they drew up their battle lines on the grassy plains at the foot of the mountain road and waited. nightfall, the sky darkened and a great wind arose. spine chilling shrieks and howls echoed from the mountain tops, filling man and elf alike with fear. then came the first assault. pouring down the mountain side, the hordes of morcar fell upon the empires defenders.
+'like a black wave they came, but the lines held and it seemed we should win the day. but i had not reckoned with morcar's magic. he stood high on a ridge overlooking the battlefield and unleashed his terrible magic. lightning flashed from his fingertips and great gouts of flame exploded among the defenders.
+'our lines were breached in a dozen places at once and the enemy howled in delight. then came the doomguard, morcar's elite force of chaos knights. our army broke and ran. only the emporer's personal guard held their ground and many sacrificed themselves to ensure his safe retreat. the remnants of the army are now holed up in karak varn, the ancient dwarven stronghold.
+more ...
+mentor ...
+balur the fire mage has been defeated.
+the emperor rewards the slayers of balur with {bfa{ gold coins.
+this room contains your captured equipment.
+you have walked into an ambush. you are attacked from all sides.
+THIS IS A REVOLVING ROOM. SHOW CAUTION UPON LEAVING.
+THE CHILL DRAUGHT OF THE DEATH MIST HARMS YOU. YOU LOSE {b{ BODY POINT.
+THE DEATH MIST HAUNTS THESE HALLS, BE WARY AT EVERY STEP.
+ON THE TABLE ARE THE KEYS OF AGRAIN. YOU TAKE ONE WORTH {baa{ GOLD COINS.
+THE TABLE SLIDES ASIDE REVEALING THE GATE TO THE WITCH LORDS DOMAIN.
+AS YOU ENTER the room, THE WITCH LORD CURSES YOU AND DISAPPEARS AMIDST A HOWLING TEMPEST. his undead guards attack you.
+UNDER THE THRONE YOU FIND {faa{ GOLD COINS IN A SECRET COMPARTMENT.
+well done, you have completed the first quest.
+verag the foul gargoyle is dead.
+only one key of agrain can be carried safely.
+the guardian, bellthor, is dead.
+skulmar, the captain of the dead host, is dead.
+you have found the forgotten legion.
+this is the chamber of kessandria, the witch queen.
+the witch queen, kessandria, is dead.
+you enter the court of the witch lord.
+you have defeated the witch lord. make haste your escape.
+'the witch lord has been defeated and his army of the dead remains asleep under the earth. the magic that animated them has been weakened. yet this victory could herald our downfall if we relax our struggle. now is the time for our efforts to be all the stronger.
+the next time you move you can pass through any wall.
+before you're able to finish the spell, you become too drowsy and have to stop.
+as the mist swirls you fade from enemy view.
+your muscles bulge. you have two extra combat dice.
+you are enveloped in flame and lose {b{ body point.
+a ball of flame surrounds you. you lose {c{ body point.
+the tempest envelopes you. miss next turn.
+your mind is strong enough to fend off the sleep spell.
+your mind is overcome with the sleep spell. miss next turn.
+that spell has no effect against an enemy. it is wasted.
+the enemy is confounded by the tempest for the next turn.
+the enemy falls down asleep where he stood.
+fire consumes your opponent.
+fire rages around your opponent but they are unharmed.
+you can't use the battle axe with the shield.
+you can't use the shield with the battle axe.
+you're too close to use the crossbow.
+the monster is killed by the spear.
+the monster is killed by the hand axe.
+the crossbow bolt kills the monster.
+the monsters mind is strong enough to fend off the sleep spell.
+the genie attacks the monster. the monster dies.
+the genie attacks the monster but the monster puts up a good fight and survives.
+the genie attacks.
+you lose {a{ body points.
+you have sustained fatal injuries. you have failed in this quest. until next time.
+ITEM .......cost
+STAFF .......{baa{ SHORT SWORD .{bfa{ BROAD SWORD .{cfa{ BATTLE AXE ..{eaa{ CROSSBOW ....{dfa{ HAND AXE ....{bfa{ SPEAR .......{bfa{ THE SHIELD ..{baa{ THE HELMET ..{bca{ CHAIN MAIL ..{efa{ PLATE ARMOUR {ifa{ CLOAK .......{dfa{ TOOL KIT ....{cfa{
+EXIT
+gold
+you cannot afford that.
+you already have one of those.
+only a wizard can wear the cloak of protection.
+the wizard cannot use this item.
+your holy water kills all undead creatures.
+there are no undead creatures here. your holy water is wasted.
+vial of holy water
+sir ragnar has been killed. no reward will be given.
+your target is not in sight. the spell is wasted.
+the monster wanders off into the gloom.
+your view of the target is obscured.
+your magic is wasted on the witch lord.
+your magic is wasted on the witch queen.
+the fire burns warmly, but casts little light into mentor's study. the flickering shadows only hint at the vast number of books and scrolls that fill the many shelves. slowly mentor walks over to the fire.
+'well my friends, your training is complete. you are not yet heroes, you have yet to prove yourselves. but first, let me tell you of morcar .....
+'many centuries ago, morcar was my apprentice. he worked hard and learned quickly. but impatience devoured him, and he wanted to learn more powerful magic. i told him of the dangers, and that he should be patient, for in time he would become a great wizard. but morcar could not wait, each night he broke into my study and read my spell books.
+'the secrets that were held within them were great indeed. once he had learnt these secrets, morcar fled. when i caught up with him, i found him greatly changed. he had pledged his allegiance to the great powers of chaos. fool. he saw magic only as a short cut to to power and paid no heed to the terrible price he would have to pay.
+'i tried to reason with him, but to no avail. he laughed in my face and then unleashed a terrible spell that i was hard pressed to counter. for many days we battled, but morcar had allies stronger even than i, and i could not defeat him. in the end, as we both weakened, he fled and sought refuge in the northern chaos wastes.
+'there he honed his skills, conjuring ancient powers with which to overthrow the empire. but he knows not what he has done. they will serve him while it suits their own dark purposes, but in time they will destroy him. i must watch morcar and measure the strength of his magic. this i may do with the help of loretome.
+'the powers morcar has called upon will destroy us all if i relax from this vigil. morcar's legions have threatened us once before. then it was rogar who aided me and defeated them. now they march again, already they have assailed the borderlands. the empire must again look for heroes and to this end have i trained you.
+'each of you must complete three tasks. if you do this you will be acclaimed as champions of the realm and dubbed imperial knights. then will you truly be on the road to becoming a hero. i shall speak with you again on your return. if you return .....'
+'the minions of the witch lord who escaped are still active and will surely strive to have revenge on those who defeated their master. you have earned yourself a rest. so come, my friends, the emperor awaits you in the grand palace. tonight you are to be honoured for your incredible feats of heroism in the presence of the nobility of the whole empire.'
+'they do not have provisions for a long siege. we must act swiftly if we are to save the emperor and his army. yet there is another evil to be confronted. the witch lord lives. he too had magic i had not foreseen and was protected from the spirit blade. he was sorely wounded, however, and fled to his ancient retreat in the black mountains.
+'but soon he will have recovered enough to lead the legion of the damned once more. the empire has great need of you. i myself cannot act against these dangers, for i must move against morcar and strive to weaken his power. until we meet again, take care, my friends. farewell .....'
+because of your bravery and honesty, you are proclaimed by the emporer to be a champion, worthy of a place in legend.
+after stealing the emporers gold, you are not considered honourable. if you were not doing such a good job, you would have been arrested by now.
+press start
+licensed by nintendo
+heroquest
+c{bjjb{ hasbro bradley uk ltd.
+in association with
+games workshop ltd.
+c{bjjb{ gremlin graphics
+software ltd.
+{b{ player, {b{ character game
+{b{ player, {c{ character game
+game music is
+player one
+player two
+choose your character
+enter your name
+begin password game
+programming by
+chris shrigley
+graphics by
+bernie
+additional graphics by
+jayne shrigley
+music by
+neil baldwin
+{c{ player, {c{ character game
+{a{ {b{ {c{ {d{ {e{ {f{ {g{ {h{ {i{ {j{ a b c d e f del end
+enter your password
+incorrect password
+your restart password is ...

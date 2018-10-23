@@ -1,0 +1,145 @@
+
+	;memory map
+
+	;$0000-$07ff	2k free ram
+
+	;$0800-$1fff	Not used
+
+	;$2000-$2007	PPU registers
+
+PPUCTRL0:	EQU	$2000	;Control reg. 0 write only
+			;d0: msb of h-scroll offset
+			;d1: msb of v-scroll offset
+			;d2: auto inc. for vram access 0:+1, 1:+32
+			;d3: object chr area 0:low, 1:high
+			;d4: background chr area 0:low, 1:high
+			;d5: object chr size 0:8*8, 1:8*16
+			;d6: master/slave 0:master, 1:slave
+			;d7: VERTB NMI 0:disable, 1:enable
+PPUCTRL1:	EQU	$2001	;Control reg. 1 write only
+			;d0: 1:mono-tone, 0:colour
+			;d1: background left blanking 0:blank
+			;d2: object left blanking 0:blank
+			;d3: background blanking 0:blank
+			;d4: object blanking 0:blank
+			;d5: full background red
+			;d6: full background green
+			;d7: full background blue
+PPUSR:	EQU	$2002	;status reg. read only
+			;d6: coincidence flag
+			;d7: interrupt flag (reset after read)
+			;also resets latch register in PPU
+PPUOAMAR:	EQU	$2003	;object address set (PPU object memory index)
+PPUOAM:	EQU	$2004	;object data
+			;after object data write auto inc. of index
+PPUSCC:	EQU	$2005	;scroll register
+			;write h offset, then v offset
+PPUVRAMAR:	EQU	$2006	;video ram address register
+			;write high byte then low byte
+PPUVRAM:	EQU	$2007	;video ram data register (read/write)
+
+	;$2008-$3fff	Not used - reflected PPU registers
+
+	;$4000-$401f	Sound and dma registers keypads ports
+
+	;Channel A
+
+WRA0:	EQU	$4000	;duty, continuous/length, amplitude gain/envelope
+			;d0-d3: number of frames between each damping step
+			;d4: envelope/direct 0: envelope, 1: direct
+			;D5: continuous/length 0: length, 1:continuous
+			;d6-d7: duty (wave form) 00:12.5%,01:25%, 10:50%, 11:75%
+WRA1:	EQU	$4001	;sweep
+			;d0-d2: rate (new freq=old+old/2^n / old-1-(old-1)/2^n)
+			;d3: selection of + or -, 1:- ,0:+ (see above)
+			;d4-d6: period 1/2*(n+1) in frames
+			;d7: sweep enable/disable 0:off, 1:on
+WRA2:	EQU	$4002	;sound a frequency lower 8 bits
+WRA3:	EQU	$4003	;upper 3 bits, length counter start
+			;d0-d2: upper 3 bits of frequency
+			;d3-d7: length code (see manual)
+
+	;Channel B
+
+WRB0:	EQU	$4000	;duty, continuous/length, amplitude gain/envelope
+			;d0-d3: number of frames between each damping step
+			;d4: envelope/direct 0: envelope, 1: direct
+			;D5: continuous/length 0: length, 1:continuous
+			;d6-d7: duty (wave form) 00:12.5%,01:25%, 10:50%, 11:75%
+WRB1:	EQU	$4005	;sweep
+			;d0-d2: rate (new freq=old+old/2^n / old-1-(old-1)/2^n)
+			;d3: selection of + or -, 1:- ,0:+ (see above)
+			;d4-d6: period 1/2*(n+1) in frames
+			;d7: sweep enable/disable 0:off, 1:on
+WRB2:	EQU	$4006	;sound b frequency lower 8 bits
+WRB3:	EQU	$4007	;upper 3 bits, length counter start
+			;d0-d2: upper 3 bits of frequency
+			;d3-d7: length code (see manual)
+
+	;Sawtooth channel 
+
+WRC0:	EQU	$4008	;length counter
+			;d0-d6: length envelope data
+			;D7: continuous/length 0: length, 1:continuous
+	;	$4009	;not used
+WRC2:	EQU	$400a	;triangle wave frequency lower 8 bits
+WRC3:	EQU	$400b	;upper 3 bits, length counter start
+			;d0-d2: upper 3 bits of frequency
+			;d3-d7: length code (see manual)
+
+	;Noise channel 
+
+WRD0:	EQU	$400c	;continuous/length, amplitude gain/envelope
+			;d0-d3: number of frames between each damping step
+			;d4: envelope/direct 0: envelope, 1: direct
+			;D5: continuous/length 0: length, 1:continuous
+			;d6-d7: not used
+	;	$400d	;not used
+WRD2:	EQU	$400e	;designation of sample clock frequency 4 bits
+			;d0-d3: sample clock code see manual
+WRD3:	EQU	$400f	;length counter start 
+			;d0-d2: not used
+			;d3-d7: length code (see manual)
+
+	;delta modulation
+
+WRE0:	EQU	$4010	;int enable, repeat designation, sample clock frequency
+			;d0-d3: sample clock code (see manual)
+			;d4-d5: not used
+			;d6: repeat designation 1:repeat, 0:one shot
+			;d7: interrupt enable 1:enable, 0:disable
+WRE1:	EQU	$4011	;delta mod sound output direct data
+			;d0-d6: write direct data to 7bit d/a converter
+			;d7: not used (I think)
+WRE2:	EQU	$4012	;delta mod dma address counter initializing
+			;d0-d7 - a6-a13, 0 - a0-a5, 1 - a14-a15
+WRE3:	EQU	$4013	;delta mod dma terminal counter data set
+			;d0-d7 - t4-t11, 0 - t0-t3
+
+	;object DMA control
+
+WRF0:	EQU	$4014	;write page value of object data
+			;d0-d7 - a8-a15, 0 - a0-a7 
+
+	;Sound control register
+
+ST:	EQU	$4015	;write/read status
+			;wrd0-wrd3: enable sound channels a-d (bits0:a)
+			;wrd4: delta mod start dma
+			;wrd5-wrd7: not used
+			;----------------------------------------------
+			;rdd0-rdd3: length flags for sounds a-d
+			;rdd4: delta mod generated/silence
+			;rdd5: not used
+			;rdd6: object dma int flag
+			;rdd7: delta mod int flag
+
+	;Keypads ports
+
+IOP0	equ	$4016
+IOP1	equ	$4017
+
+	;$4020-$5fff	Not used
+	;$6000-$7fff	Can be used as static ram on some cartridge configurations
+	;$8000-$ffff	Games ROM/RAM cartridge
+

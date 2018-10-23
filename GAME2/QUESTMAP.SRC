@@ -1,0 +1,598 @@
+ 
+mmsk	equ 1
+
+mapo	jsr fadedown
+mapo1	lda #0
+	sta mmdex
+	box 2,23,$1a,3,1	
+
+mapout	;jsr clr_both
+	pushbnk
+	jsr dnldbxtx
+	jsr setbab
+	dnldchar1 $5c,mapbt,sprtbase	;download sprites used for map
+	jsr setb23
+	ldy #$18	;uncrunch complete map screen
+	jsr uncle	
+
+	jsr setb67	;hide bits that haven't been mapped
+	lda #<qfftem	;place furniture/nme's/players/traps etc. etc.
+	sta t0	;in visible rooms
+	lda #>qfftem
+	sta t1
+	lda #<scrn0+(5*32)+3
+	sta t2
+	lda #>scrn0+(5*32)+3
+	sta t3
+	
+	ldx #$12
+!l2	stx tmpx
+	
+	lda t3
+	sta $2006
+	lda t2
+	sta $2006
+	
+	ldy #0
+!l1	sty tmpy
+	lda (t0),y	;get room number	
+
+	jsr music_cont
+	jsr been_here
+	beq !no
+
+	lda $2007
+	jmp !2
+!no	lda #mmsk	
+	sta $2007
+
+!2	ldy tmpy
+	iny
+	cpy #$1a
+	bne !l1
+
+	lda t0
+	clc
+	adc #$1a
+	sta t0
+	bcc !3
+	inc t1
+	
+!3	lda t2
+	clc
+	adc #$20
+	sta t2
+	bcc !1
+	inc t3
+
+!1	ldx tmpx
+	dex
+	bpl !l2
+
+!xxx	jsr setb45
+	jsr clrobs
+	jsr put_msprts
+	jsr music_cont
+
+	box 2,2,$1a,24,0
+	jsr dma32
+	lda #>scrn0+25*32+30
+	sta $2006
+	lda #<scrn0+25*32+30
+	sta $2006
+	lda #$47
+	sta $2007
+	lda #$50
+	sta $2007
+	jsr dma1
+	
+	lda #3
+	sta pphase
+	popbnk
+	rts
+
+put_msprts	jsr clr_sprts
+	lda #$3f
+	sta t10
+	jsr put_nmes	;*
+	lda t10
+	sta nnme
+	jsr put_plrs	;*
+	jsr put_furn	;*
+	jsr put_strs	;*
+	jsr put_door	;*
+	jsr put_trap	;*
+	jsr put_chst	;*
+	jmp put_rock	;*
+
+
+pl1df	equ	$0	;player1
+pl2df	equ	$1	;player2
+pl3df	equ	$2	;any other humanoid creature
+orcdf	equ	$3	;orc
+gobdf	equ	$4	;goblin
+zomdf	equ	$5	;zombie
+chadf	equ	$6	;chaos warrior
+fimdf	equ	$7	;fimir
+mumdf	equ 	$8	;mummy
+gardf	equ 	$9	;gargoyle
+skedf	equ 	$a	;skeleton
+cstdf	equ	$b	;treasure chest
+furdf	equ	$14	;furniture
+xitdf1	equ	$c	;stairs
+pitdf	equ	$10	;pit trap
+dordf1	equ	$11	;door :
+dordf2	equ 	$12	;door -
+rokdf	equ	$13	;rocks
+mstdf	equ   $14	;mist
+
+mon_defs	db orcdf,gobdf,zomdf,chadf,fimdf,mumdf,gardf,skedf,orcdf
+	db chadf,chadf,chadf,orcdf,skedf,gardf,gardf,chadf,chadf,chadf
+	
+
+dordf	db dordf1,dordf2,dordf1,dordf2
+dorxm	db -4,0,4,0
+dorym	db 0,-4,0,4
+
+put_plrs	lda #0
+	sta t1b
+	sta t1c
+	tay
+	lda player_out,y
+	bne !a
+	ldx player_x,y
+	lda player_y,y
+	tay
+	lda #pl1df
+	jsr plonker
+!a	lda two_play
+	beq !b
+	ldy #1
+	lda player_out,y
+	bne !b
+	ldx player_x,y
+	lda player_y,y
+	tay
+	lda #pl2df
+	jsr plonker
+!b	lda quest_num
+	cmp #1
+	bne !x
+	ldy #2
+	lda player_out,y
+	bne !x
+	ldx player_x,y
+	lda player_y,y
+	tay
+	lda #pl3df
+	jmp plonker
+!x	rts
+
+put_nmes	pushbnk
+	jsr setb67
+	ldx #0
+	stx t1b
+	stx t1c
+!l1	stx tmpx
+	jsr nme_oo
+	bcc !nxt
+	ldx tmpx
+	ldy mulx3,x
+	jsr gnmeslh
+	lda (t0),y	;x
+	bmi !x
+	ldx tmpx
+	lda monster_x,x	
+	sta t1e
+	lda monster_y,x
+	sta t1f
+	iny
+	iny
+	lda (t0),y	;type
+	tay
+	lda mon_defs,y
+	sta t1d
+	ldx t1e
+	ldy t1f
+	jsr plonker
+!nxt	ldx tmpx
+	inx
+	bne !l1
+!x	popbnk
+	rts		
+
+cabn	equ $14
+cabf	equ $17
+tabn	equ $3e
+tabf	equ $44
+bokn	equ $4a
+bokf	equ $4d
+dskn	equ $50
+dskf	equ $56
+firn	equ $1a
+firf	equ $1d
+rckn	equ $20
+rckf	equ $26
+tomn	equ $2c
+tomf	equ $32
+wepn	equ $38
+wepf	equ $3b
+	 
+put_furn	pushbnk
+	jsr setb67
+
+	ldx #0
+!lf1	stx tmpx
+	ldy mulx3,x
+	jsr gfurnlh
+	lda (t0),y
+	bmi !x5
+	sta fur_x
+	iny
+	lda (t0),y
+	sta fur_y
+	iny
+	lda (t0),y
+	sta fur_t
+	jsr wrkfurn
+
+	ldx tmpx
+	inx 
+	bne !lf1
+
+!x5	lda quest_num	;special table
+	cmp #$12
+	bne !1
+	ldx table_x
+	dex
+	stx fur_x
+	ldx table_y
+	dex
+	stx fur_y
+	lda #$11
+	sta fur_t
+	jsr wrkfurn
+	jmp !xx
+
+!1	cmp #4	;throne 1
+	bne !2
+	ldx throne_x
+	ldy throne_y
+	lda #$1e
+	jsr plonker 
+	jmp !xx
+
+!2	cmp #$17	;2
+	bne !xx
+	ldx #$a
+	ldy #$7
+	lda #$1e
+	jsr plonker	
+
+!xx	popbnk
+	rts
+
+fur_rl	dl ft1,ft2,ft1,ft2,ft1,ft2,ft2,ft1
+fur_rh	dh ft1,ft2,ft1,ft2,ft1,ft2,ft2,ft1
+
+fur_base	db cabn,tabn,bokn,dskn,firn,rckn,tomn,wepn
+
+wrkfurn	lda fur_t
+	and #$f
+	tax
+	lda fur_base,x
+	sta fur_b
+	
+	lda fur_rl,x
+	sta t0
+	lda fur_rh,x
+	sta t1
+	jmp (t0)
+
+ft1	lda fur_t
+	and #$10
+	beq !1
+	lda #3
+!1	sta fur_w
+ft1a	jsr fur_bt
+	jsr f1incxy
+	jsr fur_bt
+	jsr f1incxy
+	jmp fur_bt
+	
+ft2	lda fur_t
+	and #$10
+	beq !3
+	lda #6
+!3	sta fur_w	
+	jsr ft1a
+	lda fur_t
+	and #$10
+	beq !1
+	inc fur_y
+	dec fur_x
+	dec fur_x
+	jmp !2
+!1	inc fur_x
+	dec fur_y
+	dec fur_y
+!2	inc fur_b
+	jmp ft1a
+
+fur_bt	ldx fur_x
+	ldy fur_y
+	lda fur_b
+	clc
+	adc fur_w
+	jmp plonker
+	
+f1incxy	inc fur_b
+	lda fur_t
+	and #$10
+	bne !1
+	inc fur_y
+	rts
+!1	inc fur_x
+	rts
+
+put_strs	lda quest_num
+	cmp #$12
+	bne !ok
+	lda blthr_dead
+	beq !x1
+!ok	pushbnk
+	jsr setb67
+	lda #0
+	sta t1b
+	sta t1c
+	ldx #3
+	stx t15
+!l1	stx tmpx
+	txa
+	asl a
+	tay
+	jsr gstrslh
+	lda (t0),y	;x
+	tax
+	iny
+	lda (t0),y	;y
+	tay
+	lda t15
+	clc
+	adc #xitdf1
+	dec t15
+	jsr plonker
+	ldx tmpx
+	dex
+	bpl !l1
+!x	popbnk
+!x1	rts
+
+
+put_door	pushbnk
+	jsr setb67
+	ldx #0
+!l1	stx tmpx
+	ldy mulx3,x
+	jsr gdoorlh
+	lda (t0),y	;x
+	bmi !x
+	tax
+	iny
+	lda (t0),y	;y
+	sta t1e
+	iny
+	lda (t0),y	;type
+	pha
+	and #$f0
+	cmp #$60
+	beq !1
+	cmp #$70
+	bne !ok
+!1	txa
+	pha
+	ldx tmpx
+	jsr door_o_c
+	bcc !n
+	pla
+	tax
+	jmp !ok
+!n	pla
+	pla
+	jmp !nxt
+!ok	pla	
+	and #3	
+	tay
+	lda dorxm,y
+	sta t1b
+	lda dorym,y
+	sta t1c
+	lda dordf,y
+	ldy t1e
+	jsr plonker
+!nxt	ldx tmpx
+	;inx
+	inx
+	bne !l1
+!x	popbnk
+	rts
+
+put_trap	pushbnk
+	jsr setb67
+	ldx #0
+	stx t1b
+	stx t1c
+!l1	stx tmpx
+	ldy mulx3,x
+	jsr gtraplh
+	lda (t0),y	;x
+	bmi !x
+	sty tmpy
+	iny
+	iny
+	lda (t0),y
+	beq !nxt
+	cmp #2
+	beq !nxt
+	cmp #1
+	bne !1a
+	lda #pitdf
+	db $2c
+!1a	lda #rokdf
+	sta t1a
+	ldx tmpx
+	jsr trap_found
+	beq !nxt
+	ldy tmpy	
+	lda (t0),y	;x
+	bmi !x
+	tax
+	iny
+	lda (t0),y	;y
+	tay
+	lda t1a
+	jsr plonker
+!nxt	ldx tmpx
+	inx
+	bne !l1
+!x	popbnk
+	rts		
+
+put_chst	pushbnk
+	jsr setb67
+	ldx #0
+	stx t1b
+	stx t1c
+!l1	stx tmpx
+	jsr got_pmgold
+	bcs !nxt
+	ldy mulx3,x
+	jsr gchstlh
+	lda (t0),y	;x
+	bmi !x
+	tax
+	iny
+	lda (t0),y	;y
+	tay
+	lda #cstdf
+	jsr plonker
+!nxt	ldx tmpx
+	inx
+	bne !l1
+!x	popbnk
+	rts		
+
+put_rock	pushbnk
+	jsr setb67
+	ldx #0
+	stx t1b
+	stx t1c
+!l1	stx tmpx
+	txa
+	asl a
+	tay
+	jsr grocklh
+	lda (t0),y	;x
+	bmi !x
+	tax
+	iny
+	lda (t0),y	;y
+	tay
+	lda #rokdf
+	jsr plonker
+	ldx tmpx
+	inx
+	bne !l1
+!x	popbnk
+	rts		
+
+
+plonker	jsr music_cont
+	
+	sta t1d
+	stx t1e
+	sty t1f
+	ldy t1f
+	lda mulx26l,y
+	clc
+	adc t1e
+	sta t18
+	lda mulx26h,y
+	adc #>map
+	sta t19
+	ldy #0
+	lda (t18),y
+	jsr been_here
+	beq !n
+
+	lda t10
+	asl a
+	asl a
+	tay
+	lda t1e
+	asl a
+	asl a
+	asl a
+	clc
+	adc #3*8
+	clc
+	adc t1b
+	sta scratch+1
+	lda t1f
+	asl a
+	asl a
+	asl a
+	clc
+	adc #(5*8)-1
+	clc
+	adc t1c
+	sta scratch+2
+	lda t1d
+	sta scratch+3
+	lda #%00000011
+	sta scratch+4
+
+	ldx #0	;no duplicates
+	stx ta
+!l1	lda spr+xxx,x
+	cmp scratch+1
+	bne !nxt
+	lda spr+yyy,x
+	cmp scratch+2
+	bne !nxt
+	inc ta 
+!nxt	;jsr music_cont
+	inx
+	inx
+	inx
+	inx
+	bne !l1
+	lda ta
+	bne !n
+	lda scratch+1
+	sta spr+xxx,y
+	lda scratch+2
+	sta spr+yyy,y
+	lda scratch+3
+	sta spr+def,y
+	lda scratch+4
+	sta spr+att,y
+	
+	dec t10
+!n	rts
+ 
+
+get_mapp	lda snyl,y
+	clc
+	adc t1e
+	php
+	clc
+	adc #<scrn0+(5*32)+3
+	sta t0
+	lda snyh,y
+	adc #0
+	plp
+	adc #>scrn0+(5*32)+3
+	sta t1
+	rts
+

@@ -1,0 +1,181 @@
+snmevl	dl styp0,styp1,styp2,styp3,styp4,styp5,styp6,styp7
+	dl styp8,styp9,styp10,styp11,styp12,styp13,styp14,styp15
+	dl styp16,styp17,styp18,styp19,styp20
+	dl styp21,styp22,styp23,styp24,styp25,styp26,styp27,styp28
+	dl styp29,styp30,styp31,styp32,styp33,styp34,styp35
+
+snmevh	dh styp0,styp1,styp2,styp3,styp4,styp5,styp6,styp7
+	dh styp8,styp9,styp10,styp11,styp12,styp13,styp14,styp15
+	dh styp16,styp17,styp18,styp19,styp20
+	dh styp21,styp22,styp23,styp24,styp25,styp26,styp27,styp28
+	dh styp29,styp30,styp31,styp32,styp33,styp34,styp35
+
+
+do_sobs	ldx #maxsob-1
+!1	lda sobstat,x
+	and #obon
+	beq !2
+	ldy sobtyp,x
+	lda snmevl,y
+	sta t0
+	lda snmevh,y
+	sta t1
+	stx tmpx+1
+	jsr jmpt0
+	jsr music_cont
+	ldx tmpx+1
+!2	dex
+	bpl !1
+!x	rts
+
+
+; *** general routines for soft objects *** ;
+
+ssetit	lda sobstat,x
+	ora #obset
+	sta sobstat,x
+	rts
+snxflip	lda sobstat,x
+	and #%10101111
+	sta sobstat,x
+	rts
+syxflip	lda sobstat,x
+	ora #obhflp
+	sta sobstat,x
+	rts
+
+ssetdor	stx t1f
+	lda sobxpos,x
+	sta t2
+	lda sobypos,x
+	sta t3
+	jsr search_dor
+	jsr door_o_c
+	bcc !closed
+
+!open	ldx t1f
+	ldy sobtmp2,x
+	lda odfrm,y
+	bne !1a
+!closed	ldx t1f
+	ldy sobtmp2,x
+	lda cdfrm,y
+!1a	sta sobfrm,x
+
+	lda sobstat,x
+	and #obset
+	beq !ok
+	rts
+!ok	jsr ssetit
+	lda sobtmp1,x
+	lsr a
+	bne !23
+!01	bcc !0
+!1	jsr snxflip
+ 	jmp xadd2
+!0	jmp syxflip
+!23	bcc !2
+!3	jsr snxflip
+	jmp yadd1
+!2	jsr syxflip
+	jsr xadd2
+	jmp yadd1
+
+
+
+;----------------------------------------------------------------------------;
+
+
+	;null type (used by most soft objects)
+styp0
+styp10
+styp11
+styp12
+styp13
+styp16
+styp17
+styp18
+styp19	;furniture ...
+styp20	
+styp21
+styp22
+styp23
+styp24
+styp25
+styp26
+styp27	;players
+styp28	;nmes ...
+styp29
+styp30
+styp31
+styp32
+styp33
+styp34
+styp35
+	rts
+
+
+	;doors
+styp1	jmp ssetdor
+
+
+st9f	db obhflp+1,1,1,obhflp+1
+
+	;orc
+styp2	lda #$2a
+	sta sobfrm,x
+	jmp st2to9
+
+	;goblin
+styp3	lda #$2c
+	sta sobfrm,x
+	jmp st2to9
+
+	;zombie
+styp4	lda #$2e
+	sta sobfrm,x
+	jmp st2to9
+
+	;chaos
+styp5	lda #$30
+	sta sobfrm,x
+	jmp st2to9
+
+	;fimir
+styp6	lda #$34
+	sta sobfrm,x
+	jmp st2to9
+
+	;mummy
+styp7	lda #$36
+	sta sobfrm,x
+	jmp st2to9
+
+	;gargoyle
+styp8	lda #$38
+	sta sobfrm,x
+	jmp st2to9
+
+	;skeleton
+styp9	lda #$3c
+	sta sobfrm,x
+
+st2to9	ldy sobtmp1,x
+	lda st9f,y
+	sta sobstat,x
+!ok	cpy #2
+	bcs !ok1
+	lda sobfrm,x
+	ora #1
+	sta sobfrm,x
+!ok1	rts
+
+
+
+
+	;chest
+styp14	rts
+
+	;chair
+styp15	rts
+

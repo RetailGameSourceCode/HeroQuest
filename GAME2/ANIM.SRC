@@ -1,0 +1,756 @@
+
+
+mul64	hex 00 40 80 c0
+
+yoffs	hex ff 07 0f 17 1f 27 2f 37
+	hex 3f 47 4f 57 5f 67 6f 77
+xoffs	hex 00 08 10 18 20 28 30 38
+	hex 40 48 50 58 60 68 70 78
+
+	;x,y dimensions
+obdim0	hex 11		;pointer
+	hex 25		;doors
+	hex 34		;orc
+	hex 33		;goblin
+	hex 34		;zombie
+	hex 35		;chaos
+	hex 34		;fimir
+	hex 34		;mummy
+	hex 45		;gargoyle
+	hex 34		;skeleton
+	hex 42		;rock
+	hex 34 34		;players
+	hex 21		;exit arrows
+	hex 33 35		;chest/chair
+	hex 84		;stairs
+	hex 33		;coin
+	hex 12		;coin numbers
+	hex 66		;cabinet
+	hex 65		;table
+	hex 66		;bookcase
+	hex 65		;desk
+	hex 56		;fire
+	hex 75		;rack
+	hex 75		;tomb
+	hex 66		;weaprack
+	hex 46		;barbarian
+	hex 45		;orc
+	hex 35		;goblin
+	hex 46		;zombie
+	hex 48		;chaos
+	hex 46		;fimir
+	hex 46		;mummy
+	hex 48		;gargoyle
+	hex 47		;skeleton
+
+	;total sprts used in object
+obdim1	hex 01
+	hex 0a
+	hex 0c		;orc
+	hex 09		;goblin
+	hex 0c		;zombie
+	hex 0f		;chaos
+	hex 0c		;fimir
+	hex 0c		;mummy
+	hex 14		;gargoyle
+	hex 0c		;skeleton
+	hex 08		;rock
+	hex 0c 0c		;players
+ 	hex 02		;arrows
+	hex 09 0f		;chest/chair
+	hex 20		;stairs
+	hex 09		;coin
+	hex 02		;coin numbers
+	hex 24		;cabinet
+	hex 1e		;table
+	hex 24		;bookcase
+	hex 1e		;desk
+	hex 1e		;fire
+	hex 23		;rack
+	hex 23		;tomb
+	hex 24		;weaprack
+	hex 18		;barbarian
+	hex 14		;orc
+	hex 0f		;goblin
+	hex 18		;zombie
+	hex 20		;chaos
+	hex 18		;fimir
+	hex 18		;mummy
+	hex 20		;gargoyle
+	hex 1c		;skeleton
+
+
+animater	lda #0	;start from spr 0
+	sta sprind
+	
+anim2	lda #<yoffs	;set offset table ptrs
+	sta t0
+	lda #>yoffs
+	sta t1
+	lda #<xoffs
+	sta t2
+	lda #>xoffs
+	sta t3
+
+	ldx #maxob-1	;display obs
+!a	lda obstat,x
+	and #obon
+	beq !b
+	stx obind
+	jsr music_cont
+	jsr frame
+	ldx obind
+!b	dex
+	bpl !a
+	rts
+
+
+	;Display sprite frame
+	;IN  :A=relative frame no., X=ob ind, Y=frame y-shift
+	;USES:T0..T13
+	;** must reside under $A000
+	;
+frame	lda #0	;set ptr to frame data
+	sta tf
+	lda obfrm,x
+	asl a
+	rol tf
+	asl a
+	rol tf
+	adc #<framedata
+	sta te
+	lda tf
+	adc #>framedata
+	sta tf
+
+	lda obxl,x	;set frame x,y org
+	sta t10
+	lda obyl,x
+	sta t12
+	lda #0
+	sta t11
+	sta t13
+
+	ldy #$03	;set lo col ptr
+	lda (te),y
+	sta t6
+	dey		;set hi col ptr
+	lda (te),y
+	tay
+	lsr a
+	lsr a
+	lsr a
+	ora #$a0
+	sta t7
+	tya		;save partial frame bank
+	and #$07
+	sta ta
+	ldy #$01	;set lo def ptr
+	lda (te),y
+	sta t4
+	dey
+	sty xacc
+	sty yacc
+	sty f_sp
+	sty t18	;li
+	lda (te),y	;set hi def ptr
+	tay
+	and #$1f
+	ora #$a0
+	sta t5
+	tya		;get frame bank
+	sec		;= + $40
+	ror a
+	lsr a
+	and #$78
+	ora ta
+	sta t17
+
+	ldy obfrm,x
+!bk0	cpy #blnk0
+	bne !oka
+!08	rts
+
+!oka	ldy obtyp,x	;set frame dimensions
+	lda obdim0,y
+	tax
+	and #$0f
+	beq !08
+	sta ydim
+	txa
+	lsr a
+	lsr a
+	lsr a
+	lsr a
+	sta xdim
+	lda obdim1,y
+	beq !08
+	sta t9
+	sta ta
+	sta f_cnt
+
+	ldx obind
+	lda obstat,x	;set frame x/y-flip
+	and #%11110000
+	sta t8
+	clc
+	bit t8	;ALL frames are defined facing right
+	bvc !0d
+	lda xdim
+	tay
+	and #1
+	bne !f2
+	lda yx8-1,y
+	jmp !f1
+!f2	lda yx8-2,y
+!f1	adc t10	;do x-flip frame x-shift
+	sta t10
+	bcc !0c
+	clc
+	inc t11
+!0c	lda t8
+!0d	bpl !0e
+	ldy ydim
+	lda yx8-1,y
+	adc t12
+	sta t12
+	bcc !0e
+	inc t13	
+
+!0e	lda t17
+	and #3
+	tax
+!11	lda mul64,x	;bank already used
+!bbb	sta tc
+
+	; display sprites
+	;
+!111	lda sprind	;get spr index
+	asl a
+	asl a
+	bcc !13
+!12	rts
+
+!13	tax
+
+	ldy #$00
+!14	sty tb	;save current spr index
+
+	tya		;set spr palette & x/y-flip
+	and #$03
+	bne !15
+	tya
+	lsr a
+	lsr a
+	tay
+	lda (t6),y
+	sta td
+!15	lda t8
+	asl td
+	rol a
+	asl td
+	rol a
+	sta spr+att,x
+
+!16	lda f_cnt	;set spr definition & bank
+	beq !1b
+!17	ldy #$00
+	lda (t4),y
+	bmi !18
+	ora tc
+	sta spr+def,x
+	dec f_cnt
+	inc t4
+	bne !1c
+	inc t5
+	bne !1c
+!18	sta f_tmp0
+	iny
+	lda (t4),y
+	sta f_tmp1
+	lda f_tmp0
+	lsr a
+	sec
+	ror a
+	sta f_tmp2
+	lda f_tmp0
+	and #$03
+	clc
+	adc #$03
+	ldy f_cnt
+	sta f_cnt
+	cpy f_cnt
+	bcc !19
+	tya
+	sbc f_cnt
+	clc
+	bcc !1a
+!19	sty f_cnt
+	lda #$00
+!1a	ldy f_sp
+	inc f_sp
+	sta f_cntsav,y
+	lda t4
+	adc #$02
+	sta f_adrsavl,y
+	lda t5
+	adc #$00
+	sta f_adrsavh,y
+	lda f_tmp1
+	ldy f_tmp2
+	sta t4
+	sty t5
+	bne !17
+!1b	ldy f_sp
+	beq !1c
+	dec f_sp
+	lda f_adrsavh-1,y
+	sta t5
+	lda f_adrsavl-1,y
+	sta t4
+	lda f_cntsav-1,y
+	sta f_cnt
+	bpl !16
+
+!1c	clc
+ 
+!1f	bit t8	;x
+	ldy xacc
+	lda (t2),y
+	bvc !20
+	eor #$ff
+	adc #$01
+	clc
+!20	adc t10
+	sta spr+xxx,x
+
+!21	ldy yacc
+	lda (t0),y	;y
+	bit t8
+	bpl !22
+	eor #$ff
+	clc
+	adc #1
+!22	clc
+	adc t12
+	sta spr+yyy,x
+
+	inc sprind	;spr not clipped
+	inx
+	inx
+	inx
+	inx
+	beq ret05
+
+!23	ldy tb
+
+	inc xacc
+	lda xacc
+	eor xdim
+	bne !24
+	sta xacc
+	inc yacc
+
+!24	iny
+	cpy t9
+	bcs ret05
+	jmp !14
+
+ret05	rts
+
+
+
+
+
+
+; ************** SOFTWARE SPRITE OBJECT DISPLAYER ************** ;
+
+
+; SEQ.TM8/C
+; sobfrm,x
+
+
+;; ** LO DEF POINTS ** ;;
+DPLTAB	DL D00,D01,D02,D03,D04,D05,D06,D07,D08,D09
+	DL D0A,D0B,D0C,D0D,D0E,D0F,D10,D11,D12,D13
+	DL D14,D15,D16,D17,D18,D19,D1A,D1B,D1C,D1D
+	DL D1E,D1F,D20,D21,D22,D23,D24,D25,D26,D27
+	DL D28,D29,D2A,D2B,D2C,D2D,D2E,D2F,D30,D31
+	DL D32,D33,D34,D35,D36,D37,D38,D39,D3A,D3B
+	DL D3C,D3D,D3E,D3F,D40,D41,D42,D43,D44,D45
+	DL D46,D47,D48,D49,D4A,D4B,D4C,D4D,D4E,D4F
+	DL D50,D51,D52,D53,D54,D55,D56,D57,D58,D59
+	DL D5A,D5B,D5C,D5D,D5E,D5F,D60,D61,D62,D63
+	DL D64,D65,D66,D67,D68,D69,D6A,D6B,D6C,D6D
+	DL D6E,D6F,D70,D71,D72,D73,D74,D75,D76,D77
+	DL D78,D79,D7A,D7B,D7C,D7D,D7E,D7F,D80,D81
+	DL D82,D83,D84
+;; ** HI DEF POINTS ** ;;
+DPHTAB	DH D00,D01,D02,D03,D04,D05,D06,D07,D08,D09
+	DH D0A,D0B,D0C,D0D,D0E,D0F,D10,D11,D12,D13
+	DH D14,D15,D16,D17,D18,D19,D1A,D1B,D1C,D1D
+	DH D1E,D1F,D20,D21,D22,D23,D24,D25,D26,D27
+	DH D28,D29,D2A,D2B,D2C,D2D,D2E,D2F,D30,D31
+	DH D32,D33,D34,D35,D36,D37,D38,D39,D3A,D3B
+	DH D3C,D3D,D3E,D3F,D40,D41,D42,D43,D44,D45
+	DH D46,D47,D48,D49,D4A,D4B,D4C,D4D,D4E,D4F
+	DH D50,D51,D52,D53,D54,D55,D56,D57,D58,D59
+	DH D5A,D5B,D5C,D5D,D5E,D5F,D60,D61,D62,D63
+	DH D64,D65,D66,D67,D68,D69,D6A,D6B,D6C,D6D
+	DH D6E,D6F,D70,D71,D72,D73,D74,D75,D76,D77
+	DH D78,D79,D7A,D7B,D7C,D7D,D7E,D7F,D80,D81
+	DH D82,D83,D84
+
+
+an_tab	hex 000102030405060708090a0b0c0d0e0f	;00
+	hex 101112131415161718191a1b1c1d1e1f	;10
+	hex 202122232425262728292a2b2c2d2e2f	;20
+	hex 303132332a2b3435363738392a313a3b	;30
+	hex 3c3d3e3f404142434445464748494a4b ;40
+	hex 4c4d4e4d4f505152535455565758595a ;50
+	hex 5b5c5d5e5f606162636465666768696a ;60
+	hex 6b6c6d6e6f707172737475767778797a ;70
+	hex 7b7c7d7e7f8081828384545a6066					;80
+
+
+	;sobfrm
+ssprl	dl point1																										;pointer							
+	dl doors,doors,doors,doors,doors																				;doors
+	dl doors																										;rock
+	dl chest																								 	;chest
+	dl chair																										;chair
+	dl doors																										;2x5 blank
+	dl doors,doors																										;arrows
+	dl elf,elf,elf,elf,elf,elf																									;elf
+	dl ragnar,ragnar,ragnar,ragnar,ragnar,ragnar					  	;ragnar
+	dl warrior,warrior,warrior,warrior,warrior,warrior  ;warrior
+	dl wizard,wizard,wizard,wizard,wizard,wizard						  ;wizard
+	dl dwarf,dwarf,dwarf,dwarf,dwarf,dwarf														;dwarf
+	dl nme1,nme1																										;orc
+	dl nme1,nme1																										;goblin
+	dl nme1,nme1																										;zombie
+	dl nme2,nme2																										;chaos
+	dl nme2,nme2																										;goblin
+	dl nme3,nme3																										;fimir
+	dl nme3,nme3																										;mummy
+	dl nme4,nme4																										;gargoyle
+	dl nme4,nme4																										;goblin
+	dl nme5,nme5																										;skeleton
+	dl nme5,nme5																										;goblin
+	dl nme5,nme5																										;zombie
+	dl stairs																										;stairs
+	dl coin,coin,coin,coin																									;coin
+	dl coin,coin,coin,coin,coin,coin,coin,coin,coin,coin	;numbers
+	dl cabinet																										;cabinet
+	dl table																										;table
+	dl bookcase																										;bookcase
+	dl desk																										;desk
+	dl fire																										;fire
+	dl rack																										;rack
+	dl tomb																										;tomb
+	dl weaprack																										;weaprack
+	dl barfig,barfig,barfig																									;barbarian
+	dl bardef,bardef,bardef																				
+	dl dwafig,dwafig,dwafig																									;dwarf
+	dl dwadef,dwadef,dwadef
+	dl elffig,elffig,elffig																									;elf
+	dl elfdef,elfdef,elfdef
+	dl wizfig,wizfig,wizfig																									;wizard
+	dl wizdef,wizdef,wizdef
+	dl chafig,chafig,chafig																									;chaos
+	dl fimfig,fimfig,fimfig																									;fimir
+	dl garfig,garfig,garfig																									;gargoyle
+	dl gobfig,gobfig,gobfig																									;goblin
+	dl mumfig,mumfig,mumfig																									;mummy
+	dl orcfig,orcfig,orcfig																									;orc
+	dl skefig,skefig,skefig																									;skeleton
+	dl zomfig,zomfig,zomfig																									;zombie
+	dl pit																										;pittrap
+	dl barfig,dwafig,elffig,wizfig
+
+ssprh	dh point1																										;pointer							
+	dh doors,doors,doors,doors,doors																				;doors
+	dh doors																										;rock
+	dh chest																								 		;chest
+	dh chair																											;chair
+	dh doors																										;2x5 blank
+	dh doors,doors																										;arrows
+	dh elf,elf,elf,elf,elf,elf																									;elf
+	dh ragnar,ragnar,ragnar,ragnar,ragnar,ragnar					  	;ragnar
+	dh warrior,warrior,warrior,warrior,warrior,warrior  ;warrior
+	dh wizard,wizard,wizard,wizard,wizard,wizard						  ;wizard
+	dh dwarf,dwarf,dwarf,dwarf,dwarf,dwarf														;dwarf
+	dh nme1,nme1																										;orc
+	dh nme1,nme1																										;goblin
+	dh nme1,nme1																										;zombie
+	dh nme2,nme2																										;fimir
+	dh nme2,nme2																										;goblin
+	dh nme3,nme3																										;serpent
+	dh nme3,nme3																										;mummy
+	dh nme4,nme4																										;vicious
+	dh nme4,nme4																										;goblin
+	dh nme5,nme5																										;reeper
+	dh nme5,nme5																										;goblin
+	dh nme5,nme5																										;zombie
+	dh stairs																										;stairs
+	dh coin,coin,coin,coin																									;coin
+	dh coin,coin,coin,coin,coin,coin,coin,coin,coin,coin	;numbers
+	dh cabinet																										;cabinet
+	dh table																										;table
+	dh bookcase																										;bookcase
+	dh desk																										;desk
+	dh fire																										;fire
+	dh rack																										;rack
+	dh tomb																										;tomb
+	dh weaprack																										;weaprack
+	dh barfig,barfig,barfig																									;barbarian
+	dh bardef,bardef,bardef																				
+	dh dwafig,dwafig,dwafig																									;dwarf
+	dh dwadef,dwadef,dwadef
+	dh elffig,elffig,elffig																									;elf
+	dh elfdef,elfdef,elfdef
+	dh wizfig,wizfig,wizfig																									;wizard
+	dh wizdef,wizdef,wizdef
+	dh chafig,chafig,chafig																									;chaos
+	dh fimfig,fimfig,fimfig																									;fimir
+	dh garfig,garfig,garfig																									;gargoyle
+	dh gobfig,gobfig,gobfig																									;goblin
+	dh mumfig,mumfig,mumfig																									;mummy
+	dh orcfig,orcfig,orcfig																									;orc
+	dh skefig,skefig,skefig																									;skeleton
+	dh zomfig,zomfig,zomfig																									;zombie
+	dh pit																										;pittrap
+	dh barfig,dwafig,elffig,wizfig
+
+
+sanimate	lda #0
+	sta ssprind
+	ldx #bkdoor2
+!1a	lda sobstat,x
+	and #obon
+	beq !na
+	stx obind
+	jsr sframe
+	ldx obind
+!na	inx
+	cpx #maxsob
+	bne !1a
+	ldx #0
+!1	lda sobstat,x
+	and #obon
+	beq !n
+	stx obind
+	jsr sframe
+	ldx obind
+!n	inx
+	cpx #bkdoor2
+	bne !1
+	rts
+
+
+sframe	jsr music_cont
+	lda sobstat,x
+	and #obhflp
+	sta t15
+
+	ldy sobyl,x	;screen pos
+	lda snyl,y
+	clc
+	adc sobxl,x	
+	sta t0
+	sta t2
+	lda snyh,y
+	adc #>scrn0 	
+	sta t1
+	sta t3
+
+	ldy sobtyp,x
+	lda obdim0,y	;x by y dimension of object
+	pha
+	lsr a
+	lsr a
+	lsr a
+	lsr a
+	sta xdim
+	sta ta
+	pla
+	and #$0f	
+	sta ydim
+
+	lda t15	;flip?
+	beq !s4
+	lda xdim
+	and #1
+	beq !1z
+	dec ta
+!1z	dec ta
+	lda t0	;add xdim
+	clc
+	adc ta
+	sta t0
+	sta t2
+	lda t1
+	adc #0
+	sta t1
+	sta t3
+	
+!s4	ldy sobfrm,x
+	sty tmpfrm
+	lda ssprl,y
+	sta t1a
+	lda ssprh,y
+	sta t1b
+	lda an_tab,y
+	tay
+	lda dpltab,y
+	sta ta
+	lda dphtab,y
+	sta tb
+	
+	lda #0
+	sta t14
+
+	lda #0
+	sta t1e
+	lda #$6
+	sta t1f
+
+!loop3	lda #0
+	sta t13
+	
+!loop2	ldx t3	;dma char from screen
+	lda t2
+	stx $2006
+	sta $2006
+	lda $2007
+	lda $2007
+	jsr get_sour	;t6/t7	
+
+	lda ssprind
+	jsr get_dest	;t8/t9
+
+	ldy #0
+	lda (ta),y
+	jsr get_defs	;t16/17
+ 	
+	lda #0	
+	sta t18
+	lda #8
+	sta t19
+	
+
+; -------------------------------------------------------------
+; do a char
+!loop1	lda t7	;get 1st bit plane of background data
+	ldx t6
+	sta $2006
+	stx $2006
+	lda $2007
+	lda $2007
+	sta tc	;save it
+
+	lda t6	;2nd bp
+	clc
+	adc #8
+	tax
+	lda t7
+	adc #0
+	sta $2006
+	stx $2006
+	lda $2007
+	lda $2007
+	sta td	;save it
+
+	jsr read_def	;read object def data (needs a bank change) 
+
+	lda t9	;put new data into usable software char area
+	ldx t8
+	sta $2006
+	stx $2006
+	lda tc
+	sta $2007
+	lda t8	;+8
+	clc
+	adc #8
+	tax
+	lda t9
+	adc #0
+	sta $2006
+	stx $2006
+	lda td
+	sta $2007
+		 
+	inc t8
+	bne !1
+	inc t9
+
+!1	inc t6
+	bne !1a
+	inc t7
+
+!1a	inc t18
+	inc t19
+	
+	lda t18
+	cmp #8
+	beq !end
+	jmp !loop1
+; -----------------------------------------------------------
+
+!end	inc ta	;next char in obj frm
+	bne !3
+	inc tb
+	
+!3	lda t3	;dma char to screen
+	ldx t2
+	sta $2006
+	stx $2006
+	lda ssprind
+	clc
+	adc #$a0
+	;ora #$80	;+160
+	sta $2007
+
+	lda t15	;flip?
+	beq !s2
+	lda t2
+	sec
+	sbc #1
+	sta t2
+	bcs !2
+	dec t3
+	bne !2
+!s2	inc t2	;bump scrn addrs
+	bne !2
+	inc t3
+
+!2	inc ssprind	;next char
+	bne !1ab
+	jmp here
+
+!1ab	inc t13	;done x accros
+	lda t13
+	cmp xdim
+	beq !4
+	jmp !loop2	;no: loop
+
+!4	lda t0	;next screen line
+	clc
+	adc #$20
+	sta t0
+	sta t2
+	lda t1
+	adc #0
+	sta t1
+	sta t3
+	
+	inc t14	;done y down?
+	lda t14
+	cmp ydim
+	beq !fin
+	jmp !loop3	;no: loop
+
+!fin	rts
+
+				
+

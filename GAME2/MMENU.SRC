@@ -1,0 +1,617 @@
+mmstrt	jsr setmainm
+	jsr fadeup
+	ldx #1
+	stx pphase
+	dex
+	stx player_n
+
+mmloop	jsr mpbits
+	cmp #1
+	bne !1
+	jmp startquest
+!1	jmp equipchars
+
+
+
+; **************** char select sub-menu ******************* ;
+
+; ********************* equip chars sub-menu ******************** ;
+
+camsl	dl scrn0+3*32+4,scrn0+3*32+11,scrn0+3*32+18,scrn0+3*32+25
+camsh	dh scrn0+3*32+4,scrn0+3*32+11,scrn0+3*32+18,scrn0+3*32+25
+
+cambase	db $b4+$1f,$b5,$b4+$10,$b4+$30-2
+
+ytba	hex 0c0d0e0f101112131415161718ff1a
+
+equip_msk	db staff,shortsword,broadsword,battleaxe,crossbow,handaxe,spear
+	db shield,helmet,chainarm,platearm,cloakpro,toolkit
+
+eqtl	dl utxt1,utxt2,utxt3,utxt4,utxt5,utxt6,utxt7,utxt8
+	dl utxt9,utxta,utxtb,utxtc,utxtd
+eqth	dh utxt1,utxt2,utxt3,utxt4,utxt5,utxt6,utxt7,utxt8
+	dh utxt9,utxta,utxtb,utxtc,utxtd
+
+utxt1	db "STAFF",0
+utxt2	db "SHORT SWORD",0
+utxt3	db "BROAD SWORD",0
+utxt4	db "BATTLE AXE",0
+utxt5	db "CROSSBOW",0
+utxt6	db "HAND AXE",0
+utxt7	db "SPEAR",0
+utxt8	db "THE SHIELD",0
+utxt9	db "THE HELMET",0
+utxta	db "CHAIN MAIL",0
+utxtb	db "PLATE ARMOUR",0
+utxtc	db "CLOAK",0
+utxtd	db "TOOL KIT",0
+
+equipchars	jsr readytxt
+	jsr dnldbxtx
+	ldx #0	;set to 1st active char
+!1	lda menu_flgs,x
+	cmp #1
+	beq !o
+	inx
+	jmp !1
+!o	stx cchr_num
+	stx clst_chr
+	
+reequip	box 1,9,29,17,1
+
+	ldx #0
+!l1	stx tmpx
+	lda menu_flgs,x
+	cmp #1
+	bne !fin
+	lda camsh,x
+	sta $2006
+	sta t1
+	lda camsl,x
+	sta $2006
+	sta t0
+	lda cambase,x
+	sta t2
+	ldy #0
+	ldx #0
+!l2	txa
+	clc
+	adc t2
+	sta $2007
+	inx
+	cpx #3*5
+	beq !fin
+	iny
+	cpy #3
+	bne !l2
+	lda t0
+	clc
+	adc #$20
+	sta t0
+	tay
+	lda t1
+	adc #0
+	sta t1
+	sta $2006
+	sty $2006
+	ldy #0
+	jmp !l2
+!fin	ldx tmpx
+	inx
+	cpx #4
+	bne !l1
+
+	jsr dnldcam
+	print1 txt10c,scrn0+10*32+15,17
+	print1 txt10d,scrn0+12*32+15,
+	print1 txt10e,scrn0+26*32+15,
+	jsr hicolclr
+	
+	lda #6
+	sta phase
+	lda #$d
+	sta pphase
+
+	lda cchr_num
+	sta chr_num
+	lda clst_chr
+	sta lst_chr
+
+	jsr doinfo
+	
+	jsr fadeup	
+	jsr waitdma
+
+!loop	jsr mpbits1
+	beq !eqp
+	ldx dfirea
+	beq !loop
+	cmp #5
+	beq !eqp1
+	cmp #6
+	bne !k1
+	jmp !x
+!k1	sec
+	sbc #1
+	bmi !loop
+	cmp lst_chr
+	beq !loop
+	tax
+	ldy menu_flgs,x
+	cpy #1
+	bne !loop
+	sta lst_chr
+	sta clst_chr
+	sta chr_num
+	sta cchr_num
+	jsr doinfo
+	jsr waitdma
+	jmp !loop
+
+!eqp	lda mmdex
+	cmp #12
+	bcc !aq
+	sta te
+!aq	lda obyl+point
+	sec 
+	sbc #92
+	bmi !loop
+	lsr a
+	lsr a
+	lsr a
+	cmp #15
+	bcs !loop
+	tax
+	lda ytba,x
+	bmi !loop
+	sta mmdex
+	lda #14
+	sta td
+	stx item_num
+	lda #5
+	sta mmdmaflg
+	jmp !loop
+
+!eqp1	ldx chr_num
+	cpx #3
+	bne !o2
+	lda item_num	;wizard can only buy staff/toolkit & cloak
+	beq !o1
+	cmp #11
+	beq !o1
+	cmp #12
+	beq !o1
+	jmp wiz_mess1
+!o2	lda item_num	;no other chr can buy cloak
+	cmp #11
+	bne !o1
+	jmp wiz_mess
+!o1	ldy item_num	;check to see if chr already has item
+	;sty prn	;and whether he can afford it
+	cpy #7
+	bcs !a1
+	jsr got_it1
+	bcc !aa
+	jmp got_mess
+!aa	jsr afford_it
+	bcc !aa1
+	jmp cant_mess
+!aa1	lda player_wpg,x
+	ora equip_msk,y
+	sta player_wpg,x
+	jmp !a3	
+!a1	cpy #12
+	beq !a2
+	jsr got_it2
+	bcc !ab
+	jmp got_mess
+!ab	jsr afford_it
+	bcc !ab1
+	jmp cant_mess
+!ab1	lda player_amg,x
+	ora equip_msk,y
+	sta player_amg,x
+	jmp !a3
+!a2	jsr got_it3
+	bcc !ac
+	jmp got_mess
+!ac	jsr afford_it
+	bcc !ac1
+	jmp cant_mess
+!ac1	lda player_wpu,x		;purchase it
+	ora equip_msk,y
+	sta player_wpu,x
+
+!a3	jsr doinfo		;re print info
+	jsr waitdma
+	jmp !loop
+
+!x	jsr fadedown		;exit to main menu
+	jmp mmstrt	
+
+
+doinfo	lda #1
+	sta mmdmaflg
+	lda #0
+	sta clrcnt
+	lda #<scrn0+10*32+2
+	sta clrlo
+	lda #>scrn0+10*32+2
+	sta clrhi
+	rts
+
+
+got_it1	lda player_wpg,x
+	jmp git1
+got_it2	lda player_amg,x
+	jmp git1
+got_it3	lda player_wpu,x
+git1	and equip_msk,y
+	beq !no
+	sec
+	rts
+!no	clc
+	rts
+
+got_mess	jsr pesave
+	lda #<txt111
+	ldx #>txt111
+	
+pemess	jsr prntff
+	jsr amess2
+	jsr clr_both
+	jmp reequip 
+
+pesave	jsr fadedown
+	jmp amess1
+
+equ_costl	dl 100,150,250,400,350,150,150,100,120,450,850,350,250
+equ_costh	dh 100,150,250,400,350,150,150,100,120,450,850,350,250
+
+afford_it	ldy item_num
+	lda chr_num
+	asl a
+	tax
+	sec
+	lda player_g,x
+	sta eqgtmp
+	sbc equ_costl,y
+	sta player_g,x
+	lda player_g+1,x
+	sta eqgtmp+1
+	sbc equ_costh,y
+	sta player_g+1,x
+	bcs !yes
+	lda eqgtmp
+	sta player_g,x
+	lda eqgtmp+1
+	sta player_g+1,x
+	sec
+	rts
+!yes	ldy item_num
+	ldx chr_num
+	clc
+	rts	
+	
+
+cant_mess	jsr pesave
+	lda #<txt110
+	ldx #>txt110
+	jmp pemess
+
+wiz_mess	jsr pesave
+	lda #<txt112
+	ldx #>txt112
+	jmp pemess
+
+wiz_mess1	jsr pesave
+	lda #<txt113
+	ldx #>txt113
+	jmp pemess
+
+
+; ************** choose magic/quest and start sub menus ************* ;
+
+ytb2	hex 05 06 07 08 09 0a 0b 0c 0d 0e 0f 10 10 12
+	hex 13 ff ff ff ff ff 19 1a
+ytb3	hex 05 06 07 08 09 0a 0b 0c 0d 0e ff ff ff ff
+	hex ff ff ff ff ff ff 19 1a
+
+qnt1	hex 00 01 02 03 04 05 06 07 08 09 0a 0b 0b 0c 0d
+qnt2	hex 0e 0f 10 11 12 13 14 15 16 17
+
+qdtl	dl txt87,txt88,txt89,txt8a,txt8b,txt8c,txt8d,txt8e,txt8f
+	dl txt90,txt91,txt92,txt93,txt94,txt95,txt96,txt97,txt98
+	dl txt99,txt9a,txt9b,txt9c,txt9d,txt9e
+qdth	dh txt87,txt88,txt89,txt8a,txt8b,txt8c,txt8d,txt8e,txt8f
+	dh txt90,txt91,txt92,txt93,txt94,txt95,txt96,txt97,txt98
+	dh txt99,txt9a,txt9b,txt9c,txt9d,txt9e
+
+spchs	db %00000000,%00000111	;water
+	db %00000000,%00111000	;air
+	db %00001110,%00000000	;fire
+	db %00000001,%11000000	;earth
+	
+startquest	ldx #3
+!ll1	lda menu_flgs,x
+	bne !yup
+	dex
+	bpl !ll1
+	jmp mmloop
+!yup	lda two_play
+	beq !p1
+!p2	lda player_t+1
+	cmp #2
+	bcs !yo
+!p1	lda player_t
+	cmp #2
+	bcs !yo
+	jmp !r1
+
+!yo	jsr fadedown
+	jsr setspsel	;choose your spells	
+	print1 txt44,scrn0+14*32+7,32
+	ldx #5
+	stx pphase
+	dex
+	stx phase
+	lda #0
+	sta mmdmaflg
+	sta spchflg
+	sta spchflg+1
+	sta spchflg+2
+	sta spchflg+3
+	tax
+!lp1	sta player_sp,x	;clr old spells
+	inx
+	cpx #8
+	bne !lp1
+	;jsr dpan
+
+	lda player_t
+	cmp #2
+	bcs !ok
+	lda player_t+1
+	cmp #2
+
+!ok	sta spchchr
+	beq !elf
+	lda #3
+	db $2c
+!elf	lda #1
+	sta spchcmp
+	
+	lda #0
+	sta spchdex
+
+	ldx spchchr
+	cpx #2
+	beq !lf
+	lda #<scrn0+12*32+13
+	ldy #>scrn0+12*32+13
+	bne !pn1
+!lf	lda #<scrn0+12*32+14
+	ldy #>scrn0+12*32+14
+!pn1	jsr prntchr
+	
+	jsr fadeup
+
+!l	jsr mpbits1
+	beq !l
+	tax		;already picked?
+	dex
+	stx t10
+	;stx prn
+	lda spchflg,x
+	bne !l
+	lda spchchr
+	asl a
+	tax
+	lda t10
+	asl a
+	tay
+	lda player_sp,x
+	ora spchs,y
+	sta player_sp,x
+	lda player_sp+1,x
+	ora spchs+1,y
+	sta player_sp+1,x
+	
+	ldx t10
+	inc spchflg,x
+	
+	inc mmdmaflg	;flag dma
+	stx mmdex
+	
+	inc spchdex
+	lda spchdex
+	cmp spchcmp
+	bne !l
+
+	lda two_play	;2nd player (if magic user) has remaining spells
+	beq !r1
+	lda player_t+1
+	cmp #2
+	bcc !r1
+	lda spchchr	
+	asl a
+	tay
+	lda spchchr
+	eor #2~3
+	asl a
+	tax
+	lda player_sp,y
+	eor #$ff
+	and #%00001111
+	sta player_sp,x
+	lda player_sp+1,y
+	eor #$ff
+	sta player_sp+1,x
+	
+!r1	jsr spsbts
+	ldx #0	;display 1st 13 quests
+	lda #14
+	jsr dmpqtxt
+	lda #0
+	sta text3_off
+	lda #6
+	sta pphase
+	lda #3	
+	sta phase
+	;jsr dpan
+	jsr fadeup
+	
+!l2	jsr mpbits1
+	bne !o1
+	jsr ssbt1
+	bcc !l2
+	lda ytb2,x
+	bmi !l2
+	sta mmdex
+	lda qnt1,x
+	sta quest_num
+	lda #2
+	sta td
+	inc mmdmaflg
+	jmp !l2
+
+!o1	cmp #1
+	beq !xx
+	cmp #2
+	beq !n1
+	cmp #3
+	bne !l2
+	jsr fadedown
+	jmp mmstrt
+
+!n1	jsr spsbts
+	ldx #14	;display 2nd 13 quests
+	lda #24
+	jsr dmpqtxt
+	lda #0
+	sta text3_off
+	jsr fadeup
+	
+!l3	jsr mpbits1
+	bne !o2
+	jsr ssbt1
+	bcc !l3
+	lda ytb3,x
+	bmi !l3
+	sta mmdex
+	lda qnt2,x
+	sta quest_num
+	lda #2
+	sta td
+	inc mmdmaflg
+	jmp !l3
+
+!o2	cmp #1
+	beq !xx
+	cmp #2
+	bne !a1
+	jmp !r1
+!a1	cmp #3
+	bne !l3
+	jsr fadedown
+	jmp mmstrt
+
+!xx	
+!xit	lda quest_num
+	cmp quest_fin
+	beq !ok1
+	bcc !ok1
+	cmp #$e
+	bcs !l3
+	jmp !l2
+
+!ok1	lda #0
+	sta phase
+	jsr fadedown
+	jsr clr_sprts
+	jsr box3
+	ldx quest_num
+	lda qdtl,x
+	sta txtlo
+	lda qdth,x
+	sta txthi
+	lda #<scrn0+5*32+2
+	sta txtscrnl
+	lda #>scrn0+5*32+2
+	sta txtscrnh
+	lda #28
+	sta txtll
+	jsr dmatxt1
+	jsr fadeup
+	jsr waitfire
+	jsr fadedown
+	jmp begin
+
+
+ssbt1	lda mmdex
+	sta te
+	lda obyl+point
+	sec
+	sbc #34
+	lsr a
+	lsr a
+	lsr a
+	cmp #$16
+	bcs !x1
+	tax
+	sec
+	rts
+!x1	clc
+	rts
+
+spsbts	jsr readytxt
+	jsr dnldbxtx
+	jsr box3
+	print1 txt45,scrn0+3*32+5,28
+	print1 txt47,scrn0+25*32+3,
+	print1 txt46,scrn0+26*32+3,
+	lda #<scrn0+5*32+3	;display 2nd 13 quests
+	sta ta
+	lda #>scrn0+5*32+3
+	sta tb
+	rts
+
+
+dmpqtxt	sta td
+!l1	stx tmpx
+	cpx quest_fin
+	beq !okay1
+	bcc !okay1
+	lda #44
+	db $2c
+!okay1	lda #0
+	sta text3_off
+	lda qtxtl,x
+	sta txtlo
+	lda qtxth,x
+	sta txthi
+	lda ta
+	sta txtscrnl
+	lda tb
+	sta txtscrnh
+	jsr dmatxt
+	ldx tmpx
+	cpx #$b
+	beq !4
+	cpx #$27
+	beq !4
+	lda #$20
+	db $2c
+!4	lda #$40
+	sta tc
+	lda ta
+	clc
+	adc tc
+	sta ta
+	bcc !3
+	inc tb
+!3	inx
+	cpx td
+	bne !l1
+	rts
+

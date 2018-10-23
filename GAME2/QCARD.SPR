@@ -1,0 +1,118 @@
+R 75,T 25 30
+Quick Reference Card as of October 22, 1991, at 10:39:03 am
+
+Ctrl A	Edit/Cursor/Word, Previous
+Ctrl B	Misc/Screen Redraw (Reformat ASCII)
+Ctrl C	Edit/Cursor/Screen, Next
+Ctrl D	Edit/Cursor/Character, Next
+Ctrl E	Edit/Cursor/Line, Previous
+Ctrl F	Edit/Cursor/Word, Next
+Ctrl G	Edit/Delete/Character, Current
+Backspace	Edit/Delete/Character, Previous
+Tab	Insert/Tab
+Ctrl K	Ctrl-K Commands
+Ctrl L	Edit/Search/Find Next
+Enter	Insert/Paragraph Mark
+Ctrl N	Insert/Break Line, But Stay On Line
+Ctrl O	Ctrl-O Commands
+Ctrl P	Menu/Typestyle
+Ctrl Q	Ctrl-Q Commands
+Ctrl R	Edit/Cursor/Screen, Previous
+Ctrl S	Edit/Cursor/Character, Previous
+Ctrl T	Edit/Delete/Word, Next
+Ctrl U	Edit/Block/Insert-Paste
+Ctrl V	Customise/Options/Insert Mode
+Ctrl W	Edit/Scroll, Down
+Ctrl X	Edit/Cursor/Line, Next
+Ctrl Y	Edit/Delete/Line
+Ctrl Z	Edit/Scroll, Up
+Esc	Misc/Cancel
+Ctrl _	Insert/Special Hyphen
+Ctrl Backspace	Edit/Delete/Word, Left
+Ctrl Space	Insert/Non-Breaking Space
+F1	Misc/Help
+F2	Glossary/Recall
+F3	Edit/Block/Toggle Select
+F4	Edit/Block/Copy
+F5	Edit/Block/Move-Cut
+F6	Edit/Block/Insert-Paste
+F7	Edit/SearcHeadings/Find
+F8	Edit/Search/Search And Replace
+F9	Edit/Go to Line
+F10	Menu/Main
+F11	Menu/Main
+F12	Menu/Main
+Shift F1	Menu/Spell
+Shift F2	Window/Resize
+Shift F3	Window/Open
+Shift F4	Window/Close
+Shift F5	Window/Zoom
+Shift F6	Window/Next
+Shift F7	Window/Scroll All Up
+Shift F8	Window/Scroll All Down
+Shift F9	Window/Close All
+Shift F10	Menu/Main
+Shift F11	Menu/Main
+Shift F12	Menu/Main
+Ctrl F1	Spell/Correct/Every Bad Word
+Ctrl F2	File/Save
+Ctrl F3	File/Open
+Ctrl F4	File/Close
+Ctrl F5	File/Pick List, Previous
+Ctrl F6	File/Pick List, Next
+Ctrl F7	Print/Paginate
+Ctrl F8	Print/Screen Preview
+Ctrl F9	File/Pick List
+Ctrl F10	Menu/Main
+Ctrl F11	Menu/Main
+Ctrl F12	Menu/Main
+Alt F1	Misc/Thesaurus
+Alt F10	Menu/Main
+Home	Edit/Cursor/Line, Beginning
+Up	Edit/Cursor/Line, Previous
+PgUp	Edit/Cursor/Screen, Previous
+Left	Edit/Cursor/Character, Previous
+'5' on NumPad	Edit/Cursor/Line, Next
+Right	Edit/Cursor/Character, Next
+End	Edit/Cursor/Line, End
+Down	Edit/Cursor/Line, Next
+PgDn	Edit/Cursor/Screen, Next
+Ins	Customise/Options/Insert Mode
+Del	Edit/Block/Move-Cut
+Shift Tab	Insert/Indent
+Ctrl Home	Edit/Cursor/Screen, Top
+Ctrl PgUp	Edit/Cursor/Document, Top
+Ctrl Left	Edit/Cursor/Word, Previous
+Ctrl Right	Edit/Cursor/Word, Next
+Ctrl End	Edit/Cursor/Screen Bottom
+Ctrl PgDn	Edit/Cursor/Document, Bottom
+Ctrl H	Edit/Delete/Character, Previous
+Ctrl I	Insert/Tab
+Ctrl J	Misc/Help
+'Enter' on NumPad	Insert/Paragraph Mark
+Ctrl-Alt [	Misc/Cancel
+Alt A	Layout/Ruler/Edit on Screen
+Alt B	Edit/Block/Reselect
+Alt C	Menu/Customise
+Alt D	Insert/Decimal Tab
+Alt E	Menu/Edit
+Alt F	Menu/Files
+Alt G	Edit/Place mark/Go to
+Alt I	Menu/Insert
+Alt K	Edit/Block/Toggle Column Select
+Alt L	Menu/Layout
+Alt M	matchpair
+Alt N	Layout/Page Breaks/Insert
+Alt P	Menu/Print
+Alt Q	Menu/Quit
+Alt R	Layout/Ruler/Insert
+Alt S	Menu/Style
+Alt T	Menu/Typestyle
+Alt U	Menu/Utilities
+Alt W	Menu/Windows
+Alt X	Menu/Quit
+Alt Z	Customise/Screen/Codes
+Shift-Alt R	Macro/Run
+Shift-Alt U	Customise/User Interface/Load
+Shift-Alt V	Misc/Display Current Version
+Shift-Alt X	Macro/Enter

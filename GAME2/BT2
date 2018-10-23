@@ -1,0 +1,54 @@
+	;
+	;Buffer new sound effect
+	;@1=sfx 0..7
+	;@2=JSR/JMP
+	;
+sfx	macro
+	lda #$@1
+	ifs [@2] []
+	jsr setfx
+	else
+	jmp setfx
+	endif
+	endm
+
+	;
+	;Buffer new tune
+	;@1=tune
+	;
+mus	macro
+	lda #$@1
+	sta musbuf
+	endm
+
+	;Do sound-driver function
+	;@1=function
+	;@2=data
+	;
+music	macro
+	if @1=2
+	error "bad fn.
+	endif
+	if @1=3
+	error "bad fn.
+	endif
+	lda #$@1
+	ifs [@2] []
+	jsr dofunc
+	else
+	jmp dofunc
+	endif
+	endm
+	;Music equates
+fxbuf	equ $07fc	;plr fx buffers (*3)
+musbuf	equ $07ff	;plr tune buffer
+function	equ $8000	;music player function handler
+
+	;
+	;Music/fx-player functions :-
+	;0=play music & fx
+	;1=stop music,clear snd chip,init fx
+	;2=setup new tune & pause music
+	;3=setup new fx
+	;4=unpause music
+	;

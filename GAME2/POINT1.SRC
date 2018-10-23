@@ -1,0 +1,2181 @@
+
+;* ------------------------------------------------------------------------ *;
+
+	;unlock doors
+pgr3	jsr missago
+	bne !x
+	jsr copyxy	;players x,y
+	jsr search_dor	;standing on a door square? (needs bank change)
+	bcc !x
+	lda t0	;cannot unlock secret doors
+	sta t8	;save for reveal
+	and #$f0
+	cmp #$40
+	bcs !x
+	jsr door_o_c	;open or closed? 
+	bcs !x
+	jsr door_open	;open that door
+	jsr rev_room	;reveal room behind open door (t8)
+	lda t1e	;and other side
+	sta t2
+	lda t1f
+	sta t3
+	jsr search_dor
+	bcc !1
+	jsr door_o_c	;open or closed? 
+	bcs !1
+	jsr door_open	;open that door
+!1	jsr do_sobs	;handle objects
+	jmp dump_soft	;dump s/w objects
+!x	rts
+
+
+;* ------------------------------------------------------------------------ *;
+
+pttl	dl txtba,txtb6,txtb8,txtb9,txtb7,txt116
+ptth	dh txtba,txtb6,txtb8,txtb9,txtb7,txt116
+wuttl	dl txtb5,txt2e,txt30,txt2d,txt2c,txt2a,txt2b,txt34,txt39,txt37
+wutth	dh txtb5,txt2e,txt30,txt2d,txt2c,txt2a,txt2b,txt34,txt39,txt37
+attl	dl txt29,txt33,txt2f,txt28,txt27,txt31,txt38
+atth	dh txt29,txt33,txt2f,txt28,txt27,txt31,txt38
+invl	dl inv1,inv2,inv3,inv4,inv5
+invh	dh inv1,inv2,inv3,inv4,inv5
+qttl	dl txt35,txt36,txt37,txt38,txt39
+qtth	dh txt35,txt36,txt37,txt38,txt39
+
+	;inventory
+pgr4	jsr missago
+	beq !ok
+!xx	rts
+!ok	lda icon_oo,x
+	and #i_invent
+	bne !xx
+	jsr setinv
+	box 1,2,24,5,1
+	box 1,10,24,1,1
+	box 1,14,24,4,1
+	box 1,21,24,1,1
+	box 1,25,24,1,1
+	box 28,2,2,24,1
+	print1 txtb0,scrn0+2*32+7,24
+	print1 txtb1,scrn0+10*32+7
+	print1 txtb2,scrn0+14*32+8
+	print1 txtb3,scrn0+21*32+10
+	print1 txtb4,scrn0+25*32+6
+	ldx #>scrn0+4*32+29
+	lda #<scrn0+4*32+29
+	ldy #$20
+	jsr popicon
+	ldx #>scrn0+10*32+29
+	lda #<scrn0+10*32+29
+	ldy #$24
+	jsr popicon
+	ldx #>scrn0+16*32+29
+	lda #<scrn0+16*32+29
+	ldy #$28
+	jsr popicon
+	ldx #>scrn0+21*32+29
+	lda #<scrn0+21*32+29
+	ldy #$2c
+	jsr popicon
+	ldx #>scrn0+25*32+29
+	lda #<scrn0+25*32+29
+	ldy #$30
+	jsr popicon
+	
+	jsr stindex
+	lda player_pou,x
+	sta t4
+	lda #<scrn0+3*32+2
+	sta t6
+	lda #>scrn0+3*32+2
+	sta t7
+	jsr prntpots
+	
+	lda t5
+	bne !2
+	lda #<scrn0+3*32+2
+	ldx #>scrn0+3*32+2
+	jsr prntnone
+
+!2	jsr stindex
+	lda player_wpu,x
+	and #weapon
+	tax
+	lda wuttl,x
+	sta txtlo
+	lda wutth,x
+	sta txthi
+	lda #<scrn0+11*32+2
+	sta txtscrnl
+	lda #>scrn0+11*32+2
+	sta txtscrnh
+	jsr dmatxt
+
+	jsr stindex
+	lda player_amu,x
+	sta t4
+	lda #<scrn0+15*32+2
+	sta t6
+	lda #>scrn0+15*32+2
+	sta t7
+	ldx #0
+	stx t5
+!l1	stx tmpx
+	lda t4
+	and oorraa,x
+	beq !2a
+	lda attl,x
+	ldy atth,x
+	jsr invbit3
+!2a	ldx tmpx
+	inx
+	cpx #7
+	bne !l1
+	
+	lda t5
+	bne !4
+	lda #<scrn0+15*32+2
+	ldx #>scrn0+15*32+2
+	jsr prntnone
+
+!4	jsr stindex
+	lda player_wpu,x
+	and #toolkit
+	beq !5
+	print1 txtbb,scrn0+22*32+2
+	jmp !6	
+!5	lda #<scrn0+22*32+2
+	ldx #>scrn0+22*32+2
+	jsr prntnone
+
+!6	jsr stindex
+	lda cur_qtreas,x
+	beq !nw
+	tax
+	dex
+	lda qttl,x
+	sta txtlo	
+	lda qtth,x
+	sta txthi
+	lda #<scrn0+26*32+2
+	sta txtscrnl
+	lda #>scrn0+26*32+2
+	sta txtscrnh
+	jsr dmatxt
+
+!nw	jsr clrobs
+
+	lda #8	
+	sta pphase
+	lda #0
+	sta phase
+	jsr fadeup
+
+inloop	jsr mpbits	;handle inventory
+	tax
+	dex
+	lda invl,x
+	sta t0
+	lda invh,x
+	sta t1
+	jmp (t0)
+
+
+; ---------------------------------
+
+ytb4	hex 0b 0c 0d 0e 0f 10 ff 12
+potml	dl txtc2,txtc3,txtc4,txtc5,txtc6
+potmh	dh txtc2,txtc3,txtc4,txtc5,txtc6
+
+inv1	jsr stindex		;potions
+	lda player_pog,x
+	bne !1
+	jmp inloop
+!1	jsr invbit1
+	box 5,8,21,10,1
+	lda #<txtbf
+	ldx #>txtbf
+	jsr prntff
+	print1 txt40,scrn0+$12*$20+7
+	jsr stindex
+	lda player_pog,x
+	sta t4
+	lda #<scrn0+$b*32+7
+	sta t6
+	lda #>scrn0+$b*32+7
+	sta t7
+	jsr prntpots
+	jsr fadeup
+
+!loop	jsr mpbits1	;do pointer etc
+	cmp #2	;cancel?	
+	bne !ab
+	jmp pgr4
+!ab	cmp #1
+	beq !ok
+
+	lda #<ytb4
+	ldx #>ytb4
+	ldy #8
+	jsr invbit2
+	jmp !loop
+
+!ok	lda mmdex
+	sec
+	sbc #$b
+	sta t0
+	
+	jsr stindex
+	ldy #0
+	sty t1
+!3	lda player_pog,x
+	and oorraa,y
+	beq !2
+	lda t1
+	cmp t0
+	beq !ok1
+	inc t1
+!2	iny
+	cpy #6
+	bne !3
+	jmp !loop
+
+!ok1	lda player_pog,x		;not carrying anymore
+	and aanndd,y
+	sta player_pog,x
+	cpy #5
+	beq !o1
+	cpy #1		;don't flag heal potion
+	bne !o2
+	lda #4		;heal 4 bp
+	jsr heal
+	bne !o1
+!o2	lda player_pou,x		;taken potion
+	ora oorraa,y
+	sta player_pou,x
+	
+!o1	sty tmpy
+	jsr gen_txt
+	ldy tmpy
+	cpy #5
+	bne !ok2
+	jsr anyundead
+	lda t2
+	beq !aa1
+	lda #<txt114
+	ldx #>txt114
+	jmp !aa2
+!aa1	lda #<txt115
+	ldx #>txt115
+	jmp !aa2
+!ok2	lda potml,y
+	ldx potmh,y
+!aa2	jsr prntff
+	jsr fadeup
+	jsr waitfire
+!x	jmp pgr4
+
+
+; ---------------------------------
+
+ytb5	hex 0b 0c 0d 0e 0f 10 11 12 13 ff 15
+
+inv2	jsr stindex		;weapons
+	lda player_wpg,x
+	bne !1
+	lda player_qtg,x
+	and #3
+	bne !1
+	jmp inloop
+!1	jsr invbit1
+	lda #$a
+	sta pphase
+	box 5,8,21,13,1
+	lda #<txtc0
+	ldx #>txtc0
+	jsr prntff
+	print1 txt40,scrn0+21*32+7
+	
+	jsr stindex
+	lda player_wpg,x
+	sta t4
+	lda #<scrn0+$b*32+7
+	sta t6
+	lda #>scrn0+$b*32+7
+	sta t7
+	lda #7
+	sta t8
+	ldx #0
+	stx t5
+!l1	stx tmpx
+	lda t4
+	and oorraa,x
+	beq !2
+	lda wuttl+1,x
+	ldy wutth+1,x
+	jsr invbit3
+!2	ldx tmpx
+	inx
+	cpx #7
+	bne !l1
+	jsr stindex
+	lda player_qtg,x
+	and #spiritbld
+	beq !2a
+	lda wuttl+8
+	ldy wutth+8
+	jsr invbit3
+!2a	jsr stindex
+	lda player_qtg,x
+	and #orcsbane
+	beq !2b
+	lda wuttl+9
+	ldy wutth+9
+	jsr invbit3
+!2b	jsr fadeup
+
+!loop	jsr mpbits1	;do pointer etc
+	cmp #2	;cancel?	
+	beq !xx
+	cmp #1
+	beq !ok
+
+	lda #<ytb5
+	ldx #>ytb5
+	ldy #$b
+	jsr invbit2
+	jmp !loop
+
+!ok	lda mmdex
+	sec
+	sbc #$b
+	sta t0
+	
+	jsr stindex
+	ldy #0
+	sty t1
+!3	lda player_wpg,x
+	and oorraa,y
+	beq !4
+	lda t1
+	cmp t0
+	beq !ok1
+	inc t1
+!4	iny
+	cpy #7
+	bne !3
+	lda player_qtg,x
+	and #spiritbld
+	beq !6
+	lda t1
+	cmp t0
+	beq !ok1
+	inc t1
+!6	iny
+	lda player_qtg,x
+	and #orcsbane
+	beq !5
+	lda t1
+	cmp t0
+	beq !ok1
+!5	jmp !loop
+
+!ok1	lda player_amu,x
+	and #shield
+	beq !nok
+	cpy #0	;battle axe?
+	bne !nok
+	jsr fadedown
+	jsr amess1
+	lda #<txt100
+	ldx #>txt100
+	jsr prntff
+	jsr fadeup
+	jsr waitfire
+!xx	jmp pgr4
+
+!nok	iny
+!a	sty t0
+	lda player_wpu,x
+	cmp t0
+	bne !o
+	ldy #0
+	beq !a
+!o	and #%11110000
+	ora t0
+	sta player_wpu,x
+!x	jmp pgr4
+
+; -----------------------------
+
+ytb6	hex 0b 0c 0d 0e 0f 10 11 ff 13
+armno	db %10111001,%10111010,%10111100,0,0,0,%11111000
+
+  
+inv3	jsr stindex
+	lda player_amg,x
+	bne !1
+	lda player_qtg,x
+	and #borinsarm
+	bne !1
+	jmp inloop
+!1	jsr invbit1
+	lda #$b
+	sta pphase
+	box 5,8,21,11,1
+	lda #<txtc1
+	ldx #>txtc1
+	jsr prntff
+	print1 txt40,scrn0+19*32+7
+	
+	jsr stindex
+	lda player_amg,x
+	sta t4
+	lda #<scrn0+$b*32+7
+	sta t6
+	lda #>scrn0+$b*32+7
+	sta t7
+	ldx #0
+	stx t5
+!l1	stx tmpx
+	lda t4
+	and oorraa,x
+	beq !2
+	lda attl,x
+	ldy atth,x
+	jsr invbit3
+!2	ldx tmpx
+	inx
+	cpx #6
+	bne !l1
+	jsr stindex
+	lda player_qtg,x
+	and #borinsarm
+	beq !2a
+	lda attl+6
+	ldy atth+6
+	jsr invbit3
+!2a	jsr fadeup
+
+!loop	jsr mpbits1	;do pointer etc
+	cmp #2	;cancel?	
+	beq !x1
+	cmp #1
+	beq !ok
+
+	lda #<ytb6
+	ldx #>ytb6
+	ldy #9
+	jsr invbit2
+	jmp !loop
+
+!ok	lda mmdex
+	sec
+	sbc #$b
+	sta t0
+	
+	jsr stindex
+	ldy #0
+	sty t1
+!3	lda player_amg,x
+	and oorraa,y
+	beq !4
+	lda t1
+	cmp t0
+	beq !ok1
+	inc t1
+!4	iny
+	cpy #7
+	bne !3
+	dey
+	lda player_qtg,x
+	and #borinsarm
+	beq !6
+	lda t1
+	cmp t0
+	beq !ok1
+!6	jmp !loop
+
+!ok1	lda player_amu,x	;already got shield
+	and #shield
+	bne !nok
+	cpy #4	;shield?
+	bne !nok
+	lda player_wpu,x	;using battle axe?
+	and #weapon
+	cmp #1
+	bne !nok
+	jsr fadedown
+	jsr amess1
+	lda #<txt101
+	ldx #>txt101
+	jsr prntff
+	jsr fadeup
+	jsr waitfire
+!x1	jmp pgr4
+
+!nok	lda player_amu,x
+	eor oorraa,y
+	sta player_amu,x
+	beq !x
+	cpy #3
+	bcc !1a
+	cpy #6
+	bne !x
+!1a	lda player_amu,x
+	and armno,y
+	sta player_amu,x
+!x	jmp pgr4
+
+
+; -----------------------------
+
+inv4	jsr stindex
+	lda player_wpu,x
+	and #toolkit
+	bne !ok
+	jmp inloop
+!ok	jsr gen_txt
+	jsr chktraps
+	bcc !1
+	lda rn
+	and #1
+	beq !3
+	lda tmpx
+	beq !4
+	cmp #1
+	bne !1
+	ldx tmpy
+	jsr disarm_trp
+	lda #<txtbd	;fix pit trap
+	ldx #>txtbd
+	jmp !2a
+!4	ldx tmpy
+	jsr disarm_trp
+	lda #<txtbe	;fix spear trap
+	ldx #>txtbe
+	jmp !2a
+!3	ldx tmpy
+	jsr disarm_trp
+	jsr srlbp
+	lda #<txtc7	;goes off
+	ldx #>txtc7
+	jmp !2a
+!1	lda #<txtbc
+	ldx #>txtbc
+!2a	jsr prntff
+!2	jsr fadeup
+	jsr waitfire
+!x	jmp pgr4
+
+
+; -----------------------------
+
+inv5	lda #0
+	sta pphase
+	sta phase
+	jmp ppxit
+
+
+invbit1	jsr fadedown
+	jsr clr_both
+	lda #9
+	sta pphase
+	lda #3
+	sta phase
+	lda #$b
+	sta mmdex
+	rts
+
+invbit2	sta tc
+	stx td
+	sty tb
+	lda mmdex
+	sta te
+	lda obyl+point
+	sec
+	sbc #84
+	lsr a
+	lsr a
+	lsr a
+	cmp tb
+	bcs !loop
+	tay
+	lda (tc),y
+	bmi !loop
+	sta mmdex
+	lda #6
+	sta td
+	inc mmdmaflg
+!loop	rts
+
+
+invbit3	sta txtlo
+	sty txthi
+	lda t6
+	sta txtscrnl
+	lda t7
+	sta txtscrnh
+	lda #24
+	sta txtll
+	jsr dmatxt
+	inc t5
+	lda t6
+	clc
+	adc #$20
+	sta t6
+	bcc !2
+	inc t7
+!2	rts
+
+
+heal	clc
+	adc player_bp,x
+	cmp plr_bp,x
+	bcc !ok
+	beq !ok
+	lda plr_bp,x
+!ok	sta player_bp,x
+	rts
+
+
+prntpots	ldx #0
+	stx t5
+!l1	stx tmpx
+	lda t4
+	and oorraa,x
+	beq !2
+	lda pttl,x
+	ldy ptth,x
+	jsr invbit3
+!2	ldx tmpx
+	inx
+	cpx #6
+	bne !l1
+	rts
+
+prntnone	sta txtscrnl
+	stx txtscrnh
+	lda #<txtb5
+	sta txtlo
+	lda #>txtb5
+	sta txthi
+	jmp dmatxt
+
+
+;* ------------------------------------------------------------------------ *;
+
+srchtl	dl txt48,txt49,txt4a,txt4b,txt4a,txt4c,txt4a,txt4d	;$00
+	dl txt4e,txt4f,txt50,txt51,txt52,txt53,txt4a,txt54	;$08
+	dl txt55,txt56,txt57,txt51,txt58,txt59,txt5a,txt5b	;$10
+	dl txtca
+
+	dl txt61,txt64,txt65,txt66,txt68,txt67,txt69,txt6a ;$19
+	dl txt6c,txt6d,txt6e,txt6f,txt6d,txt70,txt65,txt74 ;$21
+	dl txt7c,txt72,txt73,txt6d,txt71,txt7b,txt7b,txt7b	;$29
+
+	dl txt9f,txta0,txtab,txtac,txtae,txtcb,txte3,txte6 ;$31
+
+srchth	dh txt48,txt49,txt4a,txt4b,txt4a,txt4c,txt4a,txt4d	;$00
+	dh txt4e,txt4f,txt50,txt51,txt52,txt53,txt4a,txt54	;$08
+	dh txt55,txt56,txt57,txt51,txt58,txt59,txt5a,txt5b	;$10
+	dh txtca
+
+	dh txt61,txt64,txt65,txt66,txt68,txt67,txt69,txt6a ;$19
+	dh txt6c,txt6d,txt6e,txt6f,txt6d,txt70,txt65,txt74 ;$21
+	dh txt7c,txt72,txt73,txt6d,txt71,txt7b,txt7b,txt7b	;$29
+
+	dh txt9f,txta0,txtab,txtac,txtae,txtcb,txte3,txte6 ;$31
+
+chest_base	equ $19
+treas_base	equ $31
+
+srchvl	dl sr1,sr2,sr3,sr4,sr3,sr5,sr3,sr6	;$00
+	dl sr7,sr8,sr5,sr9,sr5,sra,sr3,sr2	;$08
+	dl src,srd,sre,sr9,srf,srf,srg,srf	;$10
+	dl srh									;$18
+
+	dl sr5,tc1,sr6,tc2,tc3,tc4,tc5,tc6	;$19 - treasure chests
+	dl tc7,tc3,tc8,tc9,tc3,tca,sr6,tcb	;$21
+	dl tcn,tcc,sr5,tc3,tcd,tc1,tc1,tc1	;$29
+
+	dl sr7,tr1,tr2,tr3,tr4,tr5,tr6,tr7	;$31 - other treasures
+
+srchvh	dh sr1,sr2,sr3,sr4,sr3,sr5,sr3,sr6	;$00
+	dh sr7,sr8,sr5,sr9,sr5,sra,sr3,sr2	;$08
+	dh src,srd,sre,sr9,srf,srf,srg,srf	;$10
+	dh srh									;$18
+
+	dh sr5,tc1,sr6,tc2,tc3,tc4,tc5,tc6	;$19 - treasure chests
+	dh tc7,tc3,tc8,tc9,tc3,tca,sr6,tcb	;$21
+	dh tcn,tcc,sr5,tc3,tcd,tc1,tc1,tc1	;$29
+
+	dh sr7,tr1,tr2,tr3,tr4,tr5,tr6,tr7	;$31 - other treasures
+
+
+	;search for hidden treasure
+pgr6	lda alldead	;can't search until all monsters
+	bne !11	;in room are dead
+!x	rts
+!11	jsr missago
+	bne !x
+	lda icon_oo,x	;search treasure icon active?
+	and #i_streas
+	bne !x
+
+	jsr zero_pbits	;disable icons etc.
+	
+	jsr gen_txt
+	ldx room_num	;searched this room before?
+	jsr dorbit
+	lda searched1,x
+	and oorraa,y
+	beq !ok	;no
+	lda #3	;nothing
+	bne !1b
+!ok	lda searched1,x	;set searched this room flag
+	ora oorraa,y
+	sta searched1,x
+
+	jsr chktreas
+	bcc !1d
+	ldx tmpx
+	bne !1e
+	
+!1d	jsr chkchest
+	bcc !1a
+	lda tmpx	;trapped
+	cmp #chest_base
+	beq !1b
+	cmp #chest_base+6
+	beq !1b
+	cmp #chest_base+7
+	beq !1b
+	cmp #chest_base+$12
+	beq !1b
+
+	print1 txt63,scrn0+9*32+6,20	;treasure chest contains ...
+	lda #<scrn0+11*32+6	 ;print 2 lines lower
+	sta txtscrnl
+	lda #>scrn0+11*32+6
+	sta txtscrnh
+	ldx tmpx
+	bne !1c
+
+!1a	lda rn	;pick a random treasure
+	and #$17	
+	cmp #2	
+	beq !1z	
+	cmp #4
+	beq !1z
+	cmp #6
+	beq !1z
+	cmp #$e
+	bne !1b
+!1z	ldx quest_num	;if castle of mystery
+	cpx #9
+	bne !1b
+	lda #$18	;ollar text
+!1b	sta tmpx
+	tax
+!1e	lda #<scrn0+9*32+6
+	sta txtscrnl
+	lda #>scrn0+9*32+6
+	sta txtscrnh
+!1c	lda srchtl,x
+	sta txtlo
+	lda srchth,x
+	sta txthi
+	lda #20
+	sta txtll
+	jsr dmatxt
+	
+	ldx tmpx
+	lda srchvl,x
+	sta t0
+	lda srchvh,x
+	sta t1
+	jsr jmpt0	
+
+!1	jsr fadeup
+	jsr waitfire
+	jmp ppxit
+
+	
+sr1	jsr stindex	;give potion of strength
+	lda player_pog,x
+	ora #potstren
+	sta player_pog,x
+	rts
+sr2	lda #25	;give 25 gold
+	jmp srgg
+
+wander_t	hex 00 00 00 04 02 04 00 04 04 00 04 07 03 05
+	hex 03 02 07 05 07 07 03 03 03 05
+
+sr3	jsr amess2
+	ldx player_n
+	lda player_t,x
+	sta plr_t
+	ldx quest_num
+	lda wander_t,x
+	sta nme_t		
+	jsr killer	;monster attacks
+	jsr dead_yn	;xit if plr ded
+	beq !1
+	pla
+	pla
+	jmp ppxit
+!1	jsr gen_txt
+	lda #<txt119
+	ldx #>txt119
+	jsr prntff
+	jsr fadeup
+	jsr waitfire
+	pla
+	pla
+	jmp ppxit
+sr4	rts		;give nothing
+sr5	jmp srlbp	;trap/lose 1 bp
+sr6	lda #100	;give 100 gold
+	jmp srgg		
+sr7	lda #30	;give 30 gold
+	jsr srgg
+	ldx player_n
+	jmp plrmissgo
+sr8	lda #20	;give 20 gold
+	jmp srgg
+sr9	jsr stindex	;give potion of healing
+	lda player_pog,x
+	ora #potheal
+	sta player_pog,x
+	rts
+sra	jsr stindex	;give potion of speed
+	lda player_pog,x
+	ora #potspeed
+	sta player_pog,x
+	rts
+src	lda #10	;give 10 gold
+	jmp srgg	
+srd	jsr stindex	;give holy water
+	lda player_pog,x
+	ora #holywater
+	sta player_pog,x
+	rts
+sre	jsr stindex	;give heroic brew
+	lda player_pog,x
+	ora #herobrew
+	sta player_pog,x
+	rts
+srf	lda #50	;give 50 gold
+	jmp srgg
+srg	jsr stindex	;give potion of resilience
+	lda player_pog,x
+	ora #potresil
+	sta player_pog,x
+srh	rts
+
+	;treasure chests
+tc1	jsr sr9	;give potion of strength	
+	jmp srf	;50 gold coins
+
+tc2	inc got_gold	;got prince magnus gold
+	jsr stindex	;set player that found it
+	stx plr_found
+tcn	rts		;nothing
+
+tc3	lda #200	;karlens 200 gc
+	jmp srgg
+
+tc4	jsr stindex	;give wand of recall
+	lda player_qtg,x
+	ora #wandrecal
+	sta player_qtg,x
+	lda #1
+	sta cur_qtreas,x
+tcb	lda #150	;150 gc
+	jmp srgg
+
+tc5	inc fools_gold	;give 5000 fools gold
+	ldy player_n
+	lda player_t,y
+	asl a
+	tax
+	lda player_g,x
+	clc
+	adc #$88
+	sta player_g,x
+	lda player_g+1,x
+	adc #$13
+	sta player_g+1,x
+	rts
+
+tc6	inc garg_hurt
+	jmp compt	;gargoyle trap
+
+tc7	jsr stindex	;give orcs bane
+	lda player_qtg,x
+	ora #orcsbane
+	sta player_qtg,x
+	lda #3
+	sta cur_qtreas,x
+	rts
+
+tc8	jsr stindex	;give spirit blade
+	lda player_qtg,x
+	ora #spiritbld
+	sta player_qtg,x
+	lda #5
+	sta cur_qtreas,x
+	rts
+
+tc9	jsr sr9
+	jmp tc3
+
+tca	jsr tc3	;300 gc
+	jmp sr6	
+
+tcc	jsr sr6	;100 gc
+	jmp sr9	;p.h
+
+tcd	jsr tc3	;350 gc
+	jmp tcb
+
+
+	;other treasure items
+tr1	jsr stindex	;give spear
+	lda player_wpg,x
+	ora #spear
+	sta player_wpg,x
+	rts
+tr2	inc got_talman	
+	jsr stindex	;give talisman of lore
+	lda player_qtg,x
+	ora #talisman
+	sta player_qtg,x
+	lda #2
+	sta cur_qtreas,x
+	rts
+tr3	inc throne_mv	;throne has moved
+	dec throne_x	;set new throne x,y
+	;ldx room_num
+	;jsr dorbit
+	;lda searched2,x	;clr searched this room flag
+	;and aanndd,y
+	;sta searched2,x
+	rts
+tr4	jsr stindex	;give borins armour	
+	lda player_qtg,x
+	ora #borinsarm
+	sta player_qtg,x
+	lda #4
+	sta cur_qtreas,x
+	rts
+tr5	jsr stindex	;give shield
+	lda player_amg,x
+	ora #shield
+	sta player_amg,x
+	rts
+tr6	ldx player_n
+	lda agrain_key,x
+	bne !no
+	inc agrain_key,x
+	jsr sr6
+!a	ldx room_num	;clr searched flag
+	jsr dorbit
+	lda searched1,x
+	and aanndd,y
+	sta searched1,x
+	rts
+!no	jsr box2
+	print1 txte9,scrn0+9*32+6,20
+	jmp !a
+tr7	jsr tc3	;500 gc
+	jsr tc3
+	jmp sr6
+	
+
+srggg	sta t0
+	txa
+	jmp srge
+srgg	sta t0
+	ldy player_n
+	lda player_t,y
+srge	asl a
+	tax
+	lda player_g,x
+	clc
+	adc t0
+	sta player_g,x
+	bcc !1
+	inc player_g+1,x
+!1	rts
+
+srlbp	jsr stindex
+s1bp	lda player_bp,x
+	beq !x
+	cmp #1
+	bne !ok
+	lda player_wpu,x	;player is dead
+	ora #dead
+	sta player_wpu,x
+!ok	dec player_bp,x
+	;jmp pbody
+!x	rts
+
+;* ------------------------------------------------------------------------ *;
+
+	;display map and position of player
+pgr7	jsr missago
+	beq !ok
+	rts
+!ok	jsr mapo	;output visible map and players/monsters etc
+	jsr qtxtout
+	lda #2
+	sta phase
+	ldx player_n
+	bmi !o
+	lda player_x,x
+	ldy player_y,x
+	asl a
+	asl a
+	asl a
+	clc
+	adc #3*8
+	sta obxl+point
+	tya
+	asl a
+	asl a
+	asl a
+	clc
+	adc #(5*8)-1
+	sta obyl+point	
+!o	jsr fadeup
+
+!ll	jsr mpbits;1	;!!!!!
+	ldx dfirea
+	beq !1
+	cmp #1
+	beq mpxit
+!1	jsr map_ident
+	;jmp !ll
+	; !!!!!!!!!! take out !!!!!!!! ;
+	ldx player_n
+	lda t1e
+	sta player_x,x
+	lda t1f
+	sta player_y,x
+	jmp mpxit
+	; !!!!!!!!!!!!!!!!!!!!!!!!!!!! ;
+
+mpxit	lda #0
+	sta pphase
+	sta phase
+ppxit	inc buildflg
+	jmp wipejoy 	
+
+mpbits	jsr waitfrm
+	jsr hobs2
+	jsr do_obs
+	lda #0
+	sta t10
+	jsr p_and_c
+	jsr snapper
+	lda t10
+	beq mpbits
+	rts
+
+mpbits1	jsr waitfrm
+	jsr hobs2
+	jsr do_obs
+	lda #0
+	sta t10
+	jsr p_and_c
+	jsr snapper
+	lda t10
+	rts
+
+
+;* ------------------------------------------------------------------------ *;
+
+	;movement routines
+	;
+	;move up/left (left)
+pgr8	jsr canumove
+	bcc !x1
+	jsr wrkmpos
+	lda player_x,x
+	beq !x1
+	lda t1d
+	sta t1b
+	lda t1c
+	sec
+	sbc #1
+	sta t1a
+	bcs !1
+	dec t1b
+
+!1	ldy #0	;minus = no go area
+	lda quest_num	;castle
+	cmp #9
+	beq !ys1
+	lda (t1a),y
+	bpl !ys1
+!x1	rts
+	
+!ys1	jsr copyxy
+	dec t2
+	jsr chkvalid2	;any obstructions?
+	bcs !x	;yes: skip
+	ldy #0
+	sty t4
+	lda (t1a),y	;moving into a different room?
+	cmp (t1c),y
+	beq !2	;no: normal
+	inc t2
+	jsr thrurck	;thru rock spell cast?
+	bne !y1
+	jsr chkaexit	;check valid exits (doors & corridoor exits)
+	bcs !y1
+	jsr chkadoor
+	bcc !x
+	lda t0
+	and #3
+	bne !x
+	jsr scrt_door	;is it a secret door?
+	bcs !x
+	lda #0
+	jsr door_open1
+
+!y1	inc buildflg	;changed room 
+	jsr teleport	;castle of mystery only
+	bcs !3
+	ldx player_n
+	dec player_x,x
+	lda #0
+	sta player_f,x
+	jsr chkspesh
+	jmp !3
+
+!2	ldx player_n
+	lda player_x,x
+	sta tpx
+	lda player_y,x
+	sta tpy
+	dec player_x,x
+	jsr setmove
+
+!3	jsr min1move
+	ldx player_n
+	jsr setmoved
+	jsr copyxy
+!x	rts
+
+	;move up/right (up)
+pgr9	jsr canumove
+	bcc !x1
+	jsr wrkmpos
+	lda player_y,x
+	beq !x1
+	lda t1d
+	sta t1b
+	lda t1c
+	sec
+	sbc #$1a
+	sta t1a
+	bcs !1
+	dec t1b
+
+!1	ldy #0
+	lda quest_num	;castle
+	cmp #9
+	beq !ys1
+	lda (t1a),y
+	bpl !ys1
+!x1	rts
+
+!ys1	jsr copyxy
+	dec t3
+	jsr chkvalid2	;any obstructions?
+	bcs !x	;yes: skip
+	lda #1
+	sta t4
+	ldy #0
+	lda (t1a),y	;moving into a different room?
+	cmp (t1c),y
+	beq !2
+	inc t3
+	jsr thrurck
+	bne !y1
+	jsr chkaexit	;check valid exits (doors & corridoor exits)
+	bcs !y1
+	jsr chkadoor
+	bcc !x
+	lda t0
+	and #3
+	cmp #1
+	bne !x
+	jsr scrt_door	;is it a secret door?
+	bcs !x
+	lda #1
+	jsr door_open1
+
+!y1	inc buildflg	;changed room 
+	jsr teleport	;castle of mystery only
+	bcs !3
+	ldx player_n
+	dec player_y,x
+	lda #1
+	sta player_f,x
+	jsr chkspesh
+	jmp !3
+	
+!2	ldx player_n
+	lda player_x,x
+	sta tpx
+	lda player_y,x
+	sta tpy
+	dec player_y,x
+	jsr setmove
+
+!3	jsr min1move
+	ldx player_n
+	jsr setmoved
+	jsr copyxy
+!x	rts
+
+	;move down/right (down)
+pgr10	jsr canumove
+	bcc !x1
+	jsr wrkmpos
+	lda player_y,x
+	cmp #$12
+	beq !x1
+	lda t1d
+	sta t1b
+	lda t1c
+	clc
+	adc #$1a
+	sta t1a
+	bcc !1
+	inc t1b
+
+!1	ldy #0
+	lda quest_num	;castle
+	cmp #9
+	beq !ys1
+	lda (t1a),y
+	bpl !ys1
+!x1	rts
+
+!ys1	jsr copyxy
+	inc t3
+	jsr chkvalid2	;any obstructions?
+	bcs !x	;yes: skip
+	lda #2
+	sta t4
+	ldy #0
+	lda (t1a),y	;moving into a different room?
+	cmp (t1c),y
+	beq !2
+	dec t3
+	jsr thrurck
+	bne !y1
+	jsr chkaexit	;check valid exits (doors & corridoor exits)
+	bcs !y1
+	jsr chkadoor
+	bcc !x
+	lda t0
+	and #3
+	cmp #3
+	bne !x
+	jsr scrt_door	;is it a secret door?
+	bcs !x
+	lda #2
+	jsr door_open1
+
+!y1	inc buildflg	;changed room 
+	jsr teleport	;castle of mystery only
+	bcs !3
+	ldx player_n
+	inc player_y,x
+	lda #2
+	sta player_f,x
+	jsr chkspesh
+	jmp !3
+
+!2	ldx player_n
+	lda player_x,x
+	sta tpx
+	lda player_y,x
+	sta tpy
+	inc player_y,x
+	jsr setmove
+
+!3	jsr min1move
+	ldx player_n
+	jsr setmoved
+	jsr copyxy
+!x	rts
+
+	;move down/left (right)
+pgr11	jsr canumove
+	bcc !x1
+	jsr wrkmpos
+	lda player_x,x
+	cmp #$19
+	beq !x1
+	lda t1d
+	sta t1b
+	lda t1c
+	clc
+	adc #1
+	sta t1a
+	bcc !1
+	inc t1b
+
+!1	ldy #0
+	lda quest_num	;castle
+	cmp #9
+	beq !ys1
+	lda (t1a),y
+	bpl !ys1
+!x1	rts
+
+!ys1	jsr copyxy
+	inc t2
+	jsr chkvalid2	;any obstructions?
+	bcs !x	;yes: skip
+	lda #3
+	sta t4
+	ldy #0
+	lda (t1a),y	;moving into a different room?
+	cmp (t1c),y
+	beq !2
+	dec t2
+	jsr thrurck
+	bne !y1
+	jsr chkaexit	;check valid exits (doors & corridoor exits)
+	bcs !y1
+	jsr chkadoor
+	bcc !x
+	lda t0
+	and #3
+	cmp #2
+	bne !x
+	jsr scrt_door	;is it a secret door?
+	bcs !x
+	lda #3
+	jsr door_open1
+
+!y1	inc buildflg	;changed room 
+	jsr teleport	;castle of mystery only
+	bcs !3
+	ldx player_n
+	inc player_x,x
+	lda #3
+	sta player_f,x
+	jsr chkspesh
+	jmp !3
+	
+!2	ldx player_n
+	lda player_x,x
+	sta tpx
+	lda player_y,x
+	sta tpy
+	inc player_x,x
+	jsr setmove
+	
+!3	jsr min1move
+	ldx player_n
+	jsr setmoved
+	jsr copyxy
+!x	rts
+
+
+thrurck	ldx player_n
+	lda player_flg,x
+	and #thrurock
+	rts
+
+setmoved	lda player_flg,x	;player has moved
+	ora #moved
+	sta player_flg,x
+	rts
+
+tele_xy	hex 090f 0902 040e 0902 0406 060b 090f 0f09 1002 1110 160d
+	hex 1604 040e 0f09 160d 0406
+tele_f	hex 03 03 02 03 00 00 03 00 00 00 01 01 02 00 01 00
+
+revol_xy	hex 0d06 1009 0c0c 0909
+revol_f	hex 01 03 02 00
+
+teleport	lda quest_num
+	cmp #9
+	beq !1
+	cmp #$f
+	bne !x
+
+	lda room_num
+	cmp #$12
+	bne !x	
+!2	jsr randy
+	and #3
+	sta tpx
+	asl a
+	tax
+	lda revol_xy,x
+	sta t2
+	lda revol_xy+1,x
+	sta t3
+	jsr chknme2	
+	bcs !2
+	jsr tele1
+	ldx tpx
+	lda revol_f,x
+	jmp !3
+
+!1	jsr randy
+	and #$f
+	asl a
+	tax
+	stx tpx
+	ldy tele_xy+1,x
+	lda tele_xy,x
+	cmp last_xy
+	bne !y
+	cpy last_xy+1
+	beq !1
+!y	sta t2
+	sty t3
+	sta last_xy
+	sty last_xy+1
+	jsr chknme2
+	bcs !1
+	jsr tele1
+	ldx tpx
+	lda tele_f,x
+!3	sta player_f,y
+	jsr chkadoor
+	jsr door_open
+	sec
+	rts
+!x	clc
+	rts
+
+tele1	ldy player_n
+	lda t2
+	sta player_x,y
+	lda t3
+	sta player_y,y
+	rts
+
+
+canumove	lda buildflg
+	bne !2
+	lda movflg
+	bne !2
+	ldy player_n
+	lda player_m,y
+	bne !1
+	sec	;!!!!!!!!!! take this out !!!!!!!!!!
+	rts	;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+!2	clc
+	rts
+!1	sec
+	rts
+min1move	ldy player_n
+	lda player_m,y
+	sec
+	sbc #1
+	sta player_m,y
+	jmp pmove
+
+
+setmove	inc t4
+	lda t4
+	sta movflg
+	lda #8
+	sta movcnt
+	jsr find_hplay
+	ldy player_n
+	lda player_x,y
+	sta obxpos,x
+	lda player_y,y
+	sta obypos,x
+	sfx c
+	rts
+	;jsr chk_behind
+	;jmp sort_obs
+
+	;make a copy of players x,y
+	;
+copyxy	lda player_x,x
+	sta t2
+	lda player_y,x
+	sta t3
+	rts
+
+
+;* ------------------------------------------------------------------------ *;
+
+ytb1	hex 0b 0c 0d 0e 0f 10 11 12 13 ff 15
+sptxtl	dl txt1b,txt23,txt1f,txt1d,txt1c,txt1e,txt25,txt26,txt24
+	dl txt22,txt21,txt20
+sptxth	dh txt1b,txt23,txt1f,txt1d,txt1c,txt1e,txt25,txt26,txt24
+	dh txt22,txt21,txt20
+
+splrl	dl s1,s2,s3,s4b,s5,s6,s7,s1,s9,s10,s11,s12
+splrh	dh s1,s2,s3,s4b,s5,s6,s7,s1,s9,s10,s11,s12
+
+	;cast spell
+pgr12	ldx player_n
+	lda player_t,x
+	sta ta
+	cmp #2
+	bcs !y
+!xx	rts
+!y	jsr missago
+	bne !xx
+	lda icon_oo,x	;spell cast icon active?
+	and #i_magic
+	bne !xx
+	lda spell_cast
+	beq !ok1
+	cmp #2
+	beq !xx
+	ldx ta
+	lda player_qtg,x	;another cast if wand
+	and #wandrecal
+	beq !xx
+
+!ok1	jsr readytxt		;pick a spell
+	jsr clrobs
+	jsr clr_sprts
+	jsr dnldbxtx
+	box 5,8,20,13,1
+	print1 txt3f,scrn0+9*32+7,20
+	print1 txt40,scrn0+21*32+7,
+	
+	jsr stindex	;print all the spells	
+	txa
+	asl a
+	tax
+	lda player_sp+1,x
+	sta t4
+	lda player_sp,x
+	sta t5
+	
+	lda #<scrn0+11*32+7
+	ldx #>scrn0+11*32+7
+	sta t2
+	stx t3
+
+	ldx #0
+!l1a	stx tmpx
+	lda t4
+	and oorraa,x
+	beq !no
+	ldy sptxtl,x
+	lda sptxth,x
+	tax
+	tya
+	jsr spp1
+	jsr prntff1
+	jsr bmpt2
+!no	ldx tmpx
+	inx
+	cpx #8
+	bne !l1a
+
+	ldx #0
+!l2	stx tmpx
+	lda t5
+	and oorraa,x
+	beq !no1
+	ldy sptxtl+8,x
+	lda sptxth+8,x
+	tax
+	tya
+	jsr spp1
+	jsr prntff1
+	jsr bmpt2
+!no1	ldx tmpx
+	inx
+	cpx #4
+	bne !l2
+
+	lda #7
+	sta pphase
+	lda #3
+	sta phase
+	lda #$b
+	sta mmdex
+	jsr fadeup
+
+!l1	jsr mpbits1	;do pointer etc
+	cmp #2	;cancel?	
+	bne !aa1
+	jmp !x	
+!aa1	cmp #1
+	beq !ok
+
+	lda mmdex
+	sta te
+	lda obyl+point
+	sec
+	sbc #84
+	lsr a
+	lsr a
+	lsr a
+	cmp #11
+	bcs !l1
+	tax
+	lda ytb1,x
+	bmi !l1
+	sta mmdex
+	lda #6
+	sta td
+	inc mmdmaflg
+	jmp !l1
+
+!ok	lda mmdex	;work out which spell selected
+	sec
+	sbc #$b
+	sta t0
+	
+	jsr stindex
+	txa
+	asl a
+	tax
+	lda player_sp+1,x
+	sta t2
+	lda player_sp,x
+	sta t3
+
+	ldx #0
+	stx t1
+	stx t4
+!l10	lda t2
+	and oorraa,x
+	beq !nxt1
+	lda t1
+	cmp t0
+	bne !sk1
+	lda t2
+	and aanndd,x
+	sta t2
+	jmp !ok2
+!sk1	inc t1
+!nxt1	inc t4
+	inx
+	cpx #8
+	bne !l10
+	ldx #0
+!l11	lda t3
+	and oorraa,x
+	beq !nxt2
+	lda t1
+	cmp t0
+	bne !sk2
+	lda t3
+	and aanndd,x
+	sta t3
+	jmp !ok2
+!sk2	inc t1
+!nxt2	inc t4
+	inx
+	cpx #4
+	bne !l11
+	jmp !l1
+
+!ok2	lda t4
+	sta spell_num
+	lda t2		
+	sta spellh
+	lda t3
+	sta spelll
+
+	lda spell_num
+	cmp #3
+	bne !n1
+	jsr gen_txt		;genie
+	lda #<txt76
+	ldx #>txt76
+	jsr prntff
+	print1 txt77,scrn0+11*32+6,
+	print1 txt78,scrn0+12*32+6,
+	jsr fadeup
+!loop	lda dfirea
+	beq !sk3
+	jsr s4a
+	inc spell_cast
+	jmp !x
+!sk3	lda dfireb
+	beq !loop
+
+!n1	jsr mapo	;output visible map and players/monsters etc
+	jsr qtxtout
+	lda #2
+	sta phase
+	jsr fadeup
+
+!l3	jsr mpbits1	;choose what to cast it on
+	ldx dfirea
+	bne !ov3
+	jsr map_ident
+	lda mmdex
+	sta tmmdex
+	jmp !l3
+!ov3	cmp #1
+	bne !ov2
+	jmp !x
+!ov2	lda tmmdex
+	sta mmdex
+	cmp #validop1
+	bcc !l3
+	cmp #validop2
+	bcc !oknme
+	cmp #plroff
+	bcc !l3
+	cmp #plroff+4
+	bcs !l3
+
+!okplr	sec
+	sbc #plroff
+	sta plr_con
+	jsr stindex
+	cpx plr_con
+	bne !other
+	lda #0		;self
+	db $2c
+!other	lda #1		;other player
+	db $2c
+!oknme	lda #2		;nme
+	sta cast_on
+
+!do_spell	jsr stindex
+	txa
+	asl a
+	tax
+	lda spellh		;!!!!! put back in	
+	sta player_sp+1,x
+	lda spelll
+	sta player_sp,x
+
+	inc spell_cast
+	jsr zero_pmove
+	lda #i_combat+i_sdoors+i_streas
+	sta icon_oo,x
+	
+	lda mmdex
+	;sta nme_t
+	cmp #$c
+	beq !ohoh
+	cmp #$d
+	beq !ohoh
+	cmp #$13
+	bne !nn
+	jsr gen_txt	;wasted on kessandria
+	lda #<txt11c
+	ldx #>txt11c
+	jmp !nb
+!ohoh	jsr gen_txt	;wasted on witchlord
+	lda #<txt11b
+	ldx #>txt11b
+!nb	jsr prntff
+	jsr fadeup
+	jsr waitfire
+	jmp !x	
+
+!nn	ldx spell_num
+	lda splrl,x
+	sta t0
+	lda splrh,x
+	sta t1
+	jsr jmpt0
+
+!x	lda #0
+	sta pphase
+	sta phase
+	inc buildflg
+	rts
+
+bmpt2	lda t2
+	clc
+	adc #$20
+	sta t2
+	bcc !1
+	inc t3
+!1	rts
+	
+spp1	sta txtlo
+	stx txthi
+	lda t2
+	ldx t3
+	rts
+
+
+s1	lda cast_on		;water of healing/heal body
+	cmp #2
+	bne !plr
+	jmp nme_wasted
+!plr	jsr gtindex1
+	jsr pinsight
+	beq !o1
+	jmp plr_nview
+!o1	jsr stindex
+	lda #4		;heal 4 bp
+	jsr heal
+	jsr gen_txt
+	lda #<txt7b
+	ldx #>txt7b
+	jmp unprnt
+
+s2	jsr gen_txt
+	lda cast_on		;sleep
+	beq !self
+	cmp #2
+	beq !nme
+!plr	lda player_n
+	eor #1
+	tax
+	jsr pinsight
+	bne !o2
+	lda rn
+	and #1
+	beq !no
+	jsr plrmissgo
+	lda #<txtfa		;other plr sleeps
+	ldx #>txtfa
+	jmp unprnt
+!no	lda #<txtf9		;other plr doesnt sleep
+	ldx #>txtf9
+	jmp unprnt
+!self	lda #<txtf3		;too drowsy
+	ldx #>txtf3
+	jmp unprnt	
+!nme	jsr ninsight
+	beq !o1
+!o2	jmp pnv1
+!o1	lda rn
+	and #1
+	beq !no2
+	ldx nme_n
+	jsr nmemissgo		;nme misses next turn
+	lda #<txtfd		;nme sleeps
+	ldx #>txtfd
+	jmp unprnt
+!no2	lda #<txt106		;nme doesnt sleep
+	ldx #>txt106
+	jmp unprnt
+
+s3	lda cast_on		;veil of mist
+	cmp #2
+	bne !plr
+	jmp nme_wasted
+!plr	jsr gen_txt
+	lda cast_on
+	jsr gtindex1
+	jsr pinsight
+	beq !o1
+	jmp pnv1
+!o1	lda player_flg,x		;player is invisible
+	ora #invisible
+	sta player_flg,x
+	lda #<txtf4
+	ldx #>txtf4
+	jmp unprnt
+
+s4b	jsr gen_txt		;genie attacks someone
+	lda cast_on
+	cmp #2
+	beq !nme
+	jsr gtindex2
+	lda rn
+	and #3
+	ora #1
+	sta t2
+	tay
+!l1	jsr s1bp
+	dey
+	bne !l1
+	print1 txt10a,scrn0+10*32+6,20
+	lda t2
+	ldx #<scrn0+10*32+15
+	ldy #>scrn0+10*32+15
+	jsr pcnum
+	lda #<txt109
+	ldx #>txt109
+	jmp unprnt
+!nme	lda rn
+	and #$7
+	bne !kl
+	lda #<txt108
+	ldx #>txt108
+	jmp unprnt
+!kl	ldx nme_n	;kill nme
+	jsr nme_off
+	lda #<txt107
+	ldx #>txt107
+	jsr unprnt
+	jmp nme_s_dead
+
+s4a	jsr mapo	;output visible map and players/monsters etc
+	jsr qtxtout
+	lda #2
+	sta phase
+	jsr fadeup
+!l3	jsr mpbits	;choose what to cast it on
+	lda t8
+	bne !x
+	cmp #1
+	beq !x
+	jsr map_ident
+	jsr getbpos
+	ldy #0
+	lda (t1c),y
+	bmi !l3
+	jsr set_been
+	jsr mapo	;output visible map and players/monsters etc
+	jsr qtxtout
+	jsr fadeup
+	jmp waitfire
+!x	rts
+
+s5	lda cast_on		;tempest
+	bne !ok
+	jmp plr_wasted
+!ok	cmp #2
+	beq !nme
+	jsr gen_txt
+	lda player_n
+	eor #1
+	tax
+	jsr pinsight
+	bne !o1
+	jsr plrmissgo
+	lda #<txtf8
+	ldx #>txtf8
+	jmp unprnt 
+!nme	jsr gen_txt
+	jsr ninsight
+	beq !o2
+!o1	jmp pnv1
+!o2	ldx nme_n
+	jsr nmemissgo		;nme misses next go
+	lda #<txtfc
+	ldx #>txtfc
+	jmp unprnt 
+
+s6	lda cast_on		;swift wind 
+	cmp #2
+	bne !plr
+	jmp nme_wasted
+!plr	jsr gtindex1
+	jsr pinsight
+	beq !o1
+	jmp plr_nview
+!o1	lda player_flg,x
+	ora #swift
+	sta player_flg,x
+	jsr gen_txt
+	lda #<txt75
+	ldx #>txt75
+	jmp unprnt
+
+s7	lda cast_on		;pass thru rock
+	cmp #2
+	bne !plr
+	jmp nme_wasted
+!plr	jsr gtindex1
+	jsr pinsight
+	beq !o1
+	jmp plr_nview
+!o1	lda player_flg,x
+	ora #thrurock
+	sta player_flg,x
+	jsr gen_txt
+	lda #<txtf2
+	ldx #>txtf2
+	jmp unprnt
+
+s9	lda cast_on		;rock skin
+	cmp #2
+	bne !plr
+	jmp nme_wasted
+!plr	jsr gtindex1
+	jsr pinsight
+	beq !o1
+	jmp plr_nview
+!o1	lda player_flg,x
+	ora #rockskin
+	sta player_flg,x
+	jsr gen_txt
+	lda #<txt7a
+	ldx #>txt7a
+	jmp unprnt
+
+s10	lda cast_on		;courage
+	cmp #2
+	bne !plr
+	jmp nme_wasted
+!plr	jsr gtindex1
+	jsr pinsight
+	beq !o1
+	jmp plr_nview
+!o1	lda player_flg,x
+	ora #courage
+	sta player_flg,x
+	jsr gen_txt
+	lda #<txtf5
+	ldx #>txtf5
+	jmp unprnt
+
+s11	jsr gen_txt
+	lda cast_on		;fire wrath
+	cmp #2
+	beq s112na
+	jsr gtindex2
+	jsr s1bp		;-1 bp
+	lda #<txtf6
+	ldx #>txtf6
+	jmp unprnt
+
+s12	jsr gen_txt
+	lda cast_on		;ball of flame
+	cmp #2
+	beq s112nme
+	jsr gtindex1
+	jsr pinsight
+	beq !o1
+	jmp pnv1
+!o1	jsr gtindex2
+	jsr s1bp		;-2 bp
+	jsr s1bp
+	lda #<txtf7
+	ldx #>txtf7
+	jmp unprnt
+s112nme	jsr ninsight
+	beq s112na
+	jmp pnv1
+s112na	lda rn
+	and #3
+	bne !kl
+	lda #<txtff
+	ldx #>txtff
+	jmp unprnt
+!kl	ldx nme_n		;kill nme
+	jsr nme_off
+	lda #<txtfe
+	ldx #>txtfe
+	jsr unprnt
+
+nme_s_dead	jsr kill_spesh	;anything special when nme killed
+	cmp #<txt5c	;normal message
+	bne !ok
+	cpx #>txt5c
+	bne !ok
+!x	rts
+
+!ok	sta t8
+	stx t9
+	jsr fadedown
+	jsr box2
+	lda t8
+	ldx t9
+	jsr prntff
+	jsr fadeup
+	jmp waitfire
+
+
+plrmissgo	lda player_flg,x		;player misses next turn
+	ora #missgo
+	sta player_flg,x
+	rts
+
+nmemissgo	jsr dorbit		;nme misses a go
+	lda nme_sleep,x
+	ora oorraa,y
+	sta nme_sleep,x
+	rts
+
+gtindex1	cmp #1
+	bne !self
+!othr	lda player_n
+	eor #1
+	tax
+	rts
+!self	lda player_n	
+	tax
+	rts
+
+gtindex2	cmp #1
+	bne !self
+!othr	lda player_n
+	eor #1
+	jmp !ok
+!self	lda player_n	
+!ok	tay
+	ldx player_t,y
+	rts
+
+plr_nview	jsr gen_txt	;can't cast spell on nme
+pnv1	lda #<txt118
+	ldx #>txt118
+	jmp unprnt
+plr_wasted	jsr gen_txt	;can't cast spell on self
+	lda #<txt79
+	ldx #>txt79
+	jmp unprnt
+nme_wasted	jsr gen_txt	;can't cast spell on nme
+	lda #<txtfb
+	ldx #>txtfb
+unprnt	jsr prntff
+	jsr fadeup
+	jmp waitfire
+	
+pcnum	sty $2006
+	stx $2006
+	clc
+	adc #$1a	
+	clc
+	adc text2_off
+	sta $2007
+	rts
+
+pinsight	lda player_x,x
+	sta t1e
+	lda player_y,x
+	sta t1f
+	jmp inroom1
+ninsight	ldx nme_n
+	lda monster_x,x
+	sta t1e
+	lda monster_y,x
+	sta t1f
+	jmp inroom1
+
+;* ------------------------------------------------------------------------ *;
+
+csr1	lda #1
+	db $2c
+csr2	lda #2
+	db $2c
+csr3	lda #3
+	db $2c
+csr4	lda #4
+	db $2c
+csr5	lda #5
+	db $2c
+csr6	lda #6
+	db $2c
+csr7	lda #7
+	db $2c
+csr8	lda #8
+	sta t10
+	rts
+
+
+

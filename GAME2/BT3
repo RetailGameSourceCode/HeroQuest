@@ -1,0 +1,15 @@
+playmus	lda #$6	;r6
+	ora intermiss
+	tax
+	ldy #4	;bmus	;music bank		
+	stx $8000
+	sty $8001
+	ldy #$00	;play current tune & fx
+	jsr function
+	lda #$6
+	ora intermiss
+	tax
+	ldy r6
+	stx $8000	;r6
+	sty $8001	;val
+	rts

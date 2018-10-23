@@ -1,0 +1,1665 @@
+* All the english text in the game *
+
+
+***************************************
+* Text for descriptions on map screen *
+***************************************
+
+"FALLEN ROCK",0
+"TREASURE CHEST",0	
+throne_t:	dc.b	"THRONE",0
+statue_t:	dc.b	"STONE STATUE",0
+d_fall:		dc.b	"FALLEN ROCK",0
+f_place:	dc.b	"FIRE PLACE",0
+c_board:	dc.b	"CUPBOARD",0
+b_case:		dc.b	"BOOKCASE",0
+w_rack:		dc.b	"WEAPONS RACK",0
+s_table:	dc.b	"SORCERER'S TABLE",0
+t_rack:		dc.b	"TORTURE RACK",0
+tab_name:	dc.b	"TABLE",0
+tomb99:		dc.b	"TOMB",0
+a_ben:		dc.b	"ALCHEMIST'S BENCH",0
+stairs_name:	dc.b	"EXIT",0
+
+tool_text:	dc.b	"TOOL KIT",0
+special_held:	dc.b	"QUEST TREASURE",0
+no_special:	dc.b	"NONE HELD",0
+armour_worn:	dc.b	"ARMOUR WORN",0
+no_armour:	dc.b	"NO ARMOUR",0
+weapon_carried:	dc.b	"WEAPON IN USE",0
+potions_taken:	dc.b	"POTIONS  TAKEN",0
+no_potions:	dc.b	"NO POTION TAKEN",0
+	even
+
+*************************
+* General game messages *
+*************************
+"HERO CHOOSE YOUR QUEST"
+		dc.b	0
+
+"EXIT TO MAIN MENU",0
+	"THE MAZE",0
+	"THE RESCUE OF SIR RAGNAR",0
+"LAIR OF THE ORC WARLORD",0
+	"PRINCE MAGNUS' GOLD",0
+	"MELAR'S MAZE",0
+	"LEGACY OF THE ORC WARLORD",0
+	"THE STONE HUNTER",0
+	"THE FIRE MAGE",0
+	"RACE AGAINST TIME",0
+"CASTLE OF MYSTERY",0
+	"BASTION OF CHAOS",0
+	"BARROW OF THE WITCH LORD",0	
+	"RETURN TO BARAK TOR",0
+	
+
+@mess	dc.b	char_xy,-1,-1,"ITEM       PRICE",0
+@o1	dc.b	"STAFF        100",0
+@o2	dc.b	"SHORT SWORD  150",0
+@o3	dc.b	"BROAD SWORD  250",0
+@o4	dc.b	"BATTLE AXE   400",0
+@o5	dc.b	"CROSSBOW     350",0
+@o6	dc.b	"HAND AXE     150",0
+@o7	dc.b	"SPEAR        150",0
+@o8	dc.b	"THE SHIELD   100",0
+@o9	dc.b	"THE HELMET   120",0
+@o10	dc.b	"CHAIN MAIL   450",0
+@o11	dc.b	"PLATE ARMOUR 850",0
+@o12	dc.b	"TOOL KIT     250",0
+@o13	dc.b	"EXIT",0
+	even
+
+"YOU ALREADY OWN THAT"
+"YOU CANNOT AFFORD THAT"
+"I UNDERSTAND MENTOR",
+
+"THERE ARE NO ACTIVE"
+"CHARACTERS SELECTED"
+"TO ENTER THE QUEST"
+
+"THE CHARACTER"
+"IS RENEWED"
+
+"SAVE CHARACTER",
+"LOAD CHARACTER",
+		
+"PLEASE INSERT"
+"YOUR DATA DISK"
+
+"LOAD WHICH DEFINITION",0
+"SAVE WHICH DEFINITION",0
+		
+"ARE YOU SURE YOU"
+"WANT TO FORMAT A"
+"NEW DATA DISK?"
+		dc.b	0
+@yes		dc.b	"YES",0
+@no		dc.b	"NO",0
+		even
+format_info:	dc.b	8,10,21,7
+		dc.l	$80000000+@mess
+		dc.b	2,4
+		dc.l	@format,yes_format
+		dc.b	10,4
+		dc.l	cancel_text,no_format
+		dc.b	bterm
+@mess:		dc.b	char_xy,0,0,"INSERT A BLANK DISK"
+		dc.b	char_xy,0,1,"INTO DRIVE 0"
+		dc.b	0
+@format		dc.b	"FORMAT",0
+		even
+notdatadisk:	dc.b	11,11,20,6
+		dc.l	$80000000+@mess
+		dc.b	8,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess:		dc.b	char_xy,0,0,"THAT IS NOT A HERO" 
+		dc.b	char_xy,0,1,"QUEST DATA DISK"
+		dc.b	0
+		even
+disk_wp:	dc.b	11,8,16,6
+		dc.l	$80000000+@mess
+		dc.b	6,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess:		dc.b	char_xy,0,0,"THE DISK IS"
+		dc.b	char_xy,0,1,"WRITE PROTECTED"
+		dc.b	0
+		even
+no_disk:	dc.b	11,9,18,6
+		dc.l	$80000000+@mess
+		dc.b	7,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess:		dc.b	char_xy,0,0,"THERE IS NO DISK"
+		dc.b	char_xy,0,1,"IN THE DRIVE"
+		dc.b	0
+		even
+error_disk:	dc.b	11,9,23,5
+		dc.l	$80000000+@mess
+		dc.b	7,2
+		dc.l	sorry,exitwindow
+		dc.b	bterm
+@mess:		dc.b	char_xy,0,0,"THERE IS A DISK ERROR"
+		dc.b	0
+sorry:		dc.b	"SORRY",0
+		even
+
+secret_creak:	dc.b	9,7,22,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess:		dc.b	char_xy,0,0,"A SECRET DOOR CREAKS"
+		dc.b	char_xy,0,1,"OPEN IN THE WALL" 
+		dc.b	0
+		even
+escaped_message:dc.b	9,7,22,6
+		dc.l	$80000000+@mess
+		dc.b	5,3
+		dc.l	well_done,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU HAVE ESCAPED THE"
+		dc.b	char_xy,0,1,"    QUEST INTACT"
+		dc.b	0
+
+well_done:	dc.b	"WELL DONE",0
+		even
+game_finish_box:dc.b	5,7,25,5
+		dc.l	$80000000+@mess
+		dc.b	11,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"ALL THE PLAYERS ARE OUT"
+		dc.b	0
+		even
+pdead_box:	dc.b	8,7,20,8
+		dc.l	$80000000+@mess
+		dc.b	2,5
+		dc.l	hand,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU HAVE SUSTAINED"
+		dc.b	char_xy,0,1,"  FATAL INJURIES."
+		dc.b	char_xy,0,2," YOU HAVE FAILED"
+		dc.b	char_xy,0,3,"  IN THIS QUEST"
+		dc.b	0
+hand:		dc.b	"UNTIL NEXT TIME",0
+		even
+no_range:	dc.b	5,7,20,6
+		dc.l	$80000000+@mess
+		dc.b	8,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"ENEMY OUT OF RANGE"
+		dc.b	char_xy,0,1,"  OF YOUR WEAPON",0
+		even
+spell_range:	dc.b	5,7,28,7
+		dc.l	$80000000+@mess
+		dc.b	12,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU CANNOT CAST THAT SPELL"
+		dc.b	char_xy,0,1,"ON SOMEONE YOU CANNOT SEE."
+		dc.b	char_xy,0,2,"   THE SPELL IS WASTED."
+		dc.b	0
+		even
+spell_witch:	dc.b	5,7,22,5
+		dc.l	$80000000+@mess
+		dc.b	9,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THAT SPELL IS WASTED"
+		dc.b	char_xy,0,1,"ON THE WITCH LORD"
+		dc.b	0
+		even
+would_miss:	dc.b	5,7,17,6
+		dc.l	$80000000+@mess
+		dc.b	7,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU CANNOT FIRE"
+		dc.b	char_xy,0,1,"FROM HERE",0
+		even
+wiz_no_mess:	dc.b	10,9,18,6
+		dc.l	$80000000+@mess
+		dc.b	7,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOUR CHARACTER"
+		dc.b	char_xy,0,1,"CAN NOT USE THAT",0
+		even
+not_with_axe:	dc.b	9,9,25,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU CANNOT USE A SHIELD"
+		dc.b	char_xy,0,1,"WITH THE BATTLE AXE",0
+		even
+not_with_shield:dc.b	9,9,25,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU CANNOT USE A BATTLE"
+		dc.b	char_xy,0,1,"AXE WITH A SHIELD",0
+		even
+spear_trap_mess:dc.b	4,9,28,7
+		dc.l	$80000000+@mess
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU HAVE INADVERTENTLY SET"
+		dc.b	char_xy,0,1,"OFF A SPEAR TRAP AND LOOSE"
+		dc.b	char_xy,0,2,"1 BODY POINT"
+		dc.b	0
+		even
+spear_trap_mess2:dc.b	4,9,28,7
+		dc.l	$80000000+@mess
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU HAVE INADVERTENTLY SET"
+		dc.b	char_xy,0,1,"OFF A SPEAR TRAP BUT LUCK"
+		dc.b	char_xy,0,2,"IS WITH YOU AND IT MISSES"
+		dc.b	0
+		even
+found_spear:	dc.b	4,9,27,6
+		dc.l	$80000000+@mess
+		dc.b	11,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU FIND AND SAFLY DISARM"
+		dc.b	char_xy,0,1,"A HIDDEN SPEAR TRAP"
+		dc.b	0
+		even
+rock_barb:	dc.b	4,9,24,8
+		dc.l	$80000000+@mess
+		dc.b	10,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"A ROCK TRAP FALLS FROM"
+		dc.b	char_xy,0,1,"THE ROOF ONTO THE HEAD"
+		dc.b	char_xy,0,2,"OF THE BARBARIAN WHO"
+		dc.b	char_xy,0,3,"LOOSES "
+rbp:		dc.b	"0 BODY POINTS"
+		dc.b	0
+		even
+rock_dwarf:	dc.b	4,9,24,8
+		dc.l	$80000000+@mess
+		dc.b	10,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"A ROCK TRAP FALLS FROM"
+		dc.b	char_xy,0,1,"THE ROOF ONTO THE HEAD"
+		dc.b	char_xy,0,2,"OF THE DWARF WHO"
+		dc.b	char_xy,0,3,"LOOSES "
+rdp:		dc.b	"0 BODY POINTS"
+		dc.b	0
+		even
+rock_elf:	dc.b	4,9,24,8
+		dc.l	$80000000+@mess
+		dc.b	10,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"A ROCK TRAP FALLS FROM"
+		dc.b	char_xy,0,1,"THE ROOF ONTO THE HEAD"
+		dc.b	char_xy,0,2,"OF THE ELF WHO LOOSES"
+		dc.b	char_xy,0,3
+rep:		dc.b	"0 BODY POINTS"
+		dc.b	0
+		even
+rock_wiz:	dc.b	4,9,24,8
+		dc.l	$80000000+@mess
+		dc.b	10,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"A ROCK TRAP FALLS FROM"
+		dc.b	char_xy,0,1,"THE ROOF ONTO THE HEAD"
+		dc.b	char_xy,0,2,"OF THE WIZARD WHO"
+		dc.b	char_xy,0,3,"LOOSES "
+rwp:		dc.b	"0 BODY POINTS"
+		dc.b	0
+		even
+rock_block:	dc.b	6,9,19,6
+		dc.l	$80000000+@mess
+		dc.b	8,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"A ROCK TRAP FALLS"
+		dc.b	char_xy,0,1,"INTO THE CORRIDOR"
+		dc.b	char_xy,0,2,"BLOCKING THE WAY"
+		dc.b	0
+		even
+mason_drop:	dc.b	6,9,24,6
+		dc.l	$80000000+@mess
+		dc.b	10,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"MASONRY FALLS FROM"
+		dc.b	char_xy,0,1,"THE DANGEROUS ROOF."
+		dc.b	char_xy,0,2,"YOU LOOSE 1 BODY POINT"
+		dc.b	0
+		even
+mason_miss:	dc.b	6,9,21,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"MASONRY FALLS FROM"
+		dc.b	char_xy,0,1,"THE DANGEROUS ROOF."
+		dc.b	char_xy,0,2,"IT JUST MISSES YOU"
+		dc.b	0
+		even
+fix_pit:	dc.b	4,9,20,4
+		dc.l	$80000000+@mess
+		dc.b	8,1
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU FIX A PIT TRAP"
+		dc.b	0
+		even
+fix_rock:	dc.b	4,9,23,5
+		dc.l	$80000000+@mess
+		dc.b	9,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU REMOVE THE FALLEN"
+		dc.b	char_xy,0,1,"ROCK BLOCKING THE WAY"
+		dc.b	0
+		even
+no_traps:	dc.b	4,9,21,5
+		dc.l	$80000000+@mess
+		dc.b	9,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THERE ARE NO TRAPS"
+		dc.b	char_xy,0,1,"TO USE THE TOOLS ON"
+		dc.b	0
+		even
+searched_already:dc.b	8,9,20,6
+		dc.l	$80000000+@mess
+		dc.b	8,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THIS ROOM HAS BEEN"
+		dc.b	char_xy,0,1,"SEARCHED BEFORE"
+		dc.b	0
+		even
+empty_search:	dc.b	14,4,17,6
+		dc.l	$80000000+@mess
+		dc.b	7,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU SEARCH BUT"
+		dc.b	char_xy,0,1,"UNCOVER NOTHING"
+		dc.b	0
+		even
+
+*****************************************
+* Designer windows for inventory screen *
+*****************************************
+* .w: bit flag / X / Y
+* .l: handler	 / menu text
+
+potion_table:	dc.w	heal
+		dc.l	heal_rout,heal_text
+		dc.w	holy
+		dc.l	holy_rout,holy_text
+		dc.w	hero
+		dc.l	hero_rout,hero_text
+		dc.w	speed
+		dc.l	speed_rout,speed_text
+		dc.w	strength
+     		dc.l	strength_rout,strength_text
+		dc.w	resil
+		dc.l	resil_rout,resil_text
+
+potion_box:	dc.b	4,5,24
+potion_boxheight:dc.b	20	;X/Y width/height
+		dc.l	$80000000+potion_mess
+potion_boxdat:	dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	bterm
+heal_text:	dc.b	"POTION OF HEALING",0
+holy_text:	dc.b	"HOLY WATER",0
+hero_text:	dc.b	"HEROIC BREW",0
+speed_text:	dc.b	"POTION OF SPEED",0
+strength_text:	dc.b	"POTION OF STRENGTH",0
+resil_text:	dc.b	"POTION OF RESILIENCE",0
+cancel_text:	dc.b	"CANCEL",0
+potion_mess:	dc.b	char_xy,0,0,"SELECT A POTION TO USE"
+		dc.b	0
+		even
+armour_table:	dc.w	shield
+		dc.l	shield_rout,shield_text
+		dc.w	helmet
+		dc.l	helmet_rout,helmet_text
+		dc.w	chain_mail
+		dc.l	chain_rout,chain_text
+		dc.w	armour
+		dc.l	armour_rout,armour_text
+		dc.w	borins_armour
+		dc.l	borins_rout,borins_text
+armour_box:	dc.b	5,5,15
+armour_boxheight:dc.b	20	;X/Y width/height
+		dc.l	$80000000+armour_mess
+armour_boxdat:	dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	bterm
+
+shield_text:	dc.b	"A SHIELD",0
+helmet_text:	dc.b	"A HELMET",0
+chain_text:	dc.b	"CHAIN MAIL",0
+armour_text:	dc.b	"PLATE ARMOUR",0
+borins_text:	dc.b	"BORINS ARMOUR",0
+gold_text:	dc.b	"GOLD",0
+armour_mess:	dc.b	char_xy,0,0,"SELECT ARMOUR"
+		dc.b	0
+		even
+* .w: bit flag / X / Y
+* .l: handler	 / menu text
+weapon_table:	dc.w	staff
+		dc.l	staff_rout,staff_text
+		dc.w	short_sword
+		dc.l	ssword_rout,ssword_text
+		dc.w	hand_axe
+		dc.l	haxe_rout,haxe_text
+		dc.w	spear
+		dc.l	spear_rout,spear_text
+		dc.w	broad_sword
+		dc.l	bsword_rout,bsword_text
+		dc.w	crossbow
+		dc.l	crossbow_rout,crossbow_text
+		dc.w	battle_axe
+		dc.l	baxe_rout,baxe_text
+		dc.w	spirit_blade
+		dc.l	sblade_rout,sblade_text
+		dc.w	orcs_bane
+		dc.l	obane_rout,obane_text
+weapon_box:	dc.b	5,5,15
+weapon_boxheight:dc.b	20	;X/Y width/height
+		dc.l	$80000000+weapon_mess
+weapon_boxdat:	dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	0,0
+		dc.l	0,0
+		dc.b	bterm
+
+staff_text:	dc.b	"STAFF",0
+ssword_text:	dc.b	"SHORT SWORD",0
+haxe_text:	dc.b	"HAND AXE",0
+spear_text:	dc.b	"SPEAR",0
+bsword_text:	dc.b	"BROADSWORD",0
+crossbow_text:	dc.b	"CROSSBOW",0
+baxe_text:	dc.b	"BATTLE AXE",0
+sblade_text:	dc.b	"SPIRIT BLADE",0
+obane_text:	dc.b	"ORC'S BANE",0
+weapon_mess:	dc.b	char_xy,0,0,"SELECT WEAPON"
+		dc.b	0
+
+* .w: bit flag / X / Y
+* .l: handler	 / menu text
+spell_table:	dc.w	rock_skin
+		dc.l	s0_rout,s0_mess
+		dc.w	heal_body
+		dc.l	s1_rout,s1_mess
+		dc.w	pass_rock
+		dc.l	s2_rout,s2_mess
+		dc.w	sleep
+		dc.l	s3_rout,s3_mess
+		dc.w	water_healing
+		dc.l	s4_rout,s4_mess
+		dc.w	veil_mist
+		dc.l	s5_rout,s5_mess
+		dc.w	swift_wind
+		dc.l	s6_rout,s6_mess
+		dc.w	genie
+		dc.l	s7_rout,s7_mess
+		dc.w	tempest
+		dc.l	s8_rout,s8_mess
+		dc.w	courage
+		dc.l	s9_rout,s9_mess
+		dc.w	fire_wrath
+		dc.l	s10_rout,s10_mess
+		dc.w	ball_flame
+		dc.l	s11_rout,s11_mess
+
+spell_box:	dc.b	7,3,19
+spell_boxheight:dc.b	20	;X/Y width/height
+		dc.l	$80000000+spell_mess
+spell_boxdat:	
+	rept	13
+		dc.b	0,0
+		dc.l	0,0
+	endr
+		dc.b	bterm
+
+s0_mess:	dc.b	"ROCK SKIN",0
+s1_mess:	dc.b	"HEAL BODY",0
+s2_mess:	dc.b	"PASS THROUGH ROCK",0
+s3_mess:	dc.b	"SEND TO SLEEP",0
+s4_mess:	dc.b	"WATER OF HEALING",0
+s5_mess:	dc.b	"VEIL OF MIST",0
+s6_mess:	dc.b	"SWIFT WIND",0
+s7_mess:	dc.b	"GENIE",0
+s8_mess:	dc.b	"TEMPEST",0
+s9_mess:	dc.b	"COURAGE",0
+s10_mess:	dc.b	"FIRE OF WRATH",0
+s11_mess:	dc.b	"BALL OF FLAME",0
+spell_mess:	dc.b	char_xy,0,0," SELECT A SPELL"
+		dc.b	0
+lore_text:	dc.b	"TALISMAN OF LORE",0
+wand_text:	dc.b	"WAND OF RECALL",0
+none_text:	dc.b	"NONE",0
+tools_text:	dc.b	"TRAP DISMANTLE",0
+		even
+
+*********************************
+* Window messages for attacking *
+*********************************
+
+ok:		dc.b	"OK",0
+		even
+
+enemy_dead:	dc.b	10,18,19,4
+		dc.l	$80000000+@mess
+		dc.b	7,1
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THE ENEMY IS DEAD",0
+		dc.b	0
+		even
+enemy_surv:	dc.b	10,18,20,4
+		dc.l	$80000000+@mess
+		dc.b	8,1
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THE ENEMY SURVIVED",0
+		dc.b	0
+		even
+player_surv:	dc.b	7,18,25,4
+		dc.l	$80000000+@mess
+		dc.b	10,1
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU SURVIVED THE ATTACK"
+		dc.b	0
+		even
+
+g_attack_box:	dc.b	5,7,28,9
+ga_result:	dc.l	0
+		dc.l	$80000000+ga_mess
+		dc.b	11,6
+		dc.l	ok,exitwindow
+		dc.b	bterm
+o_died:		dc.b	char_xy,3,4,"THE OPPONENT IS DEAD",0
+o_survived:	dc.b	char_xy,2,4,"THE OPPONENT SURVIVED",0
+ga_mess:	dc.b	char_xy,0,0,"GENIE    ATTACK STRENGTH "
+ga_val:		dc.b	" "
+		dc.b	char_xy,0,2,"OPPONENT DEFEND STRENGTH "
+od_val:		dc.b	" "
+		dc.b	0
+		even
+
+*********************************
+* Messages during spell casting *
+*********************************
+
+spell_not_p:	dc.b	7,9,21,7
+		dc.l	$80000000+@mess
+		dc.b	9,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THAT SPELL HAS NO"
+		dc.b	char_xy,0,1,"EFFECT AGAINST AN"
+		dc.b	char_xy,0,2,"ENEMY. IT IS WASTED"
+		dc.b	0
+		even
+s_heal_box:	dc.b	9,8,23,5
+		dc.l	$80000000+@mess
+		dc.b	9,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THE SPELL REVIVES YOU",0
+		even
+pr_box:		dc.b	9,8,20,7
+		dc.l	$80000000+@mess
+		dc.b	8,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THE NEXT TIME YOU"
+		dc.b	char_xy,0,1,"MOVE YOU CAN PASS"
+		dc.b	char_xy,0,2,"THROUGH ANY WALL"
+		dc.b	0
+		even
+sw_box:		dc.b	9,8,23,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"A POWERFUL WIND BLOWS"
+		dc.b	char_xy,0,1,"YOU TWICE AS FAR ON"
+		dc.b	char_xy,0,2,"YOUR NEXT TURN"
+		dc.b	0
+		even
+got_tempest:	dc.b	9,8,21,6
+		dc.l	$80000000+@mess
+		dc.b	8,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"A TEMPEST ENVELOPES"
+		dc.b	char_xy,0,1,"YOU. MISS NEXT TURN"
+		dc.b	0
+		even
+not_temp_self:	dc.b	9,8,22,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU CANNOT CAST THAT"
+		dc.b	char_xy,0,1,"SPELL ON YOUSELF"
+		dc.b	0
+		even
+e_tempest:	dc.b	5,9,25,7
+		dc.l	$80000000+@mess
+		dc.b	9,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THE ENEMY IS CONFOUNDED"
+		dc.b	char_xy,0,1,"BY THE TEMPEST FOR THE"
+		dc.b	char_xy,0,2,"NEXT TURN"
+		dc.b	0
+		even
+got_sleep:	dc.b	10,8,16,6
+		dc.l	$80000000+@mess
+		dc.b	6,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU FALL UNDER"
+		dc.b	char_xy,0,1,"A SLEEP SPELL."
+		dc.b	0
+		even
+you_awoke:	dc.b	14,10,17,6
+		dc.l	$80000000+@mess
+		dc.b	6,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU AWAKEN FROM"
+		dc.b	char_xy,0,1,"A DEEP SLEEP"
+		dc.b	0
+		even
+e_sleep:	dc.b	9,8,23,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THE ENEMY FALLS DOWN"
+		dc.b	char_xy,0,1,"ASLEEP WHERE HE STOOD"
+		dc.b	0
+		even
+no_sleep:	dc.b	9,8,21,7
+		dc.l	$80000000+@mess
+		dc.b	9,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOUR MIND IS STRONG"
+		dc.b	char_xy,0,1,"ENOUGH TO FEND OFF"
+		dc.b	char_xy,0,2,"THE SLEEP SPELL"
+		dc.b	0
+		even
+eno_sleep:	dc.b	10,12,23,7
+		dc.l	$80000000+@mess
+		dc.b	9,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THE ENEMIES MIND IS"
+		dc.b	char_xy,0,1,"STRONG ENOUGH TO FEND"
+		dc.b	char_xy,0,2,"OFF THE SLEEP SPELL"
+		dc.b	0
+		even
+not_sleep_self:	dc.b	9,8,24,8
+		dc.l	$80000000+@mess
+		dc.b	9,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"BEFORE YOU ARE ABLE TO"
+		dc.b	char_xy,0,1,"FINISH THE SPELL YOU"
+		dc.b	char_xy,0,2,"BECOME TOO DROWSY AND"
+		dc.b	char_xy,0,3,"HAVE TO STOP"
+		dc.b	0
+		even
+w_kill_e:	dc.b	9,8,15,6
+		dc.l	$80000000+@mess
+		dc.b	5,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"FIRE CONSUMES"
+		dc.b	char_xy,0,1,"YOUR OPPONENT"
+		dc.b	0
+		even
+w_dodge_e:	dc.b	9,8,19,7
+		dc.l	$80000000+@mess
+		dc.b	7,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"FIRE RAGES AROUND"
+		dc.b	char_xy,0,1,"YOUR OPPONENT BUT"
+		dc.b	char_xy,0,2,"THEY ARE UNHARMED"
+		dc.b	0
+		even
+w_live_e:	dc.b	9,8,18,7
+		dc.l	$80000000+@mess
+		dc.b	7,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOUR OPPONENT IS"
+		dc.b	char_xy,0,1,"CHARRED BUT NOT"
+		dc.b	char_xy,0,2,"DEAD"
+		dc.b	0
+		even
+p_wrath:	dc.b	9,8,19,7
+		dc.l	$80000000+@mess
+		dc.b	7,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU ARE ENVELOPED"
+		dc.b	char_xy,0,1,"IN FLAME AND LOSE"
+		dc.b	char_xy,0,2,"ONE BODY POINT"
+		dc.b	0
+		even
+no_wrath:	dc.b	9,8,21,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU MANAGE TO FIGHT"
+		dc.b	char_xy,0,1,"OFF THE FIRE SPELL"
+		dc.b	0
+		even
+p_ball:		dc.b	9,8,21,7
+		dc.l	$80000000+@mess
+		dc.b	9,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"A BALL OF FLAME"
+		dc.b	char_xy,0,1,"SURROUNDS YOU. YOU"
+		dc.b	char_xy,0,2,"LOSE "
+p_ball_num:	dc.b	"0 BODY POINT"
+p_balls:	dc.b	"S"
+		dc.b	0
+		even
+which_genie:	dc.b	12,9,22,8
+		dc.l	$80000000+@wg1
+		dc.b	0,2
+		dc.l	@wg2,room_genie
+		dc.b	0,3
+		dc.l	@wg3,attack_genie
+		dc.b	0,5
+		dc.l	cancel_text,exitwindow
+		dc.b	bterm
+@wg1		dc.b	char_xy,0,0,"COMMAND THE GENIE TO",0
+@wg2		dc.b	"REVEAL ROOM CONTENTS",0
+@wg3		dc.b	"ATTACK SOMEONE",0
+		even
+genie_wasted:	dc.b	9,8,21,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THE ROOM IS ALREADY"
+		dc.b	char_xy,0,1,"REVEALED"
+		dc.b	0
+		even
+veil_mess:	dc.b	9,8,24,6
+		dc.l	$80000000+vme1
+		dc.b	10,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+vme1:		dc.b	char_xy,0,0,"AS THE MIST SWIRLS YOU"
+		dc.b	char_xy,0,1,"FADE FROM ENEMY VIEW"
+		dc.b	0
+		even
+
+*******************************
+* Messages from using potions *
+*******************************
+
+heal_box:	dc.b	7,8,23,5
+		dc.l	$80000000+@mess
+		dc.b	9,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THE FLUID REVIVES YOU",0
+		even
+holy_caught:	dc.b	7,8
+hc_width	dc.b	25,6
+		dc.l	$80000000+@mess
+		dc.b	11,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOUR HOLY WATER HAS"
+		dc.b	char_xy,0,1,"KILLED "
+hc_num:		dc.b	"1 UNDEAD ENEM"
+hc_s:		dc.b	"IES",0
+		even
+holy_waste:	dc.b	8,8,21,7
+		dc.l	$80000000+@mess
+		dc.b	9,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOUR HOLY WATER WAS"
+		dc.b	char_xy,0,1,"WASTED, NO UNDEAD"
+		dc.b	char_xy,0,2,"CREATURES IN ROOM",0
+		even
+hero_box:	dc.b	8,8,22,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOUR COURAGE RALLIES"
+		dc.b	char_xy,0,1,"YOU CAN ATTACK TWICE",0
+		even
+speed_box:	dc.b	7,8,25,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOUR BLOOD SURGES, YOU"
+		dc.b	char_xy,0,1,"CAN TRAVEL TWICE AS FAR",0
+		even
+strength_box:	dc.b	5,11,28,6
+		dc.l	$80000000+@mess
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOUR MUSCLES BULDGE, YOU"
+		dc.b	char_xy,0,1,"HAVE TWO EXTRA ATTACK DICE",0
+		even
+resil_box:	dc.b	6,8,28,6
+		dc.l	$80000000+@mess
+		dc.b	10,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOUR SKIN HARDENS. NEXT"
+		dc.b	char_xy,0,1,"DEFEND HAVE TWO EXTRA DICE",0
+		even
+already_taken:	dc.b	8,8,22,6
+		dc.l	$80000000+@mess
+		dc.b	10,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU STILL HAVE THAT"
+		dc.b	char_xy,0,1,"POTION IN YOUR BLOOD"
+		dc.b	0
+		even
+
+***********************************
+* Messages specific to the quests *
+***********************************
+
+q1_mess:	dc.b	8,7,23,8
+		dc.l	$80000000+@mess
+		dc.b	9,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU ARE THE FIRST TO"
+		dc.b	char_xy,0,1,"ESCAPE THE MAZE. YOU"
+		dc.b	char_xy,0,2,"ARE REWARDED WITH 100"
+		dc.b	char_xy,0,3,"GOLD COINS"
+		dc.b	0
+		even
+q2_mess1:	dc.b	4,15,29,7
+		dc.l	$80000000+@m1
+		dc.b	12,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU HAVE FOUND SIR RAGNAR."
+		dc.b	char_xy,0,1,"AN ALARM HAS ALERTED ALL OF"
+		dc.b	char_xy,0,2,"THE GUARDS. YOU MUST GUIDE"
+		dc.b	char_xy,0,3,"SIR RAGNAR TO SAFTY."
+		dc.b	0
+		even
+q2_mess2:	dc.b	5,5,24,7
+		dc.l	$80000000+@m1
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU DISCOVER THE CHEST"
+		dc.b	char_xy,0,1,"WAS TRAPPED. YOU SAFLY"
+		dc.b	char_xy,0,2,"DISARM IT"
+		dc.b	0
+		even
+q2_mess3:	dc.b	5,5,26,9
+		dc.l	$80000000+@m1
+		dc.b	11,6
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU SEARCH THE CHEST BUT"
+		dc.b	char_xy,0,1,"RECOIL WHEN YOU DISCOVER"
+		dc.b	char_xy,0,2,"IT IS TRAPPED. TOO LATE"
+		dc.b	char_xy,0,3,"YOU ARE CAUGHT AND LOOSE"
+		dc.b	char_xy,0,4,"1 BODY POINT"
+		dc.b	0
+		even
+q2_mess4:	dc.b	5,5,27,7
+		dc.l	$80000000+@m1
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THE TREASURE CHEST"
+		dc.b	char_xy,0,1,"CONTAINS A POTION OF"
+		dc.b	char_xy,0,2,"HEALING AND 50 GOLD COINS"
+		dc.b	0
+		even
+q2_mess5:	dc.b	5,15,25,7
+		dc.l	$80000000+@m1
+		dc.b	10,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THE EMPEROR BESTOWS 200"
+		dc.b	char_xy,0,1,"GOLD COINS ON THE"
+		dc.b	char_xy,0,2,"SAVIOUR OF SIR RAGNAR"
+		dc.b	0
+		even
+q3_mess1:	dc.b	5,5,27,7
+		dc.l	$80000000+@m1
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THE OAK CUPBOARD"
+		dc.b	char_xy,0,1,"CONTAINS A POTION OF"
+		dc.b	char_xy,0,2,"HEALING AND 30 GOLD COINS"
+		dc.b	0
+		even
+q3_mess2:	dc.b	5,5,24,7
+		dc.l	$80000000+@m1
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU DISCOVER THE CHEST"
+		dc.b	char_xy,0,1,"WAS TRAPPED. YOU SAFLY"
+		dc.b	char_xy,0,2,"DISARM IT"
+		dc.b	0
+		even
+q3_mess3:	dc.b	5,5,26,9
+		dc.l	$80000000+@m1
+		dc.b	11,6
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU SEARCH THE CHEST BUT"
+		dc.b	char_xy,0,1,"RECOIL WHEN YOU DISCOVER"
+		dc.b	char_xy,0,2,"IT IS TRAPPED. TOO LATE"
+		dc.b	char_xy,0,3,"YOU ARE CAUGHT AND LOOSE"
+		dc.b	char_xy,0,4,"1 BODY POINT"
+		dc.b	0
+		even
+q3_mess4:	dc.b	5,5,24,7
+		dc.l	$80000000+@m1
+		dc.b	10,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THE CHEST CONTAINS THE"
+		dc.b	char_xy,0,1,"REMAINS OF A TRAP AND"
+		dc.b	char_xy,0,2,"100 GOLD COINS"
+		dc.b	0
+		even
+q3_mess5:	dc.b	5,5,21,6
+		dc.l	$80000000+@m1
+		dc.b	11,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU FIND A SPEAR ON"
+		dc.b	char_xy,0,1,"THE WEAPON RACK"
+		dc.b	0
+		even
+q3_mess6:	dc.b	5,5,21,7
+		dc.l	$80000000+@m1
+		dc.b	9,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THE EMPEROR BESTOWS"
+		dc.b	char_xy,0,1,"100 GOLD COINS ON"
+		dc.b	char_xy,0,2,"THE SLAYER OF ULAG"
+		dc.b	0
+		even
+q4_mess1:	dc.b	5,5,27,7
+		dc.l	$80000000+@m1
+		dc.b	12,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"INSIDE THE CHEST ARE 250"
+		dc.b	char_xy,0,1,"OF PRINCE MAGNUS'S COINS."
+		dc.b	char_xy,0,2,"THE WEIGHT SLOWS YOU DOWN"
+		dc.b	0
+		even
+q4_mess2:	dc.b	5,5,20,6
+		dc.l	$80000000+@m2
+		dc.b	8,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m2		dc.b	char_xy,0,0,"YOU CAN ONLY CARRY"
+		dc.b	char_xy,0,1,"ONE TREASURE CHEST"
+		dc.b	0
+		even
+q4_mess3:	dc.b	5,5,27,6
+		dc.l	$80000000+@m3
+		dc.b	11,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m3		dc.b	char_xy,0,0,"YOU BECOME RICHER BUT"
+		dc.b	char_xy,0,1,"MAY NEVER BECOME CHAMPION"
+		dc.b	0
+		even
+q4_mess4:	dc.b	5,5,25,7
+		dc.l	$80000000+@m2
+		dc.b	10,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m2		dc.b	char_xy,0,0,"THE PRINCE THANKS YOU"
+		dc.b	char_xy,0,1,"FOR RETURNING HIS GOLD."
+		dc.b	char_xy,0,2,"HIS REWARD IS 200 COINS"
+		dc.b	0
+		even
+q4_mess5:	dc.b	6,6,26,9
+		dc.l	$80000000+@m1
+		dc.b	5,5
+		dc.l	@keep_mag,q4_keep
+		dc.b	2,6
+		dc.l	@return_mag,q4_return
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU MUST DECIDE WHAT YOU"
+		dc.b	char_xy,0,1,"WILL DO WITH THE CHEST"
+		dc.b	char_xy,0,2,"THAT YOU HAVE RESCUED."
+		dc.b	0
+@keep_mag	dc.b	"KEEP THE CHEST",0
+@return_mag	dc.b	"RETURN TO THE PRINCE",0
+		even
+q4_mess6:	dc.b	6,6,24,9
+		dc.l	$80000000+@m1
+		dc.b	4,5
+		dc.l	@leave,q4_leave
+		dc.b	1,6
+		dc.l	@return,q4_back
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THERE IS STILL GOLD TO"
+		dc.b	char_xy,0,1,"BE RECOVERED. DO YOU"
+		dc.b	char_xy,0,2,"WISH TO RETURN FOR IT"
+		dc.b	0
+@leave		dc.b	"LEAVE THE QUEST",0
+@return		dc.b	"RETURN FOR MORE GOLD",0
+		even
+q5_mess1:	dc.b	4,5,33,7
+		dc.l	$80000000+@m1
+		dc.b	14,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU DISCOVER MELAR'S KEY LODGED"
+		dc.b	char_xy,0,1,"IN THE FLOOR. WHEN YOU PULL IT"
+		dc.b	char_xy,0,2,"FREE THE THRONE SLIDES ASIDE."
+		dc.b	0
+		even
+q5_mess2:	dc.b	5,5,27,7
+		dc.l	$80000000+@m1
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"AS YOU OPEN THE DOOR THE"
+		dc.b	char_xy,0,1,"STONE STATUE BEHIND YOU"
+		dc.b	char_xy,0,2,"CREAKS INTO LIFE"
+		dc.b	0
+		even
+q5_mess3:	dc.b	4,5,30,7
+		dc.l	$80000000+@m1
+		dc.b	13,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU DISCOVER THE TALISMAN OF"
+		dc.b	char_xy,0,1,"LORE. CARRY THIS ALWAYS TO"
+		dc.b	char_xy,0,2,"STRENGTHEN YOUR MIND POWER."
+		dc.b	0
+		even
+q6_mess1:	dc.b	5,5,26,6
+		dc.l	$80000000+@m2
+		dc.b	11,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m2		dc.b	char_xy,0,0,"THIS ROOMS CONTAINS YOUR"
+		dc.b	char_xy,0,1,"CAPTURED EQUIPMENT"
+		dc.b	0
+		even
+q6_mess2:	dc.b	3,5,28,6
+		dc.l	$80000000+@m2
+		dc.b	12,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m2		dc.b	char_xy,0,0,"YOU FIND AND COLLECT YOUR"
+		dc.b	char_xy,0,1,"CAPTURED EQUIPMENT"
+		dc.b	0
+		even
+q7_mess1:	dc.b	3,5,26,6
+		dc.l	$80000000+@m1
+		dc.b	11,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU FIND BORIN'S ARMOUR"
+		dc.b	char_xy,0,1,"A SPECIAL QUEST TREASURE"
+		dc.b	0
+		even
+q7_mess2:	dc.b	5,5,19,7
+		dc.l	$80000000+@m1
+		dc.b	8,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"KARLEN'S TREASURE"
+		dc.b	char_xy,0,1,"CHEST CONTAINS"
+		dc.b	char_xy,0,2,"200 GOLD COINS"
+		dc.b	0
+		even
+q7_mess3:	dc.b	4,14,31,8	;the real one
+		dc.l	$80000000+@m1
+		dc.b	13,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THE ZOMBIE IS KARLEN. WHILST"
+		dc.b	char_xy,0,1,"WORKING ON A CHAOS SPELL HE"
+		dc.b	char_xy,0,2,"WAS CONSUMED BY THE MAGIC AND"
+		dc.b	char_xy,0,3,"TURNED INTO A MINDLESS ZOMBIE"
+		dc.b	0
+		even
+q7_mess4:	dc.b	4,7,29,8
+		dc.l	$80000000+@m
+		dc.b	12,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"THE EMPEROR THANKS YOU FOR"
+		dc.b	char_xy,0,1,"SEEKING KARLEN AND REWARDS"
+		dc.b	char_xy,0,2,"YOU WITH 100 GOLD COINS"
+		dc.b	0
+		even
+q8_mess1:	dc.b	8,3,22,6
+		dc.l	$80000000+@m
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"NO FIRE MAGIC CAN BE"
+		dc.b	char_xy,0,1,"HELD IN THIS PLACE"
+		dc.b	0
+		even
+q8_mess2:	dc.b	4,5,30,6
+		dc.l	$80000000+@m1
+		dc.b	11,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THE CHEST CONTAINS 150 GOLD"
+		dc.b	char_xy,0,1,"COINS AND THE WAND OF RECALL"
+		dc.b	char_xy,0,2,"A MAGICAL QUEST TREASURE"
+		dc.b	0
+		even
+q8_mess3:	dc.b	6,5,22,7
+		dc.l	$80000000+@m1
+		dc.b	9,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THE EMPEROR REWARDS"
+		dc.b	char_xy,0,1,"THE SLAYERS OF BALUR"
+		dc.b	char_xy,0,2,"WITH 150 GOLD COINS"
+		dc.b	0
+		even
+q8_mess4:	dc.b	4,5,23,6
+		dc.l	$80000000+@m2
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m2		dc.b	char_xy,0,0,"BALUR REMAINS ALIVE"
+		dc.b	char_xy,0,1,"YOU RECEIVE NO BOUNTY"
+		dc.b	0
+		even
+q9_mess1:	dc.b	8,14,21,6
+		dc.l	$80000000+@m
+		dc.b	8,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"IN THE CHEST YOU"
+		dc.b	char_xy,0,1,"FIND 100 GOLD COINS"
+		dc.b	0
+		even
+q9_mess2:	dc.b	4,5,17,6
+		dc.l	$80000000+@m
+		dc.b	6,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"YOU CAN ONLY"
+		dc.b	char_xy,0,1,"CARRY ONE CHEST"
+		dc.b	0
+		even
+q10_mess1:	dc.b	5,3,22,6
+		dc.l	$80000000+@m
+		dc.b	9,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"YOU TELEPORTED ONTO"
+		dc.b	char_xy,0,1,"AN ENEMY KILLING HIM"
+		dc.b	0
+		even
+q10_mess2:	dc.b	4,3,32,6
+		dc.l	$80000000+@m
+		dc.b	14,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"YOU TELEPORTED ONTO ANOTHER"
+		dc.b	char_xy,0,1,"PLAYER WHO LOOSES 1 BODY POINT"
+		dc.b	0
+		even
+q10_mess3:	dc.b	8,3,19,6
+		dc.l	$80000000+@m
+		dc.b	7,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"YOU CAN NOT CARRY"
+		dc.b	char_xy,0,1,"ANY MORE GOLD"
+		dc.b	0
+		even
+q10_mess4:	dc.b	4,3,26,9
+		dc.l	$80000000+@m
+		dc.b	11,6
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"YOU SEARCH THE ENTRANCE"
+		dc.b	char_xy,0,1,"TO THE MINE AND COLLECT"
+		dc.b	char_xy,0,2,"5000 PIECES OF GOLD. BUT"
+		dc.b	char_xy,0,3,"YOU CAN NO LONGER ATTACK"
+		dc.b	char_xy,0,4,"OR DEFEND YOURSELF."
+		dc.b	0
+		even
+q10_mess5:	dc.b	4,3,21,7
+		dc.l	$80000000+@m
+		dc.b	8,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"THE GOLD FOUND IN" 
+		dc.b	char_xy,0,1,"THE MINE WAS FOOLS"
+		dc.b	char_xy,0,2,"GOLD, WORTH NOTHING"
+		dc.b	0
+		even
+q10_mess6:	dc.b	9,3,13,7
+		dc.l	$80000000+@m
+		dc.b	5,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"THIS IS THE"
+		dc.b	char_xy,0,1,"ENTRANCE TO"
+		dc.b	char_xy,0,2,"THE MINE"
+		dc.b	0
+		even
+q11_mess1:	dc.b	9,3,22,5
+		dc.l	$80000000+@m
+		dc.b	9,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"YOU RECEIVE A BOUNTY"
+		dc.b	char_xy,0,1,"OF "
+q11_m1b:	dc.b	"00 GOLD COINS"
+		dc.b	0
+		even
+q11_mess2:	dc.b	9,3,19,4
+		dc.l	$80000000+@m
+		dc.b	7,1
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"YOU FIND A SHIELD"
+		dc.b	0
+		even
+q11_mess3:	dc.b	5,15,27,5
+		dc.l	$80000000+@m
+		dc.b	12,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"THE CHEST WAS A TRAP. THE"
+		dc.b	char_xy,0,1,"GARGOYLE SPRINGS TO LIFE."
+		dc.b	0
+		even
+q11_mess4:	dc.b	9,3,18,5
+		dc.l	$80000000+@m
+		dc.b	7,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"BEWARE, THE"
+		dc.b	char_xy,0,1,"CHEST IS TRAPPED"
+		dc.b	0
+		even
+q11_mess5:	dc.b	3,5,21,6
+		dc.l	$80000000+@m
+		dc.b	8,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"THE CHAOS WARRIOR"
+		dc.b	char_xy,0,1,"DROPS THE ORCS BANE"
+		dc.b	char_xy,0,2,"A QUEST WEAPON"
+		dc.b	0
+		even
+q12_mess1:	dc.b	3,5,24,6
+		dc.l	$80000000+@m
+		dc.b	10,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"THE ZOMBIE DROPS THE"
+		dc.b	char_xy,0,1,"STAR OF THE WEST. YOU"
+		dc.b	char_xy,0,2,"RECEIVE 200 GOLD COINS"
+		dc.b	0
+		even
+q12_mess2:	dc.b	3,5,27,9
+		dc.l	$80000000+@m
+		dc.b	11,6
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"YOU HAVE BROKEN THE MAGIC"
+		dc.b	char_xy,0,1,"SEAL WHICH KEPT THE WITCH" 
+		dc.b	char_xy,0,2,"LORD IMPRISONED. NOW HE"
+		dc.b	char_xy,0,3,"IS AWAKE AND YOU MUST."
+		dc.b	char_xy,0,4,"RUN ONLY THE SPRIT BLADE"
+		dc.b	char_xy,0,5,"CAN HARM HIM"
+		dc.b	0
+		even
+q13_mess1:	dc.b	3,5,27,4
+		dc.l	$80000000+@m
+		dc.b	11,1
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"YOU TAKE THE SPIRIT BLADE"
+		dc.b	0
+		even
+q13_mess2:	dc.b	6,5,20,5
+		dc.l	$80000000+@m
+		dc.b	8,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m		dc.b	char_xy,0,0,"THE CHEST CONTAINS"
+		dc.b	char_xy,0,1,"200 GOLD COINS"
+		dc.b	0
+		even
+
+****************************************
+* Message boxes for the treasure cards *
+****************************************
+
+jewels1_box:	dc.b	5,7,28,8
+		dc.l	$80000000+@mess
+		dc.b	12,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU FIND A SMALL WOODEN"
+		dc.b	char_xy,0,1,"BOX. IT IS OLD AND PLAIN,"
+		dc.b	char_xy,0,2,"BUT INSIDE THERE IS 50"
+		dc.b	char_xy,0,3,"GOLD COINS WORTH OF JEWELS",0
+		even
+gem1_box:	dc.b	5,7,28,8
+		dc.l	$80000000+@mess
+		dc.b	12,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"TUCKED INTO THE TOE OF AN"
+		dc.b	char_xy,0,1,"OLD BOOT IS A VALUABLE GEM"
+		dc.b	char_xy,0,2,"THE STONE IS WORTH 50 GOLD"
+		dc.b	char_xy,0,3,"COINS",0
+		even
+horde1_box:	dc.b	5,7,27,7
+		dc.l	$80000000+@mess
+		dc.b	12,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"LUCK IS WITH YOU. A SMALL"
+		dc.b	char_xy,0,1,"TREASURE CHEST CONTAINS"
+		dc.b	char_xy,0,2,"100 GOLD COINS.",0
+		even
+gold1_box:	dc.b	6,7,26,7
+		dc.l	$80000000+@mess
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"A MEAGRE HAUL OF JUST 10"
+		dc.b	char_xy,0,1,"GOLD COINS IS FOUND IN A"
+		dc.b	char_xy,0,2,"WORN OUT LEATHER JERKIN",0
+		even
+gold2_box:	dc.b	6,7,26,6
+		dc.l	$80000000+@mess
+		dc.b	11,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"AMIDST SOME OLD RAGS IS"
+		dc.b	char_xy,0,1,"A POUCH OF 25 GOLD COINS",0
+		even
+gold3_box:	dc.b	6,7,26,7
+		dc.l	$80000000+@mess
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"FOOLISHLY LEFT UNHIDDEN"
+		dc.b	char_xy,0,1,"LIES A SMALL BOX HOLDING"
+		dc.b	char_xy,0,2,"25 SHINY GOLD COINS"
+		dc.b	0
+		even
+gold4_box:	dc.b	6,7,28,7
+		dc.l	$80000000+@mess
+		dc.b	12,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"BEHIND A LOOSE STONE HIDES"
+		dc.b	char_xy,0,1,"A POUCH WRAPPED IN RAGS."
+		dc.b	char_xy,0,2,"50 GOLD COINS POUR OUT"
+		dc.b	0
+		even
+gold5_box:	dc.b	6,7,28,7
+		dc.l	$80000000+@mess
+		dc.b	12,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"RUMMAGING THROUGH OLD"
+		dc.b	char_xy,0,1,"CLOTHES REVEALS 20 ANCIENT"
+		dc.b	char_xy,0,2,"GOLD COINS"
+		dc.b	0
+		even
+gold6_box:	dc.b	6,7,24,9
+		dc.l	$80000000+@mess
+		dc.b	10,6
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU SEARCH AND FIND "
+g6_amount:	dc.b	"00"
+		dc.b	char_xy,0,1,"PIECES OF GOLD IN"
+		dc.b	char_xy,0,2,"SEVERAL PLACES. BUT"
+		dc.b	char_xy,0,3,"YOU LOSE TRACK OF TIME"
+		dc.b	char_xy,0,4,"AND MISS YOUR NEXT GO"
+		dc.b	0
+		even
+wander_box:	dc.b	6,7,28,7
+		dc.l	$80000000+@mess
+		dc.b	12,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"AS YOU ARE BUSY SEARCHING"
+		dc.b	char_xy,0,1,"A MONSTER STALKS UP ON YOU"
+		dc.b	char_xy,0,2,"AND ATTACKS"
+		dc.b	0
+		even
+nothing_box:	dc.b	6,7,28,5
+		dc.l	$80000000+@mess
+		dc.b	12,2
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"DESPITE A THOROUGH SEARCH"
+		dc.b	char_xy,0,1,"YOU FIND NOTHING"
+		dc.b	0
+		even
+trap1_box:	dc.b	5,6,29,9
+		dc.l	$80000000+@mess
+		dc.b	12,6
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU FEEL THE PRESSURE OF A"
+		dc.b	char_xy,0,1,"TRIP WIRE AGAINST YOUR LEG."
+		dc.b	char_xy,0,2,"BEFORE YOU CAN ACT YOU ARE"
+		dc.b	char_xy,0,3,"HIT BY A CROSSBOW BOLT AND"
+		dc.b	char_xy,0,4,"LOOSE 1 BODY POINT"
+		dc.b	0
+		even
+trap2_box:	dc.b	6,7,28,8
+		dc.l	$80000000+@mess
+		dc.b	12,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOUR SEARCH UNWITTINGLY"
+		dc.b	char_xy,0,1,"SETS OFF A TRAP. AN ARROW"
+		dc.b	char_xy,0,2,"SHOOTS OUT FROM A WALL."
+		dc.b	char_xy,0,3,"YOU LOOSE 1 BODY POINT"
+		dc.b	0
+		even
+trap3_box:	dc.b	6,7,24,8
+		dc.l	$80000000+@mess
+		dc.b	10,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"THE STONE BENEATH YOU"
+		dc.b	char_xy,0,1,"GIVES WAY OVER A TRAP."
+		dc.b	char_xy,0,2,"YOU FALL INTO THE PIT"
+		dc.b	char_xy,0,3,"AND LOOSE 1 BODY POINT"
+		dc.b	0
+		even
+found_pit:	dc.b	6,7,23,6
+		dc.l	$80000000+@mess
+		dc.b	10,3
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"YOU DISCOVER THE"
+		dc.b	char_xy,0,1,"OPENING OF A PIT TRAP"
+		dc.b	0
+		even
+heal_mess:	dc.b	6,7,24,8
+		dc.l	$80000000+@mess
+		dc.b	10,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"IN A BUNDLE OF RAGS IS"
+		dc.b	char_xy,0,1,"A SMALL BOTTLE OF"
+		dc.b	char_xy,0,2,"LIQUID. IT IS HEALING"
+		dc.b	char_xy,0,3,"POTION"
+		dc.b	0
+		even
+holy_mess:	dc.b	6,7,25,7
+		dc.l	$80000000+@mess
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@mess		dc.b	char_xy,0,0,"DISCARDED AND FORGOTTEN"
+		dc.b	char_xy,0,1,"IN A CORNER YOU FIND A"
+		dc.b	char_xy,0,2,"VIAL OF HOLY WATER"
+		dc.b	0
+		even
+res_mess:	dc.b	6,7,25,7
+		dc.l	$80000000+@m1
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"AMIDST MANY OLD BOTTLES"
+		dc.b	char_xy,0,1,"YOU FIND A SMALL VIAL,"
+		dc.b	char_xy,0,2,"A POTION OF RESILIENCE"
+		dc.b	0
+		even
+spe_mess:	dc.b	6,7,24,8
+	   	dc.l	$80000000+@m1
+		dc.b	10,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"STANDING ON A SHELF IS"
+		dc.b	char_xy,0,1,"A DUSTY BOTTLE. YOU"
+		dc.b	char_xy,0,2,"REALISE IT IS A POTION"
+		dc.b	char_xy,0,3,"OF SPEED"
+		dc.b	0
+		even
+str_mess:	dc.b	6,7,22,7
+	   	dc.l	$80000000+@m1
+		dc.b	9,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"YOU FIND A SMALL"
+		dc.b	char_xy,0,1,"PURPLE BOTTLE. IT IS"
+		dc.b	char_xy,0,2,"A POTION OF STRENGTH"
+		dc.b	0
+		even
+her_mess:	dc.b	6,7,23,8
+	   	dc.l	$80000000+@m1
+		dc.b	10,5
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"A LEATHER BAG HANGING"
+		dc.b	char_xy,0,1,"ON A WALL CONTAINS A"
+		dc.b	char_xy,0,2,"POTION. IT IS HEROIC"
+		dc.b	char_xy,0,3,"BREW"
+		dc.b	0
+		even
+
+******************************
+* Messages for trap routines *
+******************************
+
+pit_stable:	dc.b	4,7,26,7
+	   	dc.l	$80000000+@m1
+		dc.b	11,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THE MECHANISM OF THE PIT"
+		dc.b	char_xy,0,1,"TRAP CREAKS UNDER YOUR"
+		dc.b	char_xy,0,2,"WEIGHT YET IT HOLDS"
+		dc.b	0
+		even
+pit_swallow:	dc.b	4,7,30,7
+	   	dc.l	$80000000+@m1
+		dc.b	13,4
+		dc.l	ok,exitwindow
+		dc.b	bterm
+@m1		dc.b	char_xy,0,0,"THE FLOOR BELOW YOUR FEET"
+		dc.b	char_xy,0,1,"FALLS AWAY. YOU LAND HEAVILY"
+		dc.b	char_xy,0,2,"AND LOOSE 1 BODY POINT"
+		dc.b	0
+		even
+
+
+*end*

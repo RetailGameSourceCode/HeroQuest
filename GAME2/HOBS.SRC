@@ -1,0 +1,433 @@
+;----------------------------------------------------------------------------;
+; *               hardware object control handling routines                * ;
+;----------------------------------------------------------------------------;
+
+
+nmevl	dl typ0,typ1,typ2,typ3,typ4,typ5,typ6,typ7
+	dl typ8,typ9,typ10,typ11,typ12,typ13,typ14,typ15
+	dl typ16,typ17,typ18,typ19,typ20
+	dl typ21,typ22,typ23,typ24,typ25,typ26,typ27,typ28
+	dl typ29,typ30,typ31,typ32,typ33,typ34,typ35
+
+nmevh	dh typ0,typ1,typ2,typ3,typ4,typ5,typ6,typ7
+	dh typ8,typ9,typ10,typ11,typ12,typ13,typ14,typ15
+	dh typ16,typ17,typ18,typ19,typ20
+	dh typ21,typ22,typ23,typ24,typ25,typ26,typ27,typ28
+	dh typ29,typ30,typ31,typ32,typ33,typ34,typ35
+
+do_obs	ldx #maxob-1
+!1	lda obstat,x
+	and #obon
+	beq !2
+	ldy obtyp,x
+	lda nmevl,y
+	sta t0
+	lda nmevh,y
+	sta t1
+	stx tcx
+	jsr jmpt0
+	jsr music_cont
+	ldx tcx
+!2	dex
+	bpl !1
+!x	rts
+
+
+
+; *** general routines for hardware objects *** ;
+
+setit	lda obstat,x
+	ora #obset
+	sta obstat,x
+	rts
+nxflip	lda obstat,x
+	and #%10101111
+	sta obstat,x
+	rts
+yxflip	lda obstat,x
+	ora #obhflp
+	sta obstat,x
+	rts
+
+odfrm	hex 02 03 02 03 05 04 05 04 
+cdfrm	hex 01 01 01 01 09 09 09 09
+
+setdor	stx t1f
+	lda obxpos,x	;doors x,y pos in map
+	sta t2
+	lda obypos,x
+	sta t3
+	jsr search_dor	;find door number
+	jsr door_o_c	;open or closed?
+	bcc !closed
+
+!open	ldx t1f	;set open frame
+	ldy obtmp2,x
+	lda odfrm,y
+	bne !1a
+!closed	ldx t1f	;set closed frame
+	ldy obtmp2,x
+	lda cdfrm,y
+!1a	sta obfrm,x
+
+	lda obstat,x
+	and #obset
+	beq !ok
+	rts
+!ok	jsr setit
+	lda obtmp1,x
+	lsr a
+	bne !23
+!01	bcc !0
+!1	jsr nxflip
+	jmp xadd16
+!0	jmp yxflip
+!23	bcc !2
+!3	jsr nxflip
+	jmp yadd8
+!2	jsr yxflip
+	jsr xadd16
+	jmp yadd8
+
+
+
+
+;----------------------------------------------------------------------------;
+
+
+
+
+
+	;doors
+typ1	jmp setdor
+
+
+	;enemies
+typ0
+typ2	
+typ3	
+typ4	
+typ5	
+typ6	
+typ7	
+typ8	
+typ9	
+typ13
+typ16
+typ19	;furniture ...
+typ20	
+typ21
+typ22
+typ23
+typ24
+typ25
+typ26
+typ27	;players
+typ28	;nmes ...
+typ29
+typ30
+typ31
+typ32
+typ33
+typ34
+typ35
+	rts
+
+
+	;rock
+typ10	lda obstat,x
+	and #obset
+	bne !ok
+	jsr setit
+	lda obyl,x
+	clc
+	adc #$23
+	sta obyl,x
+!ok	rts
+
+
+
+
+
+movvl	dl movul,movur,movdl,movdr
+movvh	dh movul,movur,movdl,movdr
+
+	;player #1
+typ11	lda buildflg
+	beq !1
+	jmp dmp_player
+
+!1	lda movflg
+	beq !x
+	tay
+	dey
+	lda movvl,y
+	sta t0
+	lda movvh,y
+	sta t1
+	inc movdel
+	lda movdel
+	and #3	
+	bne !x
+	lda player_n
+	sta t6
+	jsr anim_hplay
+	ldy player_n
+	inc p_andex
+	lda p_andex
+	and #3
+	sta p_andex
+	jsr jmpt0
+	jsr chk_behind
+	jmp sort_obs
+!x	rts
+
+p_an_off	hex 03 03 00 00 
+p_an_base	hex 18 24 0c 1e 12
+p_an_dat	hex 00 01 02 01 
+p_an_flip	db obhflp,0,obhflp,0
+p_an_fin	hex 18 24 0c 1e 12
+	hex 1b 27 0f 21 15
+
+anim_hplay	jsr play_anim
+	jmp anob
+	
+anim_splay	jsr play_anim
+	jmp ansob
+
+play_anim	sty t5
+	lda p_an_off,y
+	sta t2
+	lda p_an_flip,y
+	sta t3
+	ldy t6	;player_n
+	lda t5
+	sta player_f,y
+	lda player_t,y
+	tay
+	lda p_an_base,y
+	sta t4
+	ldy p_andex
+plyan2	clc
+	adc p_an_dat,y
+	adc t2
+	
+	;inc ftmpo
+	;lda ftmpo
+	;cmp #$98
+	;bne !1
+	;lda #$8e
+	;sta ftmpo
+
+!1	rts
+	
+anob	sta obfrm,x
+	lda obstat,x
+	and #$0f
+	ora t3
+	sta obstat,x	
+	rts
+
+ansob	sta sobfrm,x
+	lda sobstat,x
+	and #$0f
+	ora t3
+	sta sobstat,x	
+	rts
+
+movul	lda movcnt
+	beq movfin
+	dec movcnt
+	dec obxl,x
+	dec obxl,x
+	dec obyl,x
+	rts
+movur	lda movcnt
+	beq movfin
+	dec movcnt
+	inc obxl,x
+	inc obxl,x
+	dec obyl,x
+	rts
+movdl	lda movcnt
+	beq movfin
+	dec movcnt
+	dec obxl,x
+	dec obxl,x
+	inc obyl,x
+	rts
+movdr	lda movcnt
+	beq movfin
+	dec movcnt
+	inc obxl,x
+	inc obxl,x
+	inc obyl,x
+	rts
+movfin	lda #0
+	sta movflg
+	sta movcnt
+	txa
+	pha
+	jsr chkleave
+	jsr chkspesh
+	
+	ldy player_n
+	lda player_f,y
+	ldx player_t,y
+	stx tmpx
+	cmp #2
+	bcs !n
+	lda #5
+	db $2c
+!n	lda #0
+	clc
+	adc tmpx
+	tay
+	pla
+	tax
+	lda p_an_fin,y
+	sta obfrm,x	
+	jmp dmp_player
+	
+	;player #2
+typ12	rts
+
+	;chest
+typ14	rts
+
+	;chair
+typ15	rts
+
+
+	;coin/dice
+typ17	rts
+
+	if 1=0
+	lda dtmp+2
+	beq !o
+	dec dtmp+2
+	bne !xx
+	lda #0
+	sta obstat,x
+	sta p_chnge
+	lda #0
+	jsr fndd
+	lda #0
+	sta obstat,x
+	lda #c_num
+	jsr fndd
+	lda #0
+	sta obstat,x
+	jsr find_hplay
+	lda obtmp1,x
+	sta obstat,x
+!xx	rts	
+
+!o	lda obxpos,x
+	bne !o1
+	dec obypos,x
+	bne !o1
+	inc obxpos,x
+	sfx 4
+	
+!o1	ldy player_n
+
+	inc obtmp2,x
+	lda obtmp2,x
+	and #1
+	bne !1
+
+	lda obtmp1,x
+	and #3
+	clc
+	adc #$43
+	sta obfrm,x
+	inc obtmp1,x
+
+	lda player_n
+	cmp #2
+	bne !1c
+	lda rn
+	and #$7
+	ora #1
+	cmp #7
+	bne !ok
+	lda #3
+	bne !ok
+!1c	lda rn
+	and #$f
+	ora #1
+	cmp #$d
+	bcc !ok
+	sec
+	sbc #$3
+!ok	sta player_m,y
+	
+!1	lda dfirea
+	beq !x
+	jsr pmove
+	lda #$43
+	sta obfrm,x
+	lda #$30
+	sta dtmp+2
+
+	lda #0
+	jsr fndd
+	lda player_m,y
+	cmp #10
+	bcs !1a
+	clc
+	adc #$46
+	sta obfrm,x
+	lda #$8a-$6a
+	sta obxl,x
+	rts
+
+!1a	sec
+	sbc #10
+	pha
+
+	lda #$47
+	sta obfrm,x
+	lda #$86-$6a
+	sta obxl,x
+
+	lda #c_num
+	jsr fndd
+	pla
+	bne !1b
+	lda #10
+!1b	clc
+	adc #$46
+	sta obfrm,x
+	lda #$8e-$6a
+	sta obxl,x
+!x	rts
+
+fndd	sta ta
+	ldx #obuse
+!l1	lda obstat,x
+	and #obon
+	beq !1
+	lda obtyp,x
+	cmp #c_num
+	bne !1
+	lda obtmp1,x
+	cmp ta
+	bne !1
+	rts
+!1	dex
+	bpl !l1
+	rts
+	endif
+
+
+
+
+typ18	rts
+
+
+
+
+
+

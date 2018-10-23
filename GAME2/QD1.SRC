@@ -1,0 +1,616 @@
+	;DOOR TYPES :
+	;00 - closed back wall pos 1 - flip,x,y
+	;01 -  "  "   "    "    "  2 - norm,x+22,y
+	;02 -  "  "   "    "    "  3 - flip,x+22,y+12
+	;03 -  "  "   "    "    "  4 - norm,x,y+12
+	;10 - closed front wall pos 1 - flip,x,y
+	;11 -  "  "   " "   "    "  2 - norm,x+22,y
+	;12 -  "  "   " "   "    "  3 - flip,x+22,y+12
+	;13 -  "  "   " "   "    "  4 - norm,x,y+12
+	;20 - open back wall pos 1 - flip,x,y
+	;21 -  "    "    "    "  2 - norm,x+22,y
+	;22 -  "    "    "    "  3 - flip,x+22,y+12
+	;23 -  "    "    "    "  4 - norm,x,y+12
+	;30 - open front wall pos 1 - flip,x,y
+	;31 -  "    " "   "    "  2 - norm,x+22,y
+	;32 -  "    " "   "    "  3 - flip,x+22,y+12
+	;33 -  "    " "   "    "  4 - norm,x,y+12
+	;40 - open back wall secret pos 1 - flip,x,y
+	;41 -  "    "    "    "  "   "  2 - norm,x+22,y
+	;42 -  "    "    "    "  "   "  3 - flip,x+22,y+12
+	;43 -  "    "    "    "  "   "  4 - norm,x,y+12
+	;50 - open front wall secret pos 1 - flip,x,y
+	;51 -  "    " "   "    "  "   "  2 - norm,x+22,y
+	;52 -  "    " "   "    "  "   "  3 - flip,x+22,y+12
+	;53 -  "    " "   "    "  "   "  4 - norm,x,y+12
+	;60 - closed back wall secret pos 1 - flip,x,y
+	;61 -  "  "   "    "    "  "   "  2 - norm,x+22,y
+	;62 -  "  "   "    "    "  "   "  3 - flip,x+22,y+12
+	;63 -  "  "   "    "    "  "   "  4 - norm,x,y+12
+
+	;nme types :
+	;0=orc:1=goblin:2=zombie:3=chaos:4=fimir:5=mummy
+	;6=gargoil:7=skeleton:8=ulag:9=balur:a=witchlord1
+	;b=witchlord2:c=grak:d=spiritrider:e=verag:f=bellthor
+	;10=skulmar
+
+qtempl	dl q1tem,q2tem,q3tem,q4tem,q5tem,q6tem,q7tem,q8tem
+	dl q9tem,qatem,qbtem,qctem,qdtem,qetem,qftem,q10tem
+	dl q11tem,q12tem,q13tem,q14tem,q15tem,q16tem,q17tem,q18tem
+qtemph	dh q1tem,q2tem,q3tem,q4tem,q5tem,q6tem,q7tem,q8tem
+	dh q9tem,qatem,qbtem,qctem,qdtem,qetem,qftem,q10tem
+	dh q11tem,q12tem,q13tem,q14tem,q15tem,q16tem,q17tem,q18tem
+ 
+qdoorl	dl q1drs,q2drs,q3drs,q4drs,q5drs,q6drs,q7drs,q8drs
+	dl q9drs,qadrs,qbdrs,qcdrs,qddrs,qedrs,qfdrs,q10drs
+	dl q11drs,q12drs,q13drs,q14drs,q15drs,q16drs,q17drs,q18drs
+qdoorh	dh q1drs,q2drs,q3drs,q4drs,q5drs,q6drs,q7drs,q8drs
+	dh q9drs,qadrs,qbdrs,qcdrs,qddrs,qedrs,qfdrs,q10drs
+	dh q11drs,q12drs,q13drs,q14drs,q15drs,q16drs,q17drs,q18drs
+
+qrockl	dl q1rck,q2rck,q3rck,q4rck,q5rck,q6rck,q7rck,q8rck
+	dl q9rck,qarck,qbrck,qcrck,qdrck,qerck,qfrck,q10rck
+	dl q11rck,q12rck,q13rck,q14rck,q15rck,q16rck,q17rck,q18rck
+qrockh	dh q1rck,q2rck,q3rck,q4rck,q5rck,q6rck,q7rck,q8rck
+	dh q9rck,qarck,qbrck,qcrck,qdrck,qerck,qfrck,q10rck
+	dh q11rck,q12rck,q13rck,q14rck,q15rck,q16rck,q17rck,q18rck
+
+qexitl	dl q1xit,q2xit,q3xit,q4xit,q5xit,q6xit,q7xit,q8xit
+	dl q9xit,qaxit,qbxit,qcxit,qdxit,qexit,qfxit,q10xit
+	dl q11xit,q12xit,q13xit,q14xit,q15xit,q16xit,q17xit,q18xit
+qexith	dh q1xit,q2xit,q3xit,q4xit,q5xit,q6xit,q7xit,q8xit
+	dh q9xit,qaxit,qbxit,qcxit,qdxit,qexit,qfxit,q10xit
+	dh q11xit,q12xit,q13xit,q14xit,q15xit,q16xit,q17xit,q18xit
+
+qnmesl	dl q1nme,q2nme,q3nme,q4nme,q5nme,q6nme,q7nme,q8nme
+	dl q9nme,qanme,qbnme,qcnme,qdnme,qenme,qfnme,q10nme
+	dl q11nme,q12nme,q13nme,q14nme,q15nme,q16nme,q17nme,q18nme
+qnmesh	dh q1nme,q2nme,q3nme,q4nme,q5nme,q6nme,q7nme,q8nme
+	dh q9nme,qanme,qbnme,qcnme,qdnme,qenme,qfnme,q10nme
+	dh q11nme,q12nme,q13nme,q14nme,q15nme,q16nme,q17nme,q18nme
+
+qstrsl	dl q1str,q2str,q3str,q4str,q5str,q6str,q7str,q8str
+	dl q9str,qastr,qbstr,qcstr,qdstr,qestr,qfstr,q10str
+	dl q11str,q12str,q13str,q14str,q15str,q16str,q17str,q18str
+qstrsh	dh q1str,q2str,q3str,q4str,q5str,q6str,q7str,q8str
+	dh q9str,qastr,qbstr,qcstr,qdstr,qestr,qfstr,q10str
+	dh q11str,q12str,q13str,q14str,q15str,q16str,q17str,q18str
+
+qtrapl	dl q1trp,q2trp,q3trp,q4trp,q5trp,q6trp,q7trp,q8trp
+	dl q9trp,qatrp,qbtrp,qctrp,qdtrp,qetrp,qftrp,q10trp
+	dl q11trp,q12trp,q13trp,q14trp,q15trp,q16trp,q17trp,q18trp
+qtraph	dh q1trp,q2trp,q3trp,q4trp,q5trp,q6trp,q7trp,q8trp
+	dh q9trp,qatrp,qbtrp,qctrp,qdtrp,qetrp,qftrp,q10trp
+	dh q11trp,q12trp,q13trp,q14trp,q15trp,q16trp,q17trp,q18trp
+
+qfurnl	dl q1fur,q2fur,q3fur,q4fur,q5fur,q6fur,q7fur,q8fur
+	dl q9fur,qafur,qbfur,qcfur,qdfur,qefur,qffur,q10fur
+	dl q11fur,q12fur,q13fur,q14fur,q15fur,q16fur,q17fur,q18fur
+qfurnh	dh q1fur,q2fur,q3fur,q4fur,q5fur,q6fur,q7fur,q8fur
+	dh q9fur,qafur,qbfur,qcfur,qdfur,qefur,qffur,q10fur
+	dh q11fur,q12fur,q13fur,q14fur,q15fur,q16fur,q17fur,q18fur
+
+qnogol	dl q1ngo,q2ngo,q3ngo,q4ngo,q5ngo,q6ngo,q7ngo,q8ngo
+	dl q9ngo,qango,qbngo,qcngo,qdngo,qengo,qfngo,q10ngo
+	dl q11ngo,q12ngo,q13ngo,q14ngo,q15ngo,q16ngo,q17ngo,q18ngo
+qnogoh	dh q1ngo,q2ngo,q3ngo,q4ngo,q5ngo,q6ngo,q7ngo,q8ngo
+	dh q9ngo,qango,qbngo,qcngo,qdngo,qengo,qfngo,q10ngo
+	dh q11ngo,q12ngo,q13ngo,q14ngo,q15ngo,q16ngo,q17ngo,q18ngo
+
+qchstl	dl q1chs,q2chs,q3chs,q4chs,q5chs,q6chs,q7chs,q8chs
+	dl q9chs,qachs,qbchs,qcchs,qdchs,qechs,qfchs,q10chs
+	dl q11chs,q12chs,q13chs,q14chs,q15chs,q16chs,q17chs,q18chs
+qchsth	dh q1chs,q2chs,q3chs,q4chs,q5chs,q6chs,q7chs,q8chs
+	dh q9chs,qachs,qbchs,qcchs,qdchs,qechs,qfchs,q10chs
+	dh q11chs,q12chs,q13chs,q14chs,q15chs,q16chs,q17chs,q18chs
+
+qtreal	dl q1tre,q2tre,q3tre,q4tre,q5tre,q6tre,q7tre,q8tre
+	dl q9tre,qatre,qbtre,qctre,qdtre,qetre,qftre,q10tre
+	dl q11tre,q12tre,q13tre,q14tre,q15tre,q16tre,q17tre,q18tre
+qtreah	dh q1tre,q2tre,q3tre,q4tre,q5tre,q6tre,q7tre,q8tre
+	dh q9tre,qatre,qbtre,qctre,qdtre,qetre,qftre,q10tre
+	dh q11tre,q12tre,q13tre,q14tre,q15tre,q16tre,q17tre,q18tre
+
+
+	;player 1/2 quest start x,y pos
+	;    00   01   02   03   04   05   06   07   08
+p1sxy	hex 030e 030a 1301 030a 1701 0b07 1701 070d 0606
+	;    09   0a   0b   0c   0d   0e   0f   10   11
+	hex 010f 1306 170a 0f0e 170a 0c12 0c00 1300 1906
+	;    12   13   14   15   16   17
+	hex 0010 0009 080a 1209 0c12 120b
+ 
+	;    00   01   02   03   04   05   06   07   08
+p2sxy	hex 0110 010c 1103 010c 1503 0d07 1503 050f 0706
+	;    09   0a   0b   0c   0d   0e   0f   10   11
+	hex 0311 1108 150c 0f0f 150c 0d12 0d00 1400 1907
+	;    12   13   14   15   16   17
+	hex 0011 0109 080c 1309 0d12 130b
+	
+	;player 1/2 quest start direction facing
+p12sf	hex 0302 0302 0302 0302 0302 0301 0302 0302 0103
+	hex 0203 0302 0302 0000 0302 0000 0202 0202 0000
+	hex 0101 0202 0303 0202 0202 0202
+
+;* ------------------------------------------------------------------------ *;
+
+	;QUEST #1 : The Trial ...
+q1tem	incbin data\q1tm
+
+	;doors (x,y,type..x,y,type)
+q1drs	hex 031113 031201 071201 071113 080f12 090f00 0b0f12 0c0f00
+	hex 0d0f12 0e0f00 100900 0f0912 000b12 010b00 030901 030813
+	hex 030401 030313 070901 070813 040212 050200 080212 090200 ff
+
+	;rocks (x,y..x,y)
+q1rck	hex 0001 0c05 0d05 1109 0f12 ff
+
+	;exits (x,y,dir..x,y,dir)
+q1xit	hex 000402 000501 030903 040900 090603 0a0600 0f0603 100600
+	hex 000902 000a01 090902 090a01 100902 100a01 090c03 0a0c00
+	hex 0f0c03 100c00 000e02 000f01 0c0e02 0d0e02 0c0f01 0d0f01
+	hex 031203 041200 091203 0a1200 ff
+
+	;enemies (x,y,type..x,y,type)
+q1nme	hex 000d01 020b01 020c01 070e01 080f01 0a0e01 0a1000 0c1201
+	hex 0f1003 110e03 0c080e 030601 060701 070701 020200
+	hex 030201 060105 060205 060305 090307 0a0407 ff
+
+	;stairs
+q1str	hex 010e020e010f020f ff
+
+	;traps
+	;0=spear:1=pit:2=masonry:3..=rock
+q1trp	hex ff
+
+	;furniture
+	;?0=cabinet:?1=table:?2=bookcase:?3=desk:?4=fire:?5=rack
+	;?6=tomb:?7=weapon rack
+q1fur	hex 0a0106 060511 050d02 0b0911 ff
+
+	;no go areas (placed on ram map)
+q1ngo	hex 0a010b010a020b020a030b03 060507050805060607060806
+	hex 050d050e050f
+	hex 0b090c090d090b0a0c0a0d0a 0101 0a05 0911 ff
+
+	;chests (x,y,type..x,y,type)
+q1chs	hex 01010e 0a050f 091110 ff
+
+	;treasure (room_num,type..room_num,type)
+q1tre	hex ff
+
+
+;* ------------------------------------------------------------------------ *;
+
+
+	;QUEST #2 : The Rescue of Sir Ragnar ...
+q2tem	incbin data\q2tm
+
+	;doors (x,y,type..x,y,type)
+q2drs	hex 040d 12  050d 00  0510 00  0410 12  0311 13  0312 01  	
+	hex 0c0f 00  0b0f 12  0709 01  0708 13  0805 12  0506 00
+	hex 0406 12  0304 01  0303 13  0905 00  0902 60  0802 72 
+	hex ff
+
+	;rocks (x,y..x,y)
+q2rck	hex 000f 0f12 100a 0005 0f06 0c03 0d03 ff
+
+	;exits (x,y,dir..x,y,dir)
+q2xit	hex 030903 040900 090603 0a0600 090902 090a01 090c03 0a0c00
+	hex 0f0c03 100c00 0c0e02 0d0e02 0c0f01 0d0f01 031203 041200
+	hex 091203 0a1200 ff
+
+	;enemies (x,y,type..x,y,type)
+q2nme	hex 050f01 060f00 0a0f00 0c0c00 080901 060901 090600 070600
+	hex 020500 020601 020700 030201 0a0304 ff
+
+	;stairs
+q2str	hex 010a020a010b020b ff
+
+	;traps
+	;0=spear:1=pit:2=masonry:3..=rock
+q2trp	hex 100b00 ff
+
+	;furniture
+	;?0=cabinet:?1=table:?2=bookcase:?3=desk:?4=fire:?5=rack
+	;?6=tomb:?7=weapon rack
+	;?=flip 0=no:1=yes
+q2fur	hex 070f01 010f00 050411 ff
+
+	;no go areas (placed on ram map)
+q2ngo	hex 070f080f0710081007110811 010f01100111
+	hex 050406040704050506050705 090f 0301 ff
+
+	;chests (x,y,type..x,y,type)
+q2chs	hex 090f80 030101 ff
+
+	;treasure (room_num,type..room_num,type)
+q2tre	hex ff
+
+;* ------------------------------------------------------------------------ *;
+
+
+	;QUEST #3 : Lair of The Orc Warlord ...
+q3tem	incbin data\q3tm
+
+	;doors (x,y,type..x,y,type)
+q3drs	hex 1304 13  1305 01  1105 00  1005 12  0e03 00  0d03 12  	
+	hex 1509 01  1508 13  1605 01  1604 13  0709 13  070a 01
+	hex 080c 13  080d 01  0510 00  0410 12  060d 01  060c 13
+	hex ff
+
+	;rocks (x,y..x,y)
+q3rck	hex 0a00 0f00 0a06 1609 0c0e 0d0e 0309 ff
+
+	;exits (x,y,dir..x,y,dir)
+q3xit	hex 0c0202 0d0202 0c0301 0d0301 0f0603 100600 100902 100a01
+	hex 0a0c00 090c03 090a01 090902 100c00 0f0c03 ff
+
+	;enemies (x,y,type..x,y,type)
+q3nme	hex 0c0000 0d0000 0f0401 130601 150904 100c00 080b04 070b05
+	hex 081105 051105 050e04 031008 ff
+
+	;stairs
+q3str	hex 1101120111021202 ff
+
+	;traps
+	;0=spear:1=pit:2=masonry:3..=rock
+q3trp	hex ff
+
+	;furniture
+	;?0=cabinet:?1=table:?2=bookcase:?3=desk:?4=fire:?5=rack
+	;?6=tomb:?7=weapon rack
+q3fur	hex 150107 050a00 060e01 150611 010e04 ff
+
+	;no go areas (placed on ram map)
+q3ngo	hex 150115021503 150616061706150716071707
+	hex 060e070e060f070f06100710 010f0110 050a050b050c
+	hex 020e 1505 ff
+
+	;chests (x,y,type..x,y,type)
+q3chs	hex 020e00 150502 ff
+
+	;treasure (room_num,type..room_num,type)
+q3tre	hex 1700 0a01 ff
+
+
+;* ------------------------------------------------------------------------ *;
+
+
+	;QUEST #4 : Prince Magnus' Gold ...	
+q4tem	incbin data\q4tm
+
+	;doors (x,y,type..x,y,type)
+q4drs	hex 040c 12  050c 00  060a 01  0609 13  1412 01  1411 13
+	hex 090a 12  0a0a 00  0d06 13  0d07 01  1006 12  1106 00
+	hex 1408 13  1409 01  1612 01  1611 13  170e 01  170d 13
+	hex 150b 00  140b 12  110c 13  110d 01  0f0d 61  0f0c 73
+	hex ff
+
+	;rocks (x,y..x,y)
+q4rck	hex 0005 0809 0c03 0d03 0e0c 1512 1905 120d 130c 120a ff
+
+	;exits (x,y,dir..x,y,dir)
+q4xit	hex 000902 000a01 000e02 000f01 031203 041200 091203 0a1200
+	hex 0c0f01 0d0f01 0c0e02 0d0e02 0f1203 101200 190f01 190e02
+	hex 190a01 190902 160900 150903 100902 100a01 100c00 0f0c03
+	hex 0a0c00 090c03 090a01 090902 040900 030903 090603 0a0600
+	hex 0f0603 100600 ff
+
+	;enemies (x,y,type..x,y,type)
+q4nme	hex 050b01 060b01 000900 011200 0d0e00 090600 120700 180f00
+	hex 160b04 130b00 120c00 0f0e03 0c0900 0d0900 ff
+
+	;stairs
+q4str	hex 010a020a010b020b ff
+
+	;traps
+	;0=spear:1=pit:2=masonry:3..=rock
+q4trp	hex 100a01 100d00 0d0f01 170f01 ff
+
+	;furniture
+	;?0=cabinet:?1=table:?2=bookcase:?3=desk:?4=fire:?5=rack
+	;?6=tomb:?7=weapon rack
+q4fur	hex 120511 ff
+
+	;no go areas (placed on ram map)
+q4ngo	hex 120513051405120613061406 110a ff
+
+	;chests (x,y,type..x,y,type)
+q4chs	hex 110a03 ff
+
+	;treasure (room_num,type..room_num,type)
+q4tre	hex ff
+
+;* ------------------------------------------------------------------------ *;
+
+
+	;QUEST #5 : Melar's Maze ...
+q5tem	incbin data\q5tm
+
+	;doors (x,y,type..x,y,type)
+q5drs	hex 1604 13  1605 01  1507 00  1407 12  1308 13  1309 01
+	hex 1205 61  1204 73  1102 00  1002 12  0e03 00  0d03 12
+	hex 0900 13  0901 01  0800 73  0801 61  0600 13  0601 01
+	hex 0503 13  0504 01  0904 00  0804 12  0309 13  030a 01
+	hex 0b0c 13  0b0d 01  0b10 12  0c10 00  1512 01  1511 13
+	hex 180e 12  190e 00  ff
+
+	;rocks (x,y..x,y)
+q5rck	hex 0700 0c01 0d01 1109 0c0d 0d0d 0a12 1912 0a0c ff
+
+	;exits (x,y,dir..x,y,dir)
+q5xit	hex 040003 050000 090003 0a0000 0f0003 100000 140003 150000
+	hex 000402 000501 030903 040900 090603 0a0600 0c0202 0d0202
+	hex 0c0301 0d0301 190402 190501 0f0603 100600 150903 160900
+	hex 100902 100a01 190902 190a01 0f0c03 100c00 0c0e02 0d0e02
+	hex 0c0f01 0d0f01 190e02 190f01 0f1203 101200 151203 161200
+	hex ff
+
+	;enemies (x,y,type..x,y,type)
+q5nme	hex 0e0007 000207 0f0407 060602 090705 130707 020c07 030c07
+	hex 040c07 0a0f07 151002 ff
+
+	;stairs
+q5str	hex 1501160115021602 ff
+
+	;traps
+	;0=spear:1=pit:2=masonry:3..=rock
+q5trp	hex 130001 0a0001 190301 0f0300 0d0501 190603 040901 161001 ff
+
+	;furniture
+	;?0=cabinet:?1=table:?2=bookcase:?3=desk:?4=fire:?5=rack
+	;?6=tomb:?7=weapon rack
+q5fur	hex 120113 160611 010a02 ff
+
+	;no go areas (placed on ram map)
+q5ngo	hex 010a010b010c 120113011401120213021402
+	hex 160617061806160717071807 1105 ff
+
+	;chests (x,y,type..x,y,type)
+q5chs	hex ff
+
+	;treasure (room_num,type..room_num,type)
+q5tre	hex 1602 0e03 ff
+
+;* ------------------------------------------------------------------------ *;
+
+
+	;QUEST #6 : Legacy of The Orc Warlord ... 
+q6tem	incbin data\q6tm
+
+	;doors (x,y,type..x,y,type)
+q6drs	hex 040d 13  040e 01  010f 00  000f 12  1309 01  1308 13
+	hex 0c06 13  0c07 01  100b 12  110b 00  130d 13  130e 01
+	hex 1411 13  1412 01  0d0f 12  0e0f 00  0612 01  0611 13
+	hex ff
+
+	;rocks (x,y..x,y)
+q6rck	hex 0c04 0d04 0509 0412 1512 ff
+
+	;exits (x,y,dir..x,y,dir)
+q6xit	hex 040003 050000 090003 0a0000 0f0003 100000 140003 150000
+	hex 000402 000501 030903 040900 090603 0a0600 0c0202 0d0202
+	hex 0c0301 0d0301 190402 190501 0f0603 100600 150903 160900
+	hex 000902 000a01 090902 090a01 100902 100a01 090c03 0a0c00
+	hex 0f0c03 100c00 000e02 000f01 0c0e02 0d0e02 0c0f01 0d0f01
+	hex 091203 0a1200 0f1203 101200 ff
+
+	;enemies (x,y,type..x,y,type)
+q6nme	hex 000001 0d0104 0c0501 0d0501 010904 060901 120b00 130c00
+	hex 0e0c01 090b04 010e00 030e00 011000 0e0e00 0f1001 0e1200
+	hex 03100c ff
+
+	;stairs
+q6str	hex 010a020a010b020b ff
+
+	;traps
+	;0=spear:1=pit:2=masonry:3..=rock
+q6trp	hex 061001 ff
+
+	;furniture
+	;?0=cabinet:?1=table:?2=bookcase:?3=desk:?4=fire:?5=rack
+	;?6=tomb:?7=weapon rack
+q6fur	hex 060d11 0f0d05 120f01 110500 ff
+
+	;no go areas (placed on ram map)
+q6ngo	hex 110511061107 120f130f1210131012111311
+	hex 0f0d100d0f0e100e0f0f100f 060d070d080d060e070e080e
+	hex ff
+
+	;chests (x,y,type..x,y,type)
+q6chs	hex ff
+
+	;treasure (room_num,type..room_num,type)
+q6tre	hex ff
+
+;* ------------------------------------------------------------------------ *;
+
+	;QUEST #7 : The Stone Hunter ... 
+q7tem	incbin data\q7tm
+
+	;doors (x,y,type..x,y,type)
+q7drs	hex 1704 13  1705 01  1506 00  1406 12  1308 13  1309 01
+	hex 0d0f 12  0e0f 00  1111 13  1112 01  0d03 12  0e03 00
+	hex 1002 12  1102 00  0402 12  0502 00  0600 13  0601 01
+	hex 000c 12  010c 00  030d 13  030e 01  ff
+
+	;rocks (x,y..x,y)
+q7rck	hex 0800 0c05 0d05 1409 000e 0a12 0f12 ff
+
+	;exits (x,y,dir..x,y,dir)
+q7xit	hex 040003 050000 090003 0a0000 0f0003 100000 140003 150000
+	hex 000402 000501 030903 040900 090603 0a0600 0c0202 0d0202
+	hex 0c0301 0d0301 190402 190501 0f0603 100600 150903 160900
+	hex 000902 000a01 090902 090a01 100902 100a01 190902 190a01
+	hex 090c03 0a0c00 0f0c03 100c00 0c0e02 0d0e02 0c0f01 0d0f01
+	hex 190e02 190f01 151203 161200 ff
+
+	;enemies (x,y,type..x,y,type)
+q7nme	hex 050103 070103 030201 0c0107 100103 100303 120202 000907
+	hex 180907 090b05 020b07 0f0f07 ff
+
+	;stairs
+q7str	hex 1501160115021602 ff
+
+	;traps
+	;0=spear:1=pit:2=masonry:3..=rock
+q7trp	hex 100c01 ff
+
+	;furniture
+	;?0=cabinet:?1=table:?2=bookcase:?3=desk:?4=fire:?5=rack
+	;?6=tomb:?7=weapon rack
+q7fur	hex 010107 010f03 100d01 ff
+
+	;no go areas (placed on ram map)
+q7ngo	hex 010101020103 010f020f0110021001110211
+	hex 100d110d100e110e100f110f 1401 ff
+
+	;chests (x,y,type..x,y,type)
+q7chs	hex 140104 ff
+
+	;treasure (room_num,type..room_num,type)
+q7tre	hex 0504 ff
+
+
+;* ------------------------------------------------------------------------ *;
+
+	;QUEST #8 : The Fire Mage ...
+q8tem	incbin data\q8tm
+
+	;doors (x,y,type..x,y,type)
+q8drs	hex 0711 13  0712 01  0e06 13  0e07 01  0a0b 60  090b 72
+	hex 0907 00  0807 12  0608 73  0609 61  0709 13  070a 01
+	hex 070b 00  060b 12
+	hex 050c 00  040c 12  1312 01  1311 13  1012 01  1011 13
+	hex 110c 13  110d 01  1309 01  1308 13  1305 01  1304 13
+	hex 0d02 12  0e02 00  ff
+
+	;rocks (x,y..x,y)
+q8rck	hex 0a00 0005 0809 0a06 0a0c 0412 0f12 120d ff
+
+	;exits (x,y,dir..x,y,dir)
+q8xit	hex 0f0003 100000 140003 150000 030903 040900 0c0202 0d0202
+	hex 0c0301 0d0301 190402 190501 0f0603 100600 150903 160900
+	hex 090902 090a01 100902 100a01 190902 190a01 0f0c03 100c00
+	hex 0c0e02 0d0e02 0c0f01 0d0f01 190e02 190f01 091203 0a1200
+	hex 151203 161200 ff
+
+	;enemies (x,y,type..x,y,type)
+q8nme	hex 190002 0e0300 120307 050800 0c0902 0d0907 0e0902 050a05
+	hex 070b07 130b00 030c09 050c05 0f0f07 110f07 ff
+
+	;stairs
+q8str	hex 050d060d050e060e ff
+
+	;traps
+	;0=spear:1=pit:2=masonry:3..=rock
+q8trp	hex 0d0401 190501 131101 040901 090600 130c00 ff
+
+	;furniture
+	;?0=cabinet:?1=table:?2=bookcase:?3=desk:?4=fire:?5=rack
+	;?6=tomb:?7=weapon rack
+q8fur	hex 050611 010b05 ff
+
+	;no go areas (placed on ram map)
+q8ngo	hex 050606060706050706070707 010b020b010c020c010d020d 140b ff
+
+	;chests (x,y,type..x,y,type)
+q8chs	hex 140b05 ff
+
+	;treasure (room_num,type..room_num,type)
+q8tre	hex ff
+
+
+;* ------------------------------------------------------------------------ *;
+
+	;QUEST #9 : Race Against Time ... 
+q9tem	incbin data\q9tm
+
+	;doors (x,y,type..x,y,type)
+q9drs	hex 0608 13  0609 01  0d0c 01  0d0b 13  0a07 01  0a06 13
+	hex 0d03 12  0e03 00  1609 01  1608 13  1506 00  1406 12
+	hex 1105 01  1104 13  0804 12  0904 00  0507 00  0407 12
+	hex 0304 61  0303 73  0102 00  0002 12  190b 00  180b 12
+	hex 160d 13  160e 01  1511 00  1411 12  ff
+
+	;rocks (x,y..x,y)
+q9rck	hex 0c01 0d01 0004 0409 0906 0f0c 100a 1809 190e 0c11 0d11 ff
+
+	;exits (x,y,dir..x,y,dir)
+q9xit	hex 040003 050000 090003 0a0000 0f0003 100000 140003 150000
+	hex 090603 0a0600 0c0202 0d0202 0c0301 0d0301 190402 190501
+	hex 0f0603 100600 150903 160900 090902 090a01 190902 190a01
+	hex 090c03 0a0c00 0c0e02 0d0e02 0c0f01 0d0f01 ff
+
+	;enemies (x,y,type..x,y,type)
+q9nme	hex 0f0001 0a0301 0a0501 0f0200 0e0400 120303 030601 030801
+	hex 130504 120704 0c0901 0d0901 0b0a00 0e0a00 170901 160b00
+	hex 0c1000 0d1000 ff
+
+	;stairs
+q9str	hex 120e130e120f130f ff
+
+	;traps
+	;0=spear:1=pit:2=masonry:3..=rock
+q9trp	hex 150f01 160f01 171001 ff
+
+	;furniture
+	;?0=cabinet:?1=table:?2=bookcase:?3=desk:?4=fire:?5=rack
+	;?6=tomb:?7=weapon rack
+q9fur	hex 010600 160511 ff
+
+	;no go areas (placed on ram map)
+q9ngo	hex 010601070108 160517051805160617061806 1401 ff
+
+	;chests (x,y,type..x,y,type)
+q9chs	hex 140102 ff
+
+	;treasure (room_num,type..room_num,type)
+q9tre	hex ff
+
+
+;* ------------------------------------------------------------------------ *;
+
+	;QUEST #10 : Castle of Mystery ... 
+qatem	incbin data\qatm
+
+	;doors (x,y,type..x,y,type)
+qadrs	hex 040e 01  0902 00  0406 12  060b 12  090f 00  0f09 12
+	hex 1002 12  1110 12  160d 13  1604 13 ff
+
+	;rocks (x,y..x,y)
+qarck	hex ff
+
+	;exits (x,y,dir..x,y,dir)
+qaxit	hex ff
+
+	;enemies (x,y,type..x,y,type)
+qanme	hex 0a0306 090506 030500 020600 050a03 0a1005 0b0a00 0c0900
+	hex 0d0800 0d0b00 100d05 0f0f07 0e1007 101107 160b03 180c03
+	hex 160100 150200 180300 ff
+
+	;stairs
+qastr	hex 0110021001110211 ff
+
+	;traps
+	;0=spear:1=pit:2=masonry:3..=rock
+qatrp	hex ff
+
+	;furniture
+	;?0=cabinet:?1=table:?2=bookcase:?3=desk:?4=fire:?5=rack
+	;?6=tomb:?7=weapon rack
+qafur	hex ff
+
+	;no go areas (placed on ram map)
+qango	hex 0e04 ff
+
+	;chests (x,y,type..x,y,type)
+qachs	hex 0e0406 ff
+
+	;treasure (room_num,type..room_num,type)
+qatre	hex ff
+
+
+;* ------------------------------------------------------------------------ *;
+

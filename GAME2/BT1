@@ -1,0 +1,11 @@
+	;Do music/fx function
+	;
+dofunc	sta ma+3	;plr Y=function
+	pushbnk 6
+	bnk 6,#4
+	ldx ma+2
+	ldy ma+3
+	jsr function
+	popbnk 6
+	rts
+

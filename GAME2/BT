@@ -1,0 +1,16 @@
+lda t1e
+	asl a
+	asl a
+	asl a
+	clc
+	adc #3*8
+	clc
+	adc t1b
+	sta scratch+1
+	lda t1f
+	asl a
+	asl a
+	asl a
+	clc
+	adc #(5*8)-1
+	
