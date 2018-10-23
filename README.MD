@@ -1,5 +1,7 @@
 # Hero Quest
 
+This game was unreleased.
+
 **Platform:** NES  
 **Game:** Hero Quest  
 **Type:** Source Code - (Probably complete)  
